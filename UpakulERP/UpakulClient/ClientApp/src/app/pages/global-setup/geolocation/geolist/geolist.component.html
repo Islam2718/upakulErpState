@@ -1,0 +1,151 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Global Settings / Geo Location</h4>
+    <button class="btn btn-success" (click)="navigateToCreate()"
+ *ngIf="Button.createBtn" [innerHTML]="Button.createBtn+' Create'">
+</button>
+  </div>
+
+  <app-confirm-modal
+    #confirmModal
+    [title]="'Confirm Deletion'"
+    [message]="'Are you sure to remove from this list?'"
+    (onConfirm)="onDeleteConfirmed()"
+  ></app-confirm-modal>
+
+  <div id="tableExample3">
+    <!-- new...  -->
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+      <div>
+        <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <h3>Geo Location</h3>
+            <!-- <p class="text-body-tertiary lh-sm mb-0">subtitle </p> -->
+          </div>
+          <div class="col-12 col-md-auto">
+            <div class="row g-2 gy-3">
+              <div class="col-auto flex-1">
+                <div class="search-box">
+                  <form class="position-relative" [formGroup]="searchForm">
+                    <input
+                      class="form-control search-input search form-control-sm"
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      formControlName="searchTerm"
+                    />
+                    <svg
+                      class="svg-inline--fa fa-magnifying-glass search-box-icon"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="magnifying-glass"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      data-fa-i2svg=""
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+                      ></path>
+                    </svg>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive mx-n1 px-1 scrollbar">
+          <table class="table fs-9 mb-0 border-top border-translucent">
+            <thead>
+              <tr>
+                <th class="sort align-middle asc" scope="col">Division</th>
+                <th class="sort align-middle asc" scope="col">District</th>
+                <th class="sort align-middle asc" scope="col">Thana</th>
+                <th class="sort align-middle asc" scope="col">Union</th>
+                <th class="sort align-middle asc" scope="col">Village</th>
+                <th class="text-end align-middle pe-4" scope="col">Actions</th>
+                <th class="sort text-end pe-0 align-middle" scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="list" id="table-latest-review-body">
+              <tr *ngFor="let obj of geolist" class="hover-actions-trigger btn-reveal-trigger position-static">
+               <td class="align-middle review px-2">{{ obj.geoLocationDivisionCode }} </td>
+                <td class="align-middle review px-2">{{ obj.geoLocationDistrictCode }}</td>
+                <td class="align-middle review px-2">{{ obj.geoLocationThanaCode }}</td>
+                <td class="align-middle review px-2">{{ obj.geoLocationUnionCode }} </td>
+                <td class="align-middle review px-2">{{ obj.geoLocationVillageCode }} </td>
+              <td class="align-middle text-end pe-0">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <button
+                      class="btn m-0 p-0 btn-sm px-0 m-0" 
+                      (click)="editData(obj.geoLocationId)"
+                      [innerHTML]="Button.editBtn"
+                      *ngIf="Button.editBtn"
+                    ></button>
+                    <button
+                      class="btn m-0 p-0 btn-sm px-4 m-0" 
+                      (click)="delete(obj.geoLocationId)"
+                      [innerHTML]="Button.deleteBtn"
+                      *ngIf="Button.deleteBtn"
+                    >
+                  </button>
+
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- pagination section  -->
+        <div class="pagination_size d-flex justify-content-between align-items-center my-3 flex-wrap">
+          <div class="d-flex align-items-center mb-2 mb-md-0">
+            <label class="me-2">Page Size:</label>
+            <select
+              class="form-select form-select-sm w-auto"
+              [formControl]="pageSizeControl"
+            >
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+              <option [value]="40">40</option>
+            </select>
+          </div>
+          <!-- Pagination -->
+          <nav>
+            <div class="pagination-container d-flex align-items-center">
+              <p class="pagination-label mb-0 me-2">{{ dataRangeLabel }}</p>
+              <ul class="pagination mb-0">
+                <li class="page-item" [class.disabled]="page === 1">
+                  <button class="page-link" (click)="changePage(page - 1)">
+                    «
+                  </button>
+                </li>
+                <li
+                  *ngFor="let p of totalPagesArray"
+                  class="page-item"
+                  [class.active]="p === page"
+                >
+                  <button
+                    class="page-link"
+                    (click)="changePage(p)"
+                    *ngIf="p !== '...'"
+                  >
+                    {{ p }}
+                  </button>
+                  <span class="page-link" *ngIf="p === '...'">...</span>
+                </li>
+                <li class="page-item" [class.disabled]="page === totalPages">
+                  <button class="page-link" (click)="changePage(page + 1)">
+                    »
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!-- new...  -->
+  </div>  
+</div>

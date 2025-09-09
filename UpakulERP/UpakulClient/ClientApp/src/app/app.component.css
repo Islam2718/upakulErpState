@@ -1,0 +1,26 @@
+  /* =========related to ng-select ===============*/
+  ::ng-deep ng-dropdown-panel {
+    background-color: #fff !important;
+    border: 1px solid #ced4da;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+    text-align: left;
+    left: 0 !important;
+  }
+  
+  ::ng-deep ng-dropdown-panel .ng-option {
+    background-color: #fff;
+    color: #212529;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  
+  ::ng-deep ng-dropdown-panel .ng-option:hover,
+  ::ng-deep ng-dropdown-panel .ng-option.ng-option-marked {
+    background-color: #f8f9fa !important;
+    color: #000;
+  }
+  
+  ::ng-deep ng-select {
+    background-color: #fff !important;
+  }
+

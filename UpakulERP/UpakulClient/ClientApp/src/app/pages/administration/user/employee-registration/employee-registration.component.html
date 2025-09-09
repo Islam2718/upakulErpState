@@ -1,0 +1,105 @@
+<!-- user-form.component.html -->
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0">Registration</h4>
+    <button class="btn btn-success" (click)="navigateToList()">
+      <i class="fas fa-search"></i> View
+    </button>
+  </div>
+
+  <!-- Single scrollable card -->
+  <div class="card shadow-sm border">
+    <div class="card-body" style="max-height: 80vh; overflow-y: auto;">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="needs-validation row g-3" novalidate>
+        <input class="form-control" formControlName="userId" type="hidden">
+
+        <!-- Employee Selection -->
+        <div class="col-md-4">
+          <label class="form-label">Employee</label>
+          <select formControlName="EmployeeId" (change)="onDropDownEmployeeChange($event)" class="form-select"
+            [disabled]="isEditMode">
+            <option value="">Please select</option>
+            <option *ngFor="let employee of EmployeeDropdownValues" [value]="employee.value">
+              {{ employee.text }}
+            </option>
+          </select>
+          <div class="invalid-feedback">Please select an employee.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">File No</label>
+          <input type="text" class="form-control" formControlName="EmployeeCode" [disabled]="isEditMode">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" formControlName="EmployeeName" [disabled]="isEditMode">
+        </div>
+
+        <!-- Login Info -->
+        <div class="col-md-4">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" formControlName="RegUserName" [disabled]="isEditMode"
+            autocomplete="off">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" formControlName="Password" [disabled]="isEditMode"
+            autocomplete="off">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" formControlName="ConfirmPassword" [disabled]="isEditMode"
+            [ngClass]="{
+              'is-invalid': dataForm.errors?.['passwordsMismatch'] &&
+              (dataForm.get('ConfirmPassword')?.dirty || dataForm.get('ConfirmPassword')?.touched)
+            }">
+          <div *ngIf="dataForm.errors?.['passwordsMismatch'] &&
+              (dataForm.get('ConfirmPassword')?.dirty || dataForm.get('ConfirmPassword')?.touched)"
+            class="invalid-feedback">
+            Passwords do not match.
+          </div>
+        </div>
+
+        <!-- Module Permissions -->
+        <div class="col-12">
+          <fieldset class="border border-2 p-3 rounded">
+            <legend class="w-auto px-2">Module Permission</legend>
+            <div class="overflow-auto" style="max-height: 300px;">
+              <div *ngFor="let module of userModules">
+                <div class="row align-items-center mb-2">
+                  <div class="col-5">
+                    <label class="fw-bold">
+                      <input type="checkbox" [(ngModel)]="module.isSelected" [ngModelOptions]="{ standalone: true }">
+                      {{ module.moduleName }}
+                    </label>
+                  </div>
+                  <div class="col-7 bg-light">
+                    <div *ngIf="module.isSelected">
+                      <select class="form-select" [ngModel]="module.selectedRole"
+                        (ngModelChange)="onRoleChange(module, $event)" [ngModelOptions]="{ standalone: true }"
+                        [class.is-invalid]="module.isSelected && !module.selectedRole">
+                        <option value="">-- Select Role --</option>
+                        <option *ngFor="let role of module.roles" [value]="role.value">{{ role.text }}</option>
+                      </select>
+                      <div *ngIf="module.isSelected && !module.selectedRole" class="invalid-feedback">
+                        Please select a role.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12 d-flex justify-content-end">
+          <button class="btn btn-primary" type="submit"
+            [disabled]="dataForm.invalid || dataForm.errors?.['passwordsMismatch'] || isSubmitting">
+            {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

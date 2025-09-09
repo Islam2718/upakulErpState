@@ -1,0 +1,75 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0">{{ isEditMode ? 'GraceSchedule' : 'GraceSchedule' }}</h4>
+    <button class="btn btn-success" (click)="navigateToList()" *ngIf="Button.viewBtn"
+      [innerHTML]="Button.viewBtn+' View'">
+    </button>
+
+  </div>
+
+  <div class="card shadow-none border my-4">
+    <div class="card-body">
+      <form [formGroup]="gracescheduleForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated"
+        novalidate>
+        <input class="form-control" formControlName="id" type="hidden">
+
+        <div class="col-md-3">
+          <label class="form-label">Reason</label>
+          <input class="form-control" formControlName="reason" type="text" required />
+          <div class="invalid-feedback">Reason is required.</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Office</label>
+          <select formControlName="officeId" (change)="onDropDownChange($event)" class="form-select" required>
+            <option value="" disabled>Select Office</option>
+            <option *ngFor="let item of officeTypes" [value]="item.value">{{ item.text }}</option>
+          </select>
+          <div class="invalid-feedback">Please select an office.</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Group</label>
+          <select formControlName="groupId" (change)="onDropDownChange($event)" class="form-select" required>
+            <option value="" disabled>Select Group</option>
+            <option *ngFor="let item of groupTypes" [value]="item.value">{{ item.text }}</option>
+          </select>
+          <div class="invalid-feedback">Please select a group.</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Loan</label>
+          <select formControlName="loanId" class="form-select">
+            <option [value]="null">-- Select Loan --</option>
+            <option *ngFor="let item of loans" [value]="item.value">{{ item.text }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Grace From</label>
+          <input formControlName="graceFrom" class="form-control form-control-datepicker dtpickr" type="text"
+            placeholder="dd-mmm-yyyy" autocomplete="off" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Grace To</label>
+          <input formControlName="graceTo" class="form-control form-control-datepicker dtpickr" type="text"
+            placeholder="dd-mmm-yyyy" autocomplete="off" />
+        </div>
+
+        <div class="col-12" style="margin-top:15px;">
+          <button class="btn btn-primary" type="submit" [disabled]="gracescheduleForm.invalid || isSubmitting">
+            {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+          </button>
+          <button *ngIf="!isEditMode && Button.cleanBtn" type="button" class="btn btn-warning ms-2" (click)="onReset()"
+            [innerHTML]="Button.cleanBtn+' Reset'">
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Overlay for not permitted -->
+<div *ngIf="!isPermitted" class="overlay">
+  <div class="message-box">You are not permitted</div>
+</div>

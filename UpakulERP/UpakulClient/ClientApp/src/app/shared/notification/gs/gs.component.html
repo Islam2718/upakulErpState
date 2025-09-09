@@ -1,0 +1,14 @@
+<div class="card p-3 shadow-sm rounded-1">
+  <h3>{{ details.title }}</h3>
+  <p class="mb-1 small"><b>Group:</b> {{ details.group }}</p>
+  <p class="mb-1 small"><b>Office:</b> {{ details.office }}</p>
+  <p class="mb-1 small"><b>Loan Type:</b> {{ details.loanType }}</p>
+  <p class="mb-1 small"><b>Proposed Amount:</b> {{ details.proposedAmount }}</p>
+  <p class="mb-1 small"><b>Application Date:</b> {{ details.orderBy | date:'dd-MMM-yyyy' }}</p>
+</div>
+<div class="button-group my-2">
+    <button class="btn btn-primary w-70" (click)="approved(details.id)">Approve</button>
+    <button class="btn btn-danger w-30">Decline</button>
+</div>
+<app-confirm-modal #approveModal [title]="'Confirm Approval'" [message]="'Are you sure to approve this item?'"
+    (onConfirm)="onApprovedConfirmed()"></app-confirm-modal>

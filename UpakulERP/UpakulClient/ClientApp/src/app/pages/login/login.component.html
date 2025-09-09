@@ -1,0 +1,74 @@
+<main class="main" id="top">
+  <div class="container-fluid bg-body-tertiary dark__bg-gray-1200">
+    <div class="bg-holder bg-auth-card-overlay"  style="background-image:url(assets/img/bg/37.png);" ></div>
+
+    <div class="row flex-center position-relative min-vh-100 g-0 py-5">
+      <div class="col-11 col-sm-10 col-xl-8">
+        <div class="card border border-translucent auth-card">
+          <div class="card-body pe-md-0">
+            <div class="row align-items-center gx-0 gy-7">
+              <div class="col-auto bg-body-highlight dark__bg-gray-1100 rounded-3 position-relative overflow-hidden auth-title-box">
+                <div class="bg-holder" style="background-image:url(assets/img/bg/38.png);" ></div>
+                <div class="position-relative px-4 pt-7 pb-7 text-center text-md-start">
+                  <h3 class="text-body-emphasis fs-7">COAST Foundation</h3>
+                  <p class="text-body-tertiary" style="font-size:12px;">Participates in survival strategies of Coastal Poor</p>
+                </div>
+                <div class="position-relative z-n1 mb-6 d-none d-md-block text-center mt-md-15"><img class="auth-title-box-img d-dark-none" src="assets/img/auth/dark.png" alt="" /></div>
+              </div>
+              <div class="col mx-auto">
+                <div class="auth-form-box">
+                  <div class="text-center mb-7">
+                    <a class="d-flex flex-center text-decoration-none mb-4" href="#0">
+                      <!-- <img src="/assets/img/logo.png" alt="COAST" width="58" /> -->
+                      <img [src]="'/assets/img/logo.png'"  alt="COAST" width="58" />
+                    </a>
+                    <h3 class="text-body-highlight">Sign In</h3>
+                    <p class="text-body-tertiary">Get access to your account</p>
+                  </div>
+                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3 text-start">
+                      <label class="form-label">User Name</label>
+                      <div class="form-icon-container">
+                        <input formControlName="UserId" class="form-control form-icon-input" autocomplete="disabled" type="text" placeholder="User Name"/>
+                        <span class="fas fa-user text-body fs-9 form-icon"></span>
+                      </div>
+                      <small *ngIf="loginForm.get('UserId')?.invalid && loginForm.get('UserId')?.touched" class="text-danger">
+                        Username is required
+                      </small>
+                    </div>
+                    <div class="mb-3 text-start">
+                      <label class="form-label">Password</label>
+                      <div class="form-icon-container position-relative">
+                        <input
+                          [type]="showPassword ? 'text' : 'password'"
+                          formControlName="Password"
+                          class="form-control form-icon-input"
+                          placeholder="Password"
+                        />
+                        <span class="fas fa-key text-body fs-9 form-icon"></span>
+                        
+                        <button
+                          type="button"
+                          class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary"
+                          (click)="togglePassword()"
+                        >
+                          <span *ngIf="!showPassword" class="uil uil-eye"></span>
+                          <span *ngIf="showPassword" class="uil uil-eye-slash"></span>
+                        </button>
+                      </div>
+                      <small *ngIf="loginForm.get('Password')?.invalid && loginForm.get('Password')?.touched" class="text-danger">
+                        Password is required (min 6 characters)
+                      </small>
+                    </div>                    
+                    <button class="btn btn-primary w-100 mb-3" type="submit" [disabled]="loginForm.invalid">Sign In</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+  

@@ -1,0 +1,102 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Geo Location</h4>
+          <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+  </div>
+  <div class="my-4 mx-3" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+        <div class="card p-3">
+          <div class="row">
+            <input type="hidden" class="form-control" formControlName="parentId">
+            <input type="hidden" class="form-control" formControlName="geoLocationId">
+
+            <!-- Geo Type -->
+            <div class="col-md-3">
+              <label class="form-label">Geo-Location Type</label>
+              <select formControlName="geoLocationType" (change)="onDropDownGeoTypeChange($event)" class="form-select" required>
+                <option *ngFor="let type of GeoTypeValues" [value]="type.value">{{ type.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Geo Location Type.</div>
+            </div>
+
+            <!-- Division-->
+            <!-- <div class="col-md-3" *ngIf="showDivision"> -->
+            <!-- <div class="col-md-3" *ngIf="showDivision && dataForm.get('geoLocationType')?.value >= 1"> -->
+                                
+            <div class="col-md-3" *ngIf="showDivision">
+              <label class="form-label">Division</label>
+              <select formControlName="geoLocationDivisionId" (change)="selectedOnChangeFunc($event, 'district')" class="form-select" required>
+                <option *ngFor="let option of dropdownDivisionOptions" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Division.</div>
+            </div>
+
+            <!-- District -->
+            <div class="col-md-3" *ngIf="showDistrict">
+              <label class="form-label">District</label>
+              <select formControlName="geoLocationDistrictId" (change)="selectedOnChangeFunc($event, 'thana')" class="form-select" required>
+                <option *ngFor="let option of dropdownDistrictOptions" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select District.</div>
+            </div>
+
+            <!-- Upazilla -->
+            <div class="col-md-3" *ngIf="showUpazilla">
+              <label class="form-label">Thana/Upazilla</label>
+              <select formControlName="geoLocationThanaId" (change)="selectedOnChangeFunc($event, 'union')" class="form-select" required>
+                <option *ngFor="let option of dropdownUpazillaOptions" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Upazilla.</div>
+            </div>
+
+            <!-- Union -->   
+             <!-- (change)="selectedOnChangeFunc($event, 'union')" -->
+            <div class="col-md-3" *ngIf="showUnion">
+              <label class="form-label">Union</label>
+              <select formControlName="geoLocationUnionId" (change)="selectedOnChangeFunc($event, '')" class="form-select" required>
+                <option *ngFor="let option of dropdownUnionOptions" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Union.</div>
+            </div>
+
+            <div class="p-3 bg-light mt-3">
+              <div class="row">
+                <!-- Code -->
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <label class="form-label">Code</label>
+                  <input id="geoLocationCode" class="form-control" type="text" maxlength="10" formControlName="geoLocationCode" (input)="removeLeadingSpace($event)" placeholder="Enter Geo-Location Code !" required >
+                  <div class="invalid-feedback">Code Is Required.</div>
+                </div>
+
+                <!-- Name -->
+                <div class="col-md-8 col-lg-8 col-sm-12">
+                  <label class="form-label">Name</label>
+                  <input id="geoLocationName" class="form-control" type="text" maxlength="35" formControlName="geoLocationName" (input)="removeLeadingSpace($event)" placeholder="Enter Geo-Location Name !" required>
+                  <div class="invalid-feedback">Name Is Required.</div>
+                </div>                
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-12 mt-3">
+              <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">
+                {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+              </button>
+                <button 
+    *ngIf="!isEditMode && Button.cleanBtn"
+    type="button"
+    class="btn btn-warning ms-2"
+    (click)="onReset()"
+    [innerHTML]="Button.cleanBtn+' Reset'">
+  </button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

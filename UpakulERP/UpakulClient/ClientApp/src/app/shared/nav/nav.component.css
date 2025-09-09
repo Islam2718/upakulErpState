@@ -1,0 +1,36 @@
+/* .fontcls{
+    font-size: .2rem !important;
+} */
+.custsizefont{
+    font-size: 2em !important;
+}
+
+#tooltip883018{display: none;}
+
+.list-group-item{border: none;font-size: 0.85rem;padding: 0.3rem 0.8rem;}
+.list-group-item:first-child div{
+    padding: 0.3rem 0.8rem;
+    margin-left: .75rem;
+    margin-right: .75rem;
+    border-radius: .5rem;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.list-group-item div{
+        /* padding-top: .35rem;
+        padding-bottom: .35rem; */
+        /* padding-left: 1.75rem; */
+        margin-left: .75rem;
+        margin-right: .75rem;
+        border-radius: .5rem;
+        font-size: .8rem;
+        font-weight: 600;
+}
+.list-group-item div:hover {
+    background-color: var(--coast-navbar-vertical-link-hover-bg);
+    color: var(--coast-navbar-vertical-link-color);
+
+
+}
+.list-group-item a{color: var(--coast-navbar-vertical-link-color);}

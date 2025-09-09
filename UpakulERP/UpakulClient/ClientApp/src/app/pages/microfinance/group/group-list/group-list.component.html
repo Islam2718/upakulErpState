@@ -1,0 +1,346 @@
+<div class="contentframe" [class.blurred]="!isPermitted">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Group</h4>
+     <button class="btn btn-success" (click)="navigateToCreate()"
+ *ngIf="Button.createBtn" [innerHTML]="Button.createBtn+' Create'">
+</button>
+
+  </div>
+  
+  <app-confirm-modal
+    #confirmModal
+    [title]="'Confirm Deletion'"
+    [message]="'Are you sure to remove from this list?'"
+    (onConfirm)="onDeleteConfirmed()"
+  ></app-confirm-modal>
+
+  <div id="tableExample3">
+    <!-- new...  -->
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+        <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <!-- <h3>Groups</h3> -->
+            <!-- <p class="text-body-tertiary lh-sm mb-0">subtitle </p> -->
+          </div>
+          <div class="col-12 col-md-auto">
+            <div class="row g-2 gy-3">
+              <div class="col-auto flex-1">
+                <div class="search-box">
+                  <form class="position-relative" [formGroup]="searchForm">
+                    <input
+                      class="form-control search-input search form-control-sm"
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      formControlName="searchTerm"
+                    />
+                    <svg
+                      class="svg-inline--fa fa-magnifying-glass search-box-icon"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fas"
+                      data-icon="magnifying-glass"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      data-fa-i2svg=""
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+                      ></path>
+                    </svg>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive mx-n1 px-1 scrollbar">
+          <table class="table fs-9 mb-0 border-top border-translucent">
+            <thead>
+              <tr>
+<th
+                  class="sort white-space-nowrap align-middle"
+                  (click)="sortData('GroupCode')"
+                  scope="col"
+                >
+                  Code
+                  <i
+                    *ngIf="sortColumn === 'GroupCode'"
+                    [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"
+                  ></i>
+                </th>
+                <th
+                  class="sort white-space-nowrap align-middle"
+                  (click)="sortData('GroupCode')"
+                  scope="col"
+                >
+                  Office
+                  <i
+                    *ngIf="sortColumn === 'GroupCode'"
+                    [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"
+                  ></i>
+                </th>
+                <th
+                  class="sort white-space-nowrap align-middle"
+                  scope="col"
+                  data-sort="product"
+                  (click)="sortData('MemberCode')"
+                >
+                  Name
+                  <i
+                    *ngIf="sortColumn === 'MemberCode'"
+                    [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"
+                  >
+                  </i>
+                </th>
+                <th
+                  class="sort align-middle"
+                  scope="col"
+                  data-sort="customer"
+                  (click)="sortData('MemberName')"
+                >
+                  Type
+                  <i
+                    *ngIf="sortColumn === 'MemberName'"
+                    [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"
+                  >
+                  </i>
+                </th>
+                <th
+                  class="sort align-middle asc"
+                  scope="col"
+                  data-sort="rating"
+                  (click)="sortData('Gender')"
+                >
+                  Meeting Day
+                  <i
+                    *ngIf="sortColumn === 'Gender'"
+                    [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"
+                  >
+                  </i>
+                </th>
+                
+                <th
+                  class="sort align-middle asc"
+                  scope="col"
+                  data-sort="rating"
+                  (click)="sortData('Gender')"
+                >
+                  Location
+                  <i
+                    *ngIf="sortColumn === 'Gender'"
+                    [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"
+                  >
+                  </i>
+                </th>
+                <th class="text-end align-middle pe-4" scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="list" id="table-latest-review-body">
+              <tr
+                *ngFor="let obj of samities"
+                class="hover-actions-trigger btn-reveal-trigger position-static"
+              >
+                <td class="align-middle px-2">{{ obj.groupCode }}</td>                
+                <td class="align-middle">{{ obj.office }}</td>
+                <td class="align-middle">{{ obj.groupName }}</td>
+                <td class="align-middle">{{ obj.samityTypeName }}</td>
+                <td class="align-middle customer white-space-nowrap">
+                  <h6 class="mb-0 text-body">{{ obj.meetingDayName }}</h6>
+                </td>
+               
+                <td class="align-middle customer white-space-nowrap">
+                  {{ obj.village+", "+obj.union+", "+obj.upazila+", "+obj.district }}
+                </td>
+                  <td class="align-middle text-end pe-0">
+                  <div class="btn-group btn-group-sm" role="group">
+                   <button
+                        class="btn btn-sm btn-phoenix-secondary shadow me-1"
+                        ng-class="{ 'd-none': obj.isApproved === true }"
+                        title ="Committee" (click)="setModalFunc(obj.groupId)" 
+                        data-bs-toggle="modal" data-bs-target="#groupCommitteeModal">
+                        <i class="fa-solid fa-people-group"></i>
+                      </button>
+                        <button
+                      class="btn m-0 p-0 btn-sm px-0 m-0" 
+                      (click)="editData(obj.groupId)"
+                      [innerHTML]="Button.editBtn"
+                      *ngIf="Button.editBtn"
+                    ></button>
+                    <button
+                      class="btn m-0 p-0 btn-sm px-4 m-0" 
+                      (click)="delete(obj.groupId)"
+                      [innerHTML]="Button.deleteBtn"
+                      *ngIf="Button.deleteBtn"
+                    >
+                  </button>
+
+
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- pagination section  -->
+        <div class="pagination_size d-flex justify-content-between align-items-center my-3 flex-wrap">
+          <div class="d-flex align-items-center mb-2 mb-md-0">
+            <label class="me-2">Page Size:</label>
+            <select
+              class="form-select form-select-sm w-auto"
+              [formControl]="pageSizeControl"
+            >
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+              <option [value]="40">40</option>
+            </select>
+          </div>
+          <!-- Pagination -->
+          <nav>
+            <div class="pagination-container d-flex align-items-center">
+              <p class="pagination-label mb-0 me-2">{{ dataRangeLabel }}</p>
+              <ul class="pagination mb-0">
+                <li class="page-item" [class.disabled]="page === 1">
+                  <button class="page-link" (click)="changePage(page - 1)">
+                    «
+                  </button>
+                </li>
+                <li
+                  *ngFor="let p of totalPagesArray"
+                  class="page-item"
+                  [class.active]="p === page"
+                >
+                  <button
+                    class="page-link"
+                    (click)="changePage(p)"
+                    *ngIf="p !== '...'"
+                  >
+                    {{ p }}
+                  </button>
+                  <span class="page-link" *ngIf="p === '...'">...</span>
+                </li>
+                <li class="page-item" [class.disabled]="page === totalPages">
+                  <button class="page-link" (click)="changePage(page + 1)">
+                    »
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+    </div>
+    <!-- new...  -->
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div #exampleModal class="modal fade" id="groupCommitteeModal" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="background:rgba(0,0,0,0.4)" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <form [formGroup]="groupCommitteeForm" (ngSubmit)="onSubmitGroupCommittee()">
+      <div class="modal-content custom-modal-bg">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title1" id="exampleModalLabel">Committee</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close" (click)="closeModal()"></button>
+        </div>
+
+        <!-- Hidden ID -->
+        <!-- <input class="form-control" formControlName="Id" type="hidden"> -->
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="row mb-3 fw-bold border-bottom pb-2">
+            <div class="col-md-4">Position</div>
+            <div class="col-md-4">Member</div>
+            <div class="col-md-4">Start Date</div>
+          </div>
+
+          <div formArrayName="committees">
+
+            <div class="row align-items-center mb-3" *ngFor="let committee of committees.controls; let i = index"
+                 [formGroupName]="i">
+
+              <!-- Committee Name -->
+              <div class="col-md-4">
+                <label class="form-label">
+                  {{ dropdownCommitteeOptions[i].text }}
+                  <input class="form-control" formControlName="groupId" type="hidden">
+                  <input class="form-control" formControlName="committeePositionId" type="hidden" value="{{ dropdownCommitteeOptions[i].value }}">
+                </label>
+              </div>
+
+              <!-- Member Dropdown -->
+              <div class="col-md-4">
+                  <!-- <select class="form-select" formControlName="memberId">
+                  <option *ngFor="let member of dropdownMemberOptions" [value]="member.value"> 
+                    {{ member.text }}
+                  </option>
+                </select> -->
+
+                <select class="form-select" formControlName="memberId">
+                  <option *ngFor="let member of dropdownMemberOptions"
+                          [value]="member.value"
+                          [disabled]="isMemberDisabled(member.value, i)">
+                    {{ member.text }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Start Date -->
+              <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="startDate" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal" (click)="closeModal()">Close</button> -->
+          
+          <button #closeBtn type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal" aria-label="Close">Close</button>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+<!-- end Modal -->
+
+
+
+<!-- Message overlay shown only if not permitted -->
+<div *ngIf="!isPermitted" class="blur-overlay">
+  <span>You are not permitted</span>
+</div>
+

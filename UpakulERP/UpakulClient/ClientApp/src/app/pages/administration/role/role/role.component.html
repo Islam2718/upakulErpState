@@ -1,0 +1,42 @@
+<div class="contentframe">
+  
+  <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">{{ isEditMode ? 'Update' : 'Role' }} <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+          </h4>
+          <button class="btn btn-success" (click)="navigateToList()">
+            <i class="fas fa-search"></i> View
+          </button>
+        </div>
+        <div class="card shadow-none border my-4" data-component-card="data-component-card">
+          <div class="card-body">
+            <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+              <input class="form-control" formControlName="roleId" type="hidden">
+            
+            <div class="col-md-3">
+              <label class="form-label">Module</label>
+              <select formControlName="ModuleId" (change)="onDropDownModuleChange($event)" class="form-select" id="ModuleId" required="">
+                <option *ngFor="let type of ModuleValues" [value]="type.value">{{ type.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Module.</div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label">Role Name</label>
+              <input class="form-control" type="text" formControlName="Name" required="">
+            </div>
+            
+            <div class="col-12" style="margin-top:15px;">
+              <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">{{
+                isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+              <button type="button" class="btn btn-warning ms-2" (click)="onReset()">Reset</button>
+            </div>
+    
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    

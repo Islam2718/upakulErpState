@@ -1,0 +1,6 @@
+@Global.API_HostAddress = http://localhost:5002
+
+GET {{Global.API_HostAddress}}
+Accept: application/json
+
+###

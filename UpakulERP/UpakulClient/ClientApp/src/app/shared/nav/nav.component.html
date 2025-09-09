@@ -1,0 +1,348 @@
+<main class="main" id="top" *ngIf="userId">
+  <!-- SIDEBAR START  -->
+  <nav class="navbar navbar-vertical navbar-expand-lg">
+    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+      <!-- scrollbar removed-->
+      <div class="navbar-vertical-content">
+        <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+          <li class="nav-item">
+            <!-- parent pages-->
+            <div class="nav-item-wrapper">
+              <a class="nav-link dropdown-indicator label-1 collapsed" href="#nv-home" role="button"
+                data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-home">
+                <div class="d-flex align-items-center">
+                  <i class="nav-link-icon fas fa-home"></i>
+                  <span class="nav-link-text">Dashboard</span>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <hr class="navbar-vertical-line" />
+            <!-- my new parts  -->
+            <div *ngIf="menuData?.length">
+              <div class="nav-item-wrapper" *ngFor="let item of menuData">
+                <a #toggleLink class="nav-link dropdown-indicator label-1" href="javascript:void(0)" role="button"
+                  [attr.aria-expanded]="isExpanded" (click)="toggleMenu(toggleLink, menuEl, item)"
+                  [attr.aria-controls]="'nv-' + item.menuId">
+                  <div class="d-flex align-items-between justify-content-between">
+                    <div>
+                      <span class="nav-link-icon" *ngIf="item?.iconCss"><i class="{{ item.iconCss }}"></i></span>
+                      <span class="nav-link-text me-1">{{item.menuText}}</span>
+                    </div>
+                    <div class="dropdown-indicator-icon-wrapper">
+                      <svg class="svg-inline--fa fa-caret-right dropdown-indicator-icon" aria-hidden="true"
+                        focusable="false" data-prefix="fas" data-icon="caret-right" role="img"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                        <path fill="currentColor"
+                          d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z">
+                        </path>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul #menuEl class="nav parent collapse" [class.show]="item.isExpanded" [attr.id]="'nv-' + item.menuId"
+                    data-bs-parent="#navbarVerticalCollapse">
+                    <li class="collapsed-nav-item-title d-none">
+                      {{ item.menuText }}
+                    </li>
+                    <li class="nav-item" *ngFor="let child of item.children">
+                      <a class="nav-link d-flex" [routerLink]="child.url" [queryParams]="child.queryParams" (click)="
+                          child.children?.length
+                            ? toggleChildMenu($event, child)
+                            : null
+                        " [class.collapsed]="
+                          child.children?.length && !child.isExpanded
+                        " [attr.aria-expanded]="
+                          child.children?.length ? child.isExpanded : null
+                        " href="javascript:void(0)">
+                        <div class="d-flex1 align-items-center w-100">
+                          <div class="d-flex justify-content-between align-items-center w-100">
+                            <div class="">
+                              <span class="nav-link-text me-1">{{
+                                child.menuText
+                                }}</span>
+                            </div>
+                            <div *ngIf="child.children?.length" class="dropdown-indicator-icon-wrapper primary">
+                              <i class="fa fa-plus" style="font-size: 8px"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                      <!-- Optional grandchild level -->
+                      <ul *ngIf="child.children?.length" class="nav parent collapse ps-3"
+                        [class.show]="child.isExpanded">
+                        <li class="nav-item" *ngFor="let grandchild of child.children">
+                          <a class="nav-link" [routerLink]="grandchild.url">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">{{
+                                grandchild.menuText
+                                }}</span>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="navbar-vertical-footer">
+      <button
+        class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center">
+        <span class="uil uil-left-arrow-to-left fs-8"></span><span class="uil uil-arrow-from-right fs-8"></span><span
+          class="navbar-vertical-footer-text ms-2">Slide</span>
+      </button>
+    </div>
+  </nav>
+  <!-- SIDEBAR END  -->
+  <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
+    <div class="collapse navbar-collapse justify-content-between">
+      <div class="navbar-logo">
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse"
+          aria-expanded="false" aria-label="Toggle Navigation">
+          <span class="navbar-toggle-icon"><span class="toggle-line"></span></span>
+        </button>
+        <a class="navbar-brand me-1 me-sm-3" (click)="navigateToHome()">
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
+              <img [src]="'/assets/img/logo.png'" alt="" width="27" />
+              <!-- <h5 class="logo-text ms-2 d-none d-sm-block">coast foundation</h5> -->
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="alert alert-light py-1 rounded-1 text-secondary small">
+        Token:  &nbsp; &nbsp;
+        Menu:  &nbsp; &nbsp;
+        Modus:  &nbsp; &nbsp;
+        Personal: {{ statePersonal$ | async | json }} &nbsp; &nbsp; 
+        Notification: <span *ngFor="let n of stateNotification$ | async">{{n}}</span>
+      </div>
+
+      <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
+        style="width: 25rem">
+        <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+          <input class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search"
+            placeholder="Search..." aria-label="Search" />
+          <span class="fas fa-search search-box-icon"></span>
+        </form>
+        <div class="btn-close position-absolute end-0 top-50 translate-middle cursor-pointer shadow-none"
+          data-bs-dismiss="search">
+          <button class="btn btn-link p-0" aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div *ngIf="transactionDate != ''" style="position: absolute; top: 5px; right: 200px; margin: 16px">
+        <h6>Transaction Date: {{ transactionDate }}</h6>
+      </div>
+
+      <ul class="navbar-nav navbar-nav-icons flex-row">
+        <li class="nav-item dropdown">
+          <a class="nav-link position-relative" href="#" style="min-width: 2.25rem" role="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
+            <span class="material-icons">notifications</span>
+            <!-- <span 
+              class=""
+              style="margin-left: -20px"
+            >
+              {{notifications.count}}
+            </span> -->
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-1">
+              {{ notifications.count }}
+            </span>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border navbar-dropdown-caret"
+            id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+            <div class="card position-relative border-0">
+              <div class="card-header p-2">
+                <div class="d-flex justify-content-between">
+                  <h5 class="text-body-emphasis mb-0">Notifications</h5>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="scrollbar-overlay setting-toggle1" style="height: 27rem">
+                  <!-- //items  -->
+                  <span *ngFor="let notification of notifications.summary; let i = index">
+                    <div class="px-2 px-sm-3 py-3 notification-card position-relative unread border-bottom"
+                      href="#settings-offcanvas" data-bs-target="#offcanvasNotification" data-bs-toggle="offcanvas"
+                      (click)="notificationDetailsFunc(notification)">
+                      <!-- existing notification display -->
+                      <div class="d-flex align-items-center justify-content-between position-relative">
+                        <div class="d-flex">
+                          <div class="avatar avatar-m status-online me-3 mt-2">
+                            <div class="avatar-name rounded">
+                              <span>{{notification.notificationType}}</span>
+                            </div>
+                          </div>
+                          <div class="flex-1 me-sm-3">
+                            <h4 class="fs-9 text-body-emphasis">{{notification.title}}</h4>
+                            <p class="fs-9 text-body-highlight mb-2 mb-sm-1 fw-normal">{{notification.office}}</p>
+                            <p class="text-body-secondary fs-9 mb-0">
+                              <span class="me-1 fas fa-clock"></span>
+                              {{ notification.orderBy | date:'dd-MMM-yyyy' }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </div>
+              <div class="card-footer p-0 border-top border-translucent border-0">
+                <div class="my-2 text-center fw-bold fs-10 text-body-tertiary text-opactity-85">
+                  <a class="fw-bolder text-white" href="">...</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- dreawer dropdowns  -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" id="navbarDropdownNindeDots" href="#" role="button" data-bs-toggle="dropdown"
+            aria-haspopup="true" data-bs-auto-close="outside" aria-expanded="false">
+            <!-- <i class="fas fa-th" style="font-size: 15px;"></i> -->
+            <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="2" cy="2" r="2" fill="currentColor"></circle>
+              <circle cx="2" cy="8" r="2" fill="currentColor"></circle>
+              <circle cx="2" cy="14" r="2" fill="currentColor"></circle>
+              <circle cx="8" cy="8" r="2" fill="currentColor"></circle>
+              <circle cx="8" cy="14" r="2" fill="currentColor"></circle>
+              <circle cx="14" cy="8" r="2" fill="currentColor"></circle>
+              <circle cx="14" cy="14" r="2" fill="currentColor"></circle>
+              <circle cx="8" cy="2" r="2" fill="currentColor"></circle>
+              <circle cx="14" cy="2" r="2" fill="currentColor"></circle>
+            </svg>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-nine-dots shadow border"
+            aria-labelledby="navbarDropdownNindeDots">
+            <div class="card bg-body-emphasis position-relative border-0">
+              <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar">
+                <div class="row text-center align-items-center gx-0 gy-0">
+                  <div class="col-4" *ngFor="let module of modules">
+                        <!-- // handleModuleClick(
+                        //   module.module_name,
+                        //   module.role_id,
+                        //   module.module_id
+                        // )                     -->
+                    <a [attr.title]="module.title"
+                      class="cursorPoint d-block bg-body-secondary-hover p-2 rounded-3 text-center text-decoration-none mb-3 fontcls"
+                      (click)="
+                        handleModuleClick(
+                          module.module_name,
+                          module.role_id,
+                          module.module_id
+                        )
+                      " navbarDropdownNindeDots>
+                      <i [class]="module.icon_class" class="iconFont custsizefont" aria-hidden="true"></i>
+                      <p class="mb-0 text-body-emphasis text-truncate fs-10 mt-1 pt-1">
+                        {{ module.module_name }}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!-- user profile  -->
+        <li class="nav-item dropdown">
+          <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown"
+            data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+            <div class="avatar avatar-l rounded-1 shadow p-1">
+              <img class="w-100 rounded-1 shadow" src="{{ userImage }}" alt="" />
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border"
+            aria-labelledby="navbarDropdownUser">
+            <div class="card position-relative border-0">
+              <div class="card-body p-0">
+                <div class="text-center pt-4 pb-3">
+                  <div class="profile-image">
+                    <img class="img img-responsive" src="{{ userImage }}" alt="" style="width: 50%; height: 100px" />
+                  </div>
+
+                  <h6 class="mt-2 text-body-emphasis h5">
+                    {{ employeeName }}
+                  </h6>
+                  <small>({{ userId }})</small><br />
+                  <small>{{ office }}</small>
+                </div>
+              </div>
+              <div class="overflow-auto scrollbar text-center" style="height: 10rem">
+                <ul class="nav d-flex flex-column mb-2 pb-1">
+                  <li class="nav-item">
+                    <a class="nav-link px-3 d-block" href="#!">
+                      <span class="me-2 text-body align-bottom" data-feather="user"></span><span>Profile</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link px-3 d-block" href="#!">
+                      <span class="me-2 text-body align-bottom" data-feather="pie-chart"></span>Change Password
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer p-0 border-top border-translucent">
+                <div class="px-3" (click)="onLogout()">
+                  <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!">
+                    <span class="me-2" data-feather="log-out"> </span>Sign out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</main>
+
+
+<!-- notification drawer  -->
+<div class="offcanvas offcanvas-end settings-panel border-0" id="offcanvasNotification" tabindex="-1"
+  aria-labelledby="offcanvasNotification">
+  <div class="offcanvas-header align-items-start border-bottom flex-column border-translucent">
+    <div class="pt-1 w-100 d-flex border-0 justify-content-between align-items-start">
+      <div>
+        <h5 class="mb-21 me-21 lh-sm1">
+          <i class="fa fa-bell fa-1x mt-2"></i>
+          <span [ngSwitch]="notificationDetails?.notificationType">
+            <span *ngSwitchCase="'LP'"> Loan Proposal</span>
+            <span *ngSwitchCase="'GS'"> Grace Schedule</span>
+            <span *ngSwitchDefault> Others </span>
+          </span>
+        </h5>
+      </div>
+      <button class="btn p-1 fw-bolder" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+        <span class="fas fa-times fs-8"> </span>
+      </button>
+    </div>
+    <!-- <button class="btn btn-phoenix-secondary w-100" data-theme-control="reset">
+      <span class="fas fa-arrows-rotate me-2 fs-10"></span>Reset to default
+    </button> -->
+  </div>
+  <div class="offcanvas-body scrollbar px-card" id="themeController">
+    <!-- <div class="border rounded p-2 small mb-2">
+      {{notificationDetails?.title}} <br/>
+      {{notificationDetails?.group}} <br/>
+      {{notificationDetails?.orderBy}} <br/>
+      {{notificationDetails?.notificationType}} <br/>
+    </div> -->
+
+    <!-- Conditionally load LP or GS component -->
+    <app-lp *ngIf="notificationDetails?.notificationType === 'LP'" [details]="notificationDetails">
+    </app-lp>
+
+    <app-gs *ngIf="notificationDetails?.notificationType === 'GS'" [details]="notificationDetails">
+    </app-gs>
+    <a style="position:absolute; bottom:0;" class="btn btn-default border mb-3 mt-5" target="_blank"
+      data-bs-dismiss="offcanvas" aria-label="Close">Close </a>
+  </div>
+</div>

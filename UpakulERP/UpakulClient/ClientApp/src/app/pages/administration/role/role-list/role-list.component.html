@@ -1,0 +1,83 @@
+<div class="contentframe">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="mb-0">List</h4>
+      <button class="btn btn-success" (click)="navigateToCreate()">
+        <i class="fas fa-plus"></i> Create
+      </button>
+    </div>
+
+
+    <table class="table table-striped table-sm fs-9 mb-0">
+      <thead>
+        <tr><td>
+          
+          <div class="col-md-3">
+            <label class="form-label">Module</label>
+            <select formControlName="ModuleId" (change)="onDropDownModuleChange($event)" class="form-select" id="ModuleId" required="">
+              <option *ngFor="let type of ModuleValues" [value]="type.value">{{ type.text }}</option>
+            </select>
+            <div class="invalid-feedback">Please Select Module.</div>
+          </div>
+
+    </td>
+    </tr>
+    </thead>
+    </table>
+
+   <div class="table-responsive mx-n1 px-1 scrollbar">
+          <table class="table fs-9 mb-0 border-top border-translucent">
+            <thead>
+              <tr>
+                <th class="sort align-middle asc" scope="col">Name</th>
+                <th class="sort text-end pe-0 align-middle" scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="list" id="table-latest-review-body">
+              <tr *ngFor="let obj of dataList" class="hover-actions-trigger btn-reveal-trigger position-static">
+               <td class="align-middle review px-2">{{ obj.name }}</td>
+                <td class="align-middle white-space-nowrap text-end pe-0">
+                  <!-- {{ obj.isApproved }} -->
+                  <div class="position-relative">
+                    <div class="hover-actions">
+                      <button
+                        class="btn btn-sm btn-phoenix-secondary shadow me-1"
+                        ng-class="{ 'd-none': obj.isApproved === true }"
+                        title ="Update" (click)="edit(obj.id)"
+                      >
+                        <i class="fa-solid fa-pencil fa-1x fw-bold"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-phoenix-secondary shadow me-1"
+                        title="Delete" (click)="delete(obj.id)"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="btn-reveal-trigger position-static">
+                    <button
+                      class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs-10"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      data-boundary="window"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      data-bs-reference="parent"
+                    >
+                      <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end py-2 text-center">
+                      <!-- <a class="dropdown-item" title="Update" (click)="editData(obj.geoLocationId)"> View</a> -->
+                      <a class="dropdown-item" title="Update" (click)="edit(obj.id)"><i class="fa fa-pencil"></i> Edit</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item text-danger" title="Delete" (click)="delete(obj.id)"><i class="fa fa-trash"></i> Delete</a>                      
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+   

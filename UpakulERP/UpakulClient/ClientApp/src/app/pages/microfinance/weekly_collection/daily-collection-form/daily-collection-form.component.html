@@ -1,0 +1,198 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0" id="custom-styles-example">
+      {{ isEditMode ? 'Update' : 'Daily Collection' }}
+    </h4>
+  </div>
+
+  <div class="card shadow-none border my-4">
+    <div class="card-body">
+
+      <!-- MAIN GRID FORM -->
+      <form [formGroup]="dataForm" class="row g-3 needs-validation was-validated" (ngSubmit)="onSubmit()">
+        <div class="w-100">
+          <table class="table table-hover table-bordered align-middle" style="width:100%;">
+            <thead class="text-center text-white">
+              <tr style="border:1px solid black;">
+                    <th rowspan="2">Sl</th>
+                    <th rowspan="2">Member</th>
+                    <th rowspan="2">Loan<br>No</th>
+                    <th rowspan="2">Ins.<br>No</th>
+                    <th rowspan="2">Component</th>
+                    <th colspan="2">Disburse</th>
+                    <th colspan="4">Opening</th>
+                    <th rowspan="2">Ins.<br>Amt</th>
+                    <th rowspan="2">
+                    <div>Att</div>
+                    <input type="checkbox" id="chkAll" onchange="SelectAllMember(tblGrid,this)" checked>
+                    </th>
+                    <th colspan="3">Loan</th>
+                    <th colspan="3">Savings Collection</th>
+                    <th colspan="4">Savings Refund</th>
+                    <th rowspan="2">Ledger</th>
+                    <th rowspan="2">Collection</th>
+                </tr>
+                <tr style="border:1px solid black;">
+                    <th>Date</th>
+                    <th>Amt</th>
+                    <th>Outst.</th>
+                    <th>OD</th>
+                    <th>Adv.</th>
+                    <th>Savings</th>
+                    <th>Collection<br>
+                    <input type="checkbox" id="chkAllLoanCollZero" onchange="AllLoanCallZero(tblGrid,this)" checked>
+                    </th>
+                    <th>Rebate</th>
+                    <th>Adjust</th>
+                    <th>
+                    Com.<br>
+                    <input type="checkbox" id="chkAllComCollZero" onchange="AllComCollZero(tblGrid,this)" checked>
+                    </th>
+                    <th>
+                    Vol.<br>
+                    <input type="checkbox" id="chkAllVolCollZero" onchange="AllVolCallZero(tblGrid,this)" checked>
+                    </th>
+                    <th>
+                    Oth.<br>
+                    <input type="checkbox" id="chkAllOthCollZero" onchange="AllOthCollZero(tblGrid,this)" checked>
+                    </th>
+                    <th>Refund</th>
+                    <th>Com.</th>
+                    <th>Vol.</th>
+                    <th>Oth.</th>                    
+                </tr>           
+            </thead>
+
+            <tbody formArrayName="employees">
+              <tr *ngFor="let ctrl of employees.controls; let i = index" [formGroupName]="i"
+                  class="hover-actions-trigger btn-reveal-trigger position-static table-row-click"
+                  (click)="openCollectionOffcanvas(ctrl.value, i)">
+                <td class="text-center">{{ i + 1 }}</td>
+                <td>
+                  {{ ctrl.value.memberCode }} - {{ ctrl.value.memberName }}
+                </td>
+
+                <!-- demo cells: replace with your real fields -->
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+
+                <td class="text-center">
+                  <input type="checkbox" />
+                </td>
+
+                <!-- more demo cells -->
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+                <td>{{ ctrl.value.compulsoryAmount }}</td>
+
+                <td>Ledger-Ref</td>
+
+                <!-- <td class="text-center"> 
+                  <button type="button" class="btn btn-primary"
+                          (click)="openCollectionOffcanvas(ctrl.value, i)">
+                    <i class="fa-solid fa-money-check"></i>
+                  </button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-12 mt-3">
+          <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">
+            {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+          </button>
+          <button type="button" class="btn btn-warning ms-2" (click)="onReset()" [disabled]="isEditMode">
+            Reset
+          </button>
+        </div>
+      </form>
+      <!-- /MAIN GRID FORM -->
+
+    </div>
+  </div>
+</div>
+
+<!-- Right Offcanvas-->
+<div #offcanvasRight class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Add Collection</h5>
+    <button class="btn-close text-reset" type="button" (click)="closeOffcanvas()" aria-label="Close"></button>
+  </div>
+
+  <!-- OFFCANVAS FORM -->
+  <div class="offcanvas-body" [formGroup]="collectionForm">
+    <input class="form-control" formControlName="CollectionId" type="hidden">
+
+    <div class="row">
+      <!-- Collection -->
+      <div class="col-md-12 mb-3">
+        <label class="form-label">Collection</label>
+        <input class="form-control bg-light"
+               formControlName="CollectionAmount"
+               type="number"
+               (keypress)="onlyNumberKey($event)"/>
+      </div>
+
+      <!-- Saving Collection -->
+      <div class="col-md-12 mb-3">
+        <label class="form-label d-block">Saving Collection</label>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <input class="form-control" formControlName="SavingCom" type="number" placeholder="Com"
+                   maxlength="7" (keypress)="onlyNumberKey($event)"/>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control" formControlName="SavingVol" type="number" placeholder="Vol"
+                   maxlength="7" (keypress)="onlyNumberKey($event)"/>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control" formControlName="SavingOth" type="number" placeholder="Oth"
+                   maxlength="7" (keypress)="onlyNumberKey($event)"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Refund -->
+      <div class="col-md-12 mb-3">
+        <label class="form-label d-block">Refund</label>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <input class="form-control" formControlName="RefundCom" type="number" placeholder="Com"
+                   maxlength="7" (keypress)="onlyNumberKey($event)"/>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control" formControlName="RefundVol" type="number" placeholder="Vol"
+                   maxlength="7" (keypress)="onlyNumberKey($event)"/>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control" formControlName="RefundOth" type="number" placeholder="Oth"
+                   maxlength="7" (keypress)="onlyNumberKey($event)"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" (click)="closeOffcanvas()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmitCollection()">Apply</button>
+      </div>
+    </div>
+  </div>
+  <!-- /OFFCANVAS FORM -->
+</div>

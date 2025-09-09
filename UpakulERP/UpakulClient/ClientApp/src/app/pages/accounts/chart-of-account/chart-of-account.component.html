@@ -1,0 +1,215 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Accounts / Chart of Accounts</h4>
+    <button class="btn btn-phoenix-secondary shadow border">
+      <i class="fas fa-eraser"></i>
+    </button>
+  </div>
+
+  <app-confirm-modal
+    #confirmModal
+    [title]="'Confirm Deletion'"
+    [message]="'Are you sure to delete?'"
+    (onConfirm)="onDeleteConfirmed()"
+  ></app-confirm-modal>
+
+  <div id="tableExample3">
+    <div
+      class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 pb-4 border-y mb-5"
+    >
+      <div id="printableArea">
+        <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <h3>Chart of Accounts</h3>
+          </div>
+          <div class="col-12 col-md-auto">
+            <div class="row g-2 gy-3">
+              <div class="col-auto">
+                <button
+                  *ngIf="!isCollapsed"
+                  class="btn btn-phoenix-primary shadow border btn-sm rounded-1 bg-body-hover"
+                  (click)="toggleCollapseExpand(true)"
+                  [innerHTML]="Button.collapseBtn + ' Collapse'"
+                ></button>
+                <button
+                  *ngIf="isCollapsed"
+                  class="btn btn-phoenix-primary shadow border btn-sm rounded-1 ms-1 bg-body-hover"
+                  (click)="toggleCollapseExpand(false)"
+                  [innerHTML]="Button.expandBtn + ' Expand'"
+                ></button>
+                <button
+                  class="btn shadow border btn-sm rounded-1 btn-phoenix-secondary ml-2 ms-1 bg-body-hover"
+                  type="button"
+                  [innerHtml]="Button.printBtn"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="printableTableArea">..
+          <div class="table-responsive mx-n1 px-1 scrollbar">
+            <div class="table-responsive mx-n1 px-1 scrollbar">
+              <ul class="treeview-list treeview1 treeview-border">
+                <ng-container *ngFor="let node of treeData; let i = index">
+                  <ng-template
+                    [ngTemplateOutlet]="recursiveList"
+                    [ngTemplateOutletContext]="{
+                      node: node,
+                      parentList: treeData,
+                      index: i
+                    }"
+                  >
+                  </ng-template>
+                </ng-container>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Recursive template -->
+          <ng-template
+            #recursiveList
+            let-node="node"
+            let-parentList="parentList"
+            let-index="index"
+          >
+            <li class="treeview-list-item">
+              <div
+                class="d-flex align-items-center coast-list-element px-1 py-2 mb-0"
+                (click)="getAccountHead(node.accountId)"
+              >
+                <!-- ▼ Arrow -->
+                <i
+                  *ngIf="!node.isTransactable && !node.child?.length"
+                  class="fa-solid fa-caret-right me-2 text-muted"
+                ></i>
+                <i
+                  *ngIf="node.isTransactable && node.child?.length"
+                  class="fa-solid fa-caret-down me-2 text-muted"
+                ></i>
+
+                <!-- Title or input -->
+                <span *ngIf="!node.isEditing">
+                  {{ node.headCode }} — {{ node.headName }}
+                </span>
+
+                <input
+                  *ngIf="node.isEditing"
+                  type="text"
+                  class="form-control form-control-xs px-2 py-1 rounded-1 d-inline-block w-25"
+                  placeholder="Enter Name of Head !"
+                  [(ngModel)]="node.headName"
+                />
+
+                <!-- Checkbox (only when editing) -->
+                <div
+                  class="form-check w-10 py-1 mx-4 fs-7"
+                  *ngIf="node.isEditing"
+                >
+                  <input
+                    [(ngModel)]="node.accountId"
+                    class="d-none"
+                    type="text"
+                  />
+                  <input
+                    [(ngModel)]="node.headCode"
+                    class="d-none"
+                    type="text"
+                  />
+                  <input
+                    [(ngModel)]="node.parentId"
+                    class="d-none"
+                    type="text"
+                  />
+
+                  <input
+                    [(ngModel)]="node.isTransactable"
+                    class="form-check-input form-control-xs"
+                    type="checkbox"
+                    value="true"
+                    id="flexCheckDefault-{{ node.accountId }}"
+                  />
+                  <label
+                    class="form-check-label fs-8 mt-0 pt-2"
+                    for="flexCheckDefault-{{ node.accountId }}"
+                  >
+                    Transactable
+                  </label>
+                </div>
+
+                <!-- Confirm / Cancel buttons -->
+                <span
+                  (click)="confirmChild(node)"
+                  *ngIf="node.isEditing"
+                  class="btn-sm py-2 rounded-1 px-4 m-0 bg-primary text-white"
+                >
+                  <i class="fa fa-check"></i>
+                </span>
+                <span
+                  (click)="cancelChild(parentList, index, node)"
+                  *ngIf="node.isEditing"
+                  class="btn-sm py-2 rounded-1 px-4 m-0 bg-light border-1 ms-1"
+                >
+                  <i class="fa fa-close"></i>
+                </span>
+
+                <!-- Action buttons -->
+                <span class="mx-2 actions btn-set mb-0" *ngIf="!node.isEditing">
+                  <button
+                    class="btn m-0 p-0 btn-sm px-1 m-0"
+                    (click)="addChild(node)"
+                    [innerHTML]="Button.createBtn"
+                    *ngIf="Button.createBtn && node.isTransactable === false"
+                  ></button>
+                  <button
+                    class="btn m-0 p-0 btn-sm px-1 m-0"
+                    (click)="startEdit(node)"
+                    [innerHTML]="Button.editBtn"
+                    *ngIf="Button.editBtn"
+                  ></button>
+                  <button
+                    class="btn m-0 p-0 btn-sm px-1 m-0"
+                    title="Delete"
+                    (click)="delete(node)"
+                    [innerHTML]="Button.deleteBtn"
+                    *ngIf="node.isTransactable"
+                  ></button>
+                  <button
+                    class="btn m-0 p-0 btn-sm px-1"
+                    (click)="openAssignModal(node)"
+                    [innerHTML]="Button.assignBtn"
+                    *ngIf="Button.assignBtn && node.isTransactable === true"
+                  ></button>
+                </span>
+              </div>
+
+              <!-- Recursive children -->
+              <ul
+                class="treeview-list treeview-border ms-4"
+                *ngIf="node.child?.length"
+              >
+                <ng-container *ngFor="let c of node.child; let j = index">
+                  <ng-template
+                    [ngTemplateOutlet]="recursiveList"
+                    [ngTemplateOutletContext]="{
+                      node: c,
+                      parentList: node.child,
+                      index: j
+                    }"
+                  >
+                  </ng-template>
+                </ng-container>
+              </ul>
+            </li>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- assign open modal -->
+  <app-coa-assign-modal
+    *ngIf="showAssignModal"
+    #assignModal
+    [node]="selectedNode"
+  >
+  </app-coa-assign-modal>
+</div>

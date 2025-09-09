@@ -1,0 +1,93 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0">
+      {{ isEditMode ? 'Update' : 'Leave Mapping' }}
+    </h4>
+  </div>
+
+  <div class="card shadow-none border my-4">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="submit()">
+        <!-- Master Fields -->
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Office Type</label>
+            <select formControlName="OfficeTypeId" (change)="OfficeTypeOnChange($event)" class="form-select" required>
+              <option *ngFor="let item of officeTypes" [value]="item.value">{{ item.text }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Applicant Designation</label>
+            <select formControlName="ApplicantDesignationId" (change)="DesignationOnChange($event)" class="form-select"
+              required>
+              <option *ngFor="let item of designations" [value]="item.value">{{ item.text }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Leave Category</label>
+            <select formControlName="LeaveCategoryId" (change)="LeaveCategoryOnChange($event)" class="form-select"
+              required>
+              <option *ngFor="let item of leaveCategories" [value]="item.value">{{ item.text }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Details Section -->
+        <div formArrayName="mappings" class="border border-secondary rounded overflow-hidden">
+
+          <!-- Header Row -->
+          <div class="row fw-bold bg-light text-black m-0 p-2">
+            <div class="col-md-2 text-center align-middle">Level</div>
+            <div class="col-md-3 text-center align-middle">Approver Designation</div>
+            <div class="col-md-2 text-center align-middle">Min</div>
+            <div class="col-md-2 text-center align-middle">Max</div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2 text-end">
+              <button class="btn btn-success" (click)="addRow()" *ngIf="Button.createBtn"
+                [innerHTML]="Button.createBtn+' Create'">
+              </button>
+            </div>
+          </div>
+
+          <!-- Detail Rows -->
+          <div *ngFor="let group of mappings.controls; let i = index" [formGroupName]="i"
+            class="row align-items-center m-0 border-top p-2 bg-white">
+            <div class="col-md-2">
+              <input type="number" class="form-control" formControlName="LevelNo" readonly />
+            </div>
+            <div class="col-md-3">
+              <select class="form-select" formControlName="ApproverDesignationId">
+                <option *ngFor="let option of designations" [value]="option.value">{{ option.text }}</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control" formControlName="MinimumLeave" placeholder="Min" />
+            </div>
+
+            <div class="col-md-2">
+              <input type="number" class="form-control" formControlName="MaximumLeave" placeholder="Max" />
+            </div>
+
+            <div class="col-md-1 text-end">
+                    <button
+                      class="btn m-0 p-0 btn-sm px-4 m-0" 
+                      (click)="deleteRow(i)"
+                      [innerHTML]="Button.deleteBtn"
+                      *ngIf="Button.deleteBtn"
+                    >
+                  </button>
+            </div>
+          </div>
+        </div>
+        <!-- Submit -->
+        <div class="mt-3 text-end">
+          <button type="submit" class="btn btn-success" [disabled]="isSubmitting">
+            {{ isEditMode ? 'Update' : 'Submit' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

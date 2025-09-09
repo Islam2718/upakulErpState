@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\DBOrders\Queries\Bank\AllBankHandler.cs" />
+    <Compile Remove="Features\DBOrders\Queries\Bank\GetBankByIdHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+	  <PackageReference Include="EF.Core.Repository" Version="1.0.0.2" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+	  <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contacts\Infrastructure\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Global.Domain\Global.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

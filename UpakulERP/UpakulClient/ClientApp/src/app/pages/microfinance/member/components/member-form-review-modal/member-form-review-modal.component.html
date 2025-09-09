@@ -1,0 +1,147 @@
+<div class="modal fade" tabindex="-1" #modal id="memberReviewModal" style="background:rgba(0, 0, 0, 0.3); ">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Member Form Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- review codes--> 
+        <div class="entire-profile mb-1 pb-1">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                          <td>
+                            <div class="p fw-bold">Member Name: {{this.data.nationalId}}</div>
+                            <div class="p">সদস্যের নাম (বাংলা): {{this.data.nationalId}}</div>
+                            <div class="p">Mobile Number: {{this.data.mobileNumber}}</div>
+                            <div class="p">Own Contact No: {{this.data.contactNoOwn}}</div>
+                          </td>
+                          <td>
+                            <!-- <div class="p">Member ID: </div> -->
+                            <div class="p">Group: {{this.data.groupId}} | {{ this.data.groupName }}</div>
+                            <div class="p">Address: {{this.data.presentAddress}}</div>
+                          </td>
+                          <td class="text-end">
+                            <img style="width:150px; height:150px;" src="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=" />
+                          </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="entire-profile mb-1 pb-1">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table class="table table-bordered">
+                        <tr><th colspan="2">Basic Information</th></tr>
+                        <tr>
+                          <td>                            
+                            <div class="p">Admission Date: {{this.data.contactNoOwn}}</div>
+                            <div class="p">Occupation: {{this.data.occupationLabel}}</div>
+                            <div class="p">Father Name: {{this.data.fatherName}}</div>
+                            <div class="p">Mother Name: {{this.data.motherName}} </div>
+                            <div class="p">Marital Status: {{this.data.maritalStatusLabel}} </div>
+                            <div class="p">Gender: {{this.data.genderLabel}}</div>
+                            </td>
+                            <td>
+                            <div class="p">Date of Birth: {{this.data.dateOfBirth}}</div>
+                            <div class="p">National Id: {{this.data.nationalId}} </div>
+                            <div class="p">Smart Card: {{this.data.smartCard}} </div>
+                            <div class="p">Birth Certificate No: {{this.data.birthCertificate}} </div>
+                            <div class="p">T.I.N Certificate: {{this.data.tin}} </div>
+                            <div class="p">Other ID: {{this.data.contactNoOwn}} </div>
+                          </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="entire-profile mb-1 pb-1">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                          <th>Present Address</th>
+                          <th>Parmanent Address</th>
+                        </tr>
+                        <tr>
+                          <td>
+                              <p class="m-0 p-0"><strong>Country:</strong> {{this.data.presentCountryName}}</p>
+                              <p class="m-0 p-0"><strong>Division:</strong> {{this.data.presentDivisionName}}</p>
+                              <p class="m-0 p-0"><strong>District:</strong> {{this.data.presentDistrictName}}</p>
+                              <p class="m-0 p-0"><strong>Upazila:</strong> {{this.data.presentUpazilaName}}</p>
+                              <p class="m-0 p-0"><strong>Union:</strong> {{this.data.presentUnionName}}</p>
+                              <p class="m-0 p-0"><strong>Village:</strong> {{this.data.presentVillageName}}</p>
+                              <p class="m-0 p-0"><strong>Address:</strong> {{this.data.presentAddress}}</p>
+                          </td>
+                          <td>
+                              <p class="m-0 p-0"><strong>Country:</strong> {{this.data.permanentCountryName}}</p>
+                              <p class="m-0 p-0"><strong>Division:</strong> {{this.data.permanentDivisionName}}</p>
+                              <p class="m-0 p-0"><strong>District:</strong> {{this.data.permanentDistrictName}}</p>
+                              <p class="m-0 p-0"><strong>Upazila:</strong> {{this.data.permanentUpazilaName}}</p>
+                              <p class="m-0 p-0"><strong>Union:</strong> {{this.data.permanentUnionName}}</p>
+                              <p class="m-0 p-0"><strong>Village:</strong> {{this.data.permanentVillageName}}</p>
+                              <p class="m-0 p-0"><strong>Address:</strong> {{this.data.permanentAddress}}</p>
+                          </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="entire-profile mb-1 pb-1">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                          <th>Others Information</th>
+                          <th>Identifier</th>
+                        </tr>
+                        <tr>
+                          <td>                            
+                              <p class="m-0 p-0"><strong>Authorized Person:</strong> {{this.data.authorizedEmployeeName}}</p>
+                              <p class="m-0 p-0"><strong>Admission Fee:</strong> {{this.data.admissionFee}}</p>
+                              <p class="m-0 p-0"><strong>Passbook Fee:</strong> {{this.data.passbookFee}}</p>
+                              <p class="m-0 p-0"><strong>Passbook No:</strong> {{this.data.passbook}}</p>
+                              <p class="m-0 p-0"><strong>Verification Note:</strong> {{this.data.verificationNote}}</p>
+                              <!-- <p class="m-0 p-0"><strong>Upload Document:</strong> {{this.data.PresentVillageId}}</p> -->
+                              <p class="m-0 p-0"><strong>Remarks:</strong> {{this.data.memberRemarksLabel}}</p>
+                              <p class="m-0 p-0"><strong>Latitude:</strong> {{this.data.latitude}}</p>                              
+                              <p class="m-0 p-0"><strong>Longitude:</strong> {{this.data.longitude}}</p>    
+                              <p class="m-0 p-0"><strong>Identifier Name:</strong> {{this.data.identifierName}}</p>
+                              <p class="m-0 p-0"><strong>Relation with Identifier:</strong> {{this.data.relationWithIdentifier}}</p>
+                              <!-- <p><strong>Remarks:</strong> {{this.data.memberRemarksLabel}} & Depencies: {{this.data.noOfDependents}}</p> -->
+                          </td>
+                          <td>                            
+                              <p class="m-0 p-0"><strong>Reference Member:</strong> {{this.data.referenceMemberId}}</p>
+                              <p class="m-0 p-0"><strong>Income Type:</strong> {{this.data.incomeType}}</p>
+                              <p class="m-0 p-0"><strong>Family Member & Children:</strong> {{this.data.totalFamilyMember}}</p>
+                              <p class="m-0 p-0"><strong>Total Income:</strong> {{this.data.totalInComeMember}}</p>
+                              <p class="m-0 p-0"><strong>Residential House Area:</strong> {{this.data.residentialHouseArea}}</p> 
+                              <p class="m-0 p-0"><strong>Location:</strong> {{this.data.latitude}} - {{this.data.latitude}}</p> 
+                              <p class="m-0 p-0"><strong>Arable Land Area:</strong> {{this.data.arableLandArea}}</p> 
+                              <p class="m-0 p-0"><strong>Previously Loan Receiver:</strong> {{this.data.previouslyLoanReceiver}}</p> 
+                              <p class="m-0 p-0"><strong>Related to other Program:</strong> {{this.data.relatedOtherProgram}}</p> 
+                              <p class="m-0 p-0"><strong>Member of other Organization:</strong> {{this.data.memberOfOtherOrganization}}</p>                            
+                          </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- review codes   end       -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>        
+        <button
+          class="btn w-25 btn-primary"
+          type="submit"
+          (click) = "onSaveMemberForm()"
+        >
+            Submit
+        </button>        
+      </div>
+    </div>
+  </div>
+</div>

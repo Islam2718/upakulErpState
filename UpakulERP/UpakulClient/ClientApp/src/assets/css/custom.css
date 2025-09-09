@@ -1,0 +1,197 @@
+.cursorPoint {
+  cursor: pointer;
+}
+
+.iconFont {
+  font-size: 4em;
+}
+
+.custom-action-dropdown {
+  min-width: 6px !important;
+  padding: 0px !important;
+}
+
+.custom-action-dropdown>a {
+  cursor: pointer;
+}
+
+.cust-icon-item {
+  /* height: 1.5rem !important; */
+  height: 0px !important;
+}
+
+a.actbt {
+  font-size: 16px !important;
+  /* padding-left: 20px;
+    padding-bottom: 15px; */
+}
+
+/* .grid-action{
+    background-color: rgb(19, 131, 251);color: aliceblue;
+  }
+  */
+.pagination .page-item.active .page-link {
+  background-color: #007bff !important;
+  /* Bootstrap primary blue */
+  border-color: #007bff !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.pagination .page-item .page-link {
+  color: #007bff;
+  border: 1px solid #007bff;
+  transition: all 0.3s ease;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #0056b3;
+  color: white;
+
+}
+
+.pagination_size {
+  font-size: 12px;
+}
+
+.page-link
+
+/*.form-select*/
+  {
+  padding: 2px 5px !important;
+  font-size: 0.75rem !important;
+  height: auto !important;
+}
+
+.form-select-sm {
+  padding: 2px 5px !important;
+  padding-right: 1.7rem !important;
+}
+
+.contentframe {
+  margin: 85px 30px 0px 285px
+}
+
+/* ========= related to ng-select ===============*/
+
+.saveNcontinueBtn {
+  margin: 0 0 20px 10px;
+  width: 150px;
+}
+
+.backbtn {
+  float: left;
+}
+
+/* .col-md-3.mb-3.block {
+  display: block !important;
+  float: none !important;
+} */
+
+#custom-styles-example {
+  padding-left: 20px;
+}
+
+
+
+.list-group-item.active {
+  background-color: var(--coast-navbar-vertical-link-hover-bg);
+  color: var(--coast-navbar-vertical-link-color);
+}
+
+@media (max-width: 768px) {
+  .contentframe {
+    /* margin: 56px 0px 0px 0px !important; */
+    margin: 85px 0px 0px 0px;
+
+  }
+  .col-md-3.mb-3.block {
+  display: block !important;
+  float: none !important;
+}
+
+.saveNcontinueBtn,
+.backbtn,
+.finishbtn {
+  width: 100%;
+  margin: 0 0 20px 0px;
+}
+
+}
+.pagination .page-item.active .page-link {
+  background-color: #007bff !important;
+  /* Bootstrap primary blue */
+  border-color: #007bff !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.pagination .page-item .page-link {
+  color: #007bff;
+  border: 1px solid #007bff;
+  transition: all 0.3s ease;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #0056b3;
+  color: white;
+
+}
+
+.pagination_size {
+  font-size: 12px;
+}
+
+.page-link
+
+/*.form-select*/
+  {
+  padding: 2px 5px !important;
+  font-size: 0.75rem !important;
+  height: auto !important;
+}
+
+.form-select-sm {
+  padding: 2px 5px !important;
+  padding-right: 1.7rem !important;
+}
+
+ .th-bg-clr th {
+  background-color: #FFA07A !important;
+}
+
+input {
+  padding-right: 5px !important;
+}
+
+/* coast styles */
+/* .cost-table{
+  width: 100%;
+  border-collapse: collapse;
+} */
+ .coast-table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+ }
+/* .coast-table tbody{
+  border-top: 2px solid #6c757d !important;
+} */
+.coast-table thead {  border-bottom: 2px solid #6c757d !important; }
+/* .coast-table tbody { background:red; } */
+.coast-table td {
+  padding-bottom:8px!important; 
+}
+/* .coast-table th, .coast-table td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+} */
+
+.coast-table-header {
+  border-bottom: 2px solid #6c757d !important;
+  background-color: #126ec900 !important;
+}
+.coast-pagination{
+  border-top:2px solid #999 !important;
+}

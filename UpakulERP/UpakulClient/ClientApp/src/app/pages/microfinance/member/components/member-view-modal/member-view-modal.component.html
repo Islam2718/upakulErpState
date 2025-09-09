@@ -1,0 +1,341 @@
+<!-- Member View Modal -->
+<div
+  class="modal fade show"
+  tabindex="-1"
+  role="dialog"
+  style="display: block; background: rgba(0, 0, 0, 0.5)"
+>
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header position-relative">
+        <h5 class="modal-title">Member Details</h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="close()"
+        ></button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div
+        class="modal-body p-3"
+        style="max-height: 80vh; overflow-y: auto"
+        *ngIf="memberData"
+      >
+        <div class="printablearea coast-a4">
+          <!-- HEADER -->
+          <div class="hdr-row">
+            <div class="hdr-left">
+              <img [src]="'/assets/img/coast_logo.webp'" class="logo" />
+            </div>
+            <div class="hdr-center">
+              <div class="title-line-1">COAST Foundation</div>
+              <div class="title-line-2">Member Admission Application Form</div>
+            </div>
+            <div class="hdr-right">
+              <div class="photo-box">
+                <img src="{{ this.memImgURL }}{{ memberData.memberImgUrl }}" />
+              </div>
+            </div>
+          </div>
+
+          <!-- BASIC INFO -->
+          <div class="row-grid">
+            <div class="cell-33">
+              <span class="lbl">Admission Date:</span>
+              <span class=" ">{{
+                memberData.admissionDate | date : "dd-MMM-yyyy"
+              }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Member ID:</span>
+              <span class="">{{ memberData.memberCode }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Group Name:</span>
+              <span class=" ">{{ memberData.groupName }}</span>
+            </div>
+          </div>
+
+          <div class="row-grid">
+            <div class="cell-50">
+              <span class="lbl">Branch Name:</span>
+              <span class="">{{ memberData.officeName }}</span>
+            </div>
+            <div class="cell-50">
+              <span class="lbl">Occupation:</span>
+              <span class="">{{ memberData.occupationName }}</span>
+            </div>
+          </div>
+          <div class="row-grid">
+            <div class="cell-50">
+              <span class="lbl">Member Name:</span>
+              <span class="">{{ memberData.memberName }}</span>
+            </div>
+            <div class="cell-50">
+              <span class="lbl">Gender:</span>
+              <span class="">{{ memberData.gender }}</span>
+            </div>
+          </div>
+          <!-- PARENTS / SPOUSE -->
+          <div class="row-grid">
+            <div class="cell-50">
+              <span class="lbl">Father’s Name:</span>
+              <span class="">{{ memberData.fatherName }}</span>
+            </div>
+            <div class="cell-50">
+              <span class="lbl">Mother’s Name:</span>
+              <span class="">{{ memberData.motherName }}</span>
+            </div>
+          </div>
+
+          <div class="row-grid">
+            <div class="cell-50">
+              <span class="lbl">Marital Status:</span>
+              <span class="">{{ memberData.maritalStatus }}</span>
+            </div>
+            <div class="cell-50">
+              <span class="lbl">Spouse Name:</span>
+              <span class="">{{ memberData.spouseName }}</span>
+            </div>
+          </div>
+
+          <!-- BIRTH & ID -->
+          <div class="row-grid">
+            <div class="cell-50">
+              <span class="lbl">Birth Date:</span>
+              <span class="">{{
+                memberData.dateOfBirth | date : "dd MMM yyyy"
+              }}</span>
+            </div>
+            <div class="cell-50">
+              <span class="lbl">National ID:</span>
+              <span class="">{{ memberData.nationalId }}</span>
+            </div>
+          </div>
+
+          <!-- CONTACT -->
+          <div class="row-grid">
+            <div class="cell-50">
+              <span class="lbl">Birth Reg. No.:</span>
+              <span class="">{{ memberData.birthCertificate }}</span>
+            </div>
+            <div class="cell-50">
+              <span class="lbl">Mobile No.[own]:</span>
+              <span class="">{{ memberData.contactNoOwn }}</span>
+            </div>
+          </div>
+          <div class="row-grid">
+            <div class="cell-100">
+              <span class="lbl">Mobile (Guardian/Family):</span>
+              <span class="">{{ memberData.mobileNumber }}</span>
+            </div>
+          </div>
+
+          <!-- PERMANENT ADDRESS -->
+          <div class="section-title">Permanent Address</div>
+          <div class="row-grid">
+            <div class="cell-33">
+              <span class="lbl">Division:</span>
+              <span class="">{{ memberData.permanentDivision }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">District:</span>
+              <span class="">{{ memberData.permanentDistrict }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Upazila:</span>
+              <span class="">{{ memberData.permanentUpazila }}</span>
+            </div>
+          </div>
+          <div class="row-grid">
+            <div class="cell-33">
+              <span class="lbl">Union:</span>
+              <span class="">{{ memberData.permanentUnion }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Village:</span>
+              <span class="">{{ memberData.permanentVillage }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Ward/Home:</span>
+              <span class="">{{ memberData.permanentAddress }}</span>
+            </div>
+          </div>
+
+          <!-- PRESENT ADDRESS -->
+          <div class="section-title">Present Address</div>
+          <div class="row-grid">
+            <div class="cell-33">
+              <span class="lbl">Division:</span>
+              <span class="">{{ memberData.presentDivision }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">District:</span>
+              <span class="">{{ memberData.presentDistrict }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Upazila:</span>
+              <span class="">{{ memberData.presentUpazila }}</span>
+            </div>
+          </div>
+          <div class="row-grid">
+            <div class="cell-33">
+              <span class="lbl">Union:</span>
+              <span class="">{{ memberData.presentUnion }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Village:</span>
+              <span class="">{{ memberData.presentVillage }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Ward/Home:</span>
+              <span class="">{{ memberData.presentAddress }}</span>
+            </div>
+          </div>
+
+          <!-- EDUCATION & INTRODUCER -->
+          <div class="row-grid">
+            <span class="section-title">Education Level:</span>
+            <span class="lbl"
+              >Pre-Primary / Primary / Secondary / Higher Secondary / Graduation
+              / Post-Graduation / Others</span
+            >
+          </div>
+
+          <div class="row-grid">
+            <div class="cell-33">
+              <span class="lbl">Ref.Member Name:</span>
+              <span class="">{{ memberData.ref_MemberName }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">ID No.:</span>
+              <span class="">{{ memberData.ref_MemberCode }}</span>
+            </div>
+            <div class="cell-33">
+              <span class="lbl">Signature:</span>
+              <span class="">{{ memberData.ref_MemberSignatureUrl }}</span>
+            </div>
+          </div>
+
+          <!-- DECLARATION -->
+          <div class="decl-box">
+            I hereby declare that the information provided above is correct. I
+            request to be enrolled as a member.
+            <div class="row-grid">
+              <div class="cell-33">
+                <div class="lbl">Chairman Name:</div>
+                <div class=" ">{{ memberData.fatherName }}</div>
+              </div>
+              <div class="cell-33">
+                <div class="lbl">Chairman Sign</div>
+                <div class="uline">{{ memberData.signatureImgUrl }}</div>
+              </div>
+              <div class="cell-30">
+                <div class="lbl">Applicant's Sign</div>
+                <div class="uline">{{ memberData.signatureImgUrl }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OFFICE USE -->
+          <div class="section-title">Office Use</div>
+          <table class="office-table">
+            <thead>
+              <tr>
+                <th>Admission Fee</th>
+                <th>Passbook</th>
+                <th colspan="4">Savings Deposit Target</th>
+                <th colspan="4">Primary Savings Deposits</th>
+              </tr>
+              <tr class="subhead">
+                <th></th>
+                <th></th>
+                <th>Security</th>
+                <th>Opening</th>
+                <th>Fixed Deposite</th>
+                <th>Total</th>
+                <th>Security</th>
+                <th>Opening</th>
+                <th>Fixed Deposite</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="t-center"></td>
+                <td class="t-center"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+                <td class="t-right"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- SIGNATURE ROW -->
+          <div class="sign-row">
+            <div class="sig-box">
+              <div class="sig-line"></div>
+              <div class="sig-cap">Field Officer (Name & Sign)</div>
+            </div>
+            <div class="sig-box">
+              <div class="sig-line"></div>
+              <div class="sig-cap">Branch Manager (Name & Sign)</div>
+            </div>
+          </div>
+        </div>
+        <!-- printablearea -->
+      </div>
+      <!-- modal-body -->
+
+      <!-- Print Button in Footer -->
+
+      <!-- <div class="modal-footer">
+           <button 
+    class="btn btn-success" 
+    *ngIf="Button.printBtn && viewMode === 'view'"
+    [innerHTML]="Button.createBtn + ' Print'" 
+    (click)="printDiv()">
+  </button>
+
+  <button 
+    class="btn btn-success" 
+    *ngIf="Button.approvedBtn && isApproveFromList && !memberData.isApproved && viewMode === 'approve'"
+    [innerHTML]="Button.approvedBtn+ ' Approved'"
+    (click)="confirmApprove()">
+  </button>
+      </div> -->
+      <div class="modal-footer d-flex justify-content-center flex-nowrap">
+        <!-- Print Button -->
+        <button
+          class="btn btn-success me-2"
+          *ngIf="Button.printBtn && viewMode === 'view'"
+          [innerHTML]="Button.createBtn + ' Print'"
+          (click)="printDiv()"
+        ></button>
+
+        <!-- Approve Button -->
+        <!-- Approve Button -->
+        <button
+          class="btn btn-success"
+          *ngIf="
+            Button.approvedBtn &&
+            approveMode &&
+            !memberData?.isApproved &&
+            viewMode === 'approve'
+          "
+          [innerHTML]="Button.approvedBtn + ' Approve'"
+          (click)="confirmApprove(memberData.memberId)"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

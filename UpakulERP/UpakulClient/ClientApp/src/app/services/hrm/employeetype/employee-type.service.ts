@@ -1,0 +1,33 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { ConfigService } from '../../../core/config.service';
+import { EmployeeType } from '../../../models/hr/emp-type/employee-type';
+
+
+interface EmployeeTypeDropdown {
+  text: string;
+  value: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EmployeeTypeService {
+  private domanin_url: string;
+  constructor(private http: HttpClient, private configService: ConfigService) {
+    this.domanin_url = this.configService.globalApiBaseUrl();
+  }
+
+  getEmployeeTypeDropdown(): Observable<EmployeeTypeDropdown[]> {
+    return this.http.get<{ name: string; value: string; data: EmployeeTypeDropdown[] }>(`${this.domanin_url}CommonDropDown/LoadEmployeeType`).pipe(
+      map(response => response.data.filter(item => item.value !== '')) // Remove empty value
+    );
+  }
+
+
+  addEmployeeType(modelData: EmployeeType): Observable<any> {
+    return this.http.post<EmployeeType>(`${this.configService.hrmApiBaseUrl()}EmployeeType/Create`, modelData);
+  }
+
+}

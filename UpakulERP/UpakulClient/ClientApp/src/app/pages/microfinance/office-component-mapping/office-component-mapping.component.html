@@ -1,0 +1,53 @@
+<div class="contentframe">
+  
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">{{ isEditMode ? 'Update' :
+            'Branch Wise Office Component Mapping' }} <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#"
+                style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+        </h4>
+    </div>
+
+    <div class="card shadow-none border my-4" data-component-card="data-component-card">
+        <div class="card-body">
+           <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label">Component</label>
+                            <select formControlName="ComponentId" (change)="ComponentOnChange($event)" class="form-select" required>
+                                <option *ngFor="let type of dropdownComponentValues" [value]="type.value">{{ type.text }}</option>
+                            </select>
+                            <div class="invalid-feedback">Please Select Componnet.</div>
+                        </div>                        
+                    </div>
+
+                    <div class="row"> <div class="col-md-5">&nbsp;</div> </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                        <h5>Branch List</h5>
+                        <select multiple size="10" formControlName="BranchList" class="form-control">
+                            <option *ngFor="let item of leftItems" [value]="item.value">
+                            {{ item.text }}
+                            </option>
+                        </select>
+                        </div>
+
+                        <!--  d-flex flex-column justify-content-center text-center -->
+                        <div class="col-md-1 d-flex flex-column justify-content-center text-center">
+                            <button type="button" class="btn" (click)="addBranch()"> <i class='fas fa-arrow-right' style='font-size:48px;color:red'></i> </button>
+                            <button type="button" class="btn" (click)="removeBranch()"> <i class='fas fa-arrow-left' style='font-size:48px;color:red'></i> </button>
+                        </div>
+                        
+                        <div class="col-md-5">
+                        <h5>Selected Branch</h5>
+                        <select multiple size="10" formControlName="SelectedBranch" class="form-control">
+                            <option *ngFor="let item of rightItems" [value]="item.value">
+                            {{ item.text }}
+                            </option>
+                        </select>
+                        </div>
+                    </div>
+               <button class="btn btn-success mt-3" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>

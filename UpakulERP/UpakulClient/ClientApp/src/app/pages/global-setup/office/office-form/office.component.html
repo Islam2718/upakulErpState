@@ -1,0 +1,119 @@
+
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Office</h4>
+         <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+  </div>
+      
+  <div class="card shadow-none border my-4" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="officeForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">       
+        <input class="form-control" formControlName="OfficeId" type="hidden">
+        <input class="form-control" formControlName="ParentId" type="hidden">  
+        
+        <div class="card p-3">
+          <div class="row">
+            <div class="col-md-3">
+              <label class="form-label">Office Type</label>
+              <select formControlName="OfficeType" (change)="onOfficeTypeChange($event)" class="form-select" id="OfficeType" required>
+                <option *ngFor="let type of officeTypes" [value]="type.value">{{ type.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Office Type.</div>
+            </div>
+            <div class="col-md-3" *ngIf="showPrincipal">
+              <label class="form-label">Principal</label>
+              <select formControlName="PrincipalOfficeId" (change)="onPrincipalOfficeChange($event)" class="form-select">
+                <option *ngFor="let option of principalTypes" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Principal.</div>
+            </div>
+            <div class="col-md-3" *ngIf="showZonal">
+              <label class="form-label">Zonal</label>
+              <select formControlName="ZonalOfficeId" (change)="onZonalOfficeChange($event)" class="form-select">
+                <option *ngFor="let option of zonalTypes" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Zonal.</div>
+            </div>
+            <div class="col-md-3" *ngIf="showRegional">
+              <label class="form-label">Regional</label>
+              <select formControlName="RegonalOfficeId" (change)="onRegionalOfficeChange($event)" class="form-select" >
+                <option *ngFor="let option of regionalTypes" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Region.</div>
+            </div>
+            <div class="col-md-3" *ngIf="showArea">
+              <label class="form-label">Area</label>
+              <select formControlName="AreaOfficeId" (change)="onAreaOfficeChange($event)" class="form-select">
+                <option *ngFor="let option of areaTypes" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Area.</div>
+            </div>
+          </div>
+        </div>
+                
+          <div class="col-md-3">
+            <label class="form-label">Code</label>
+            <input class="form-control" type="text" formControlName="OfficeCode" required maxlength="7" (input)="removeLeadingSpace(officeForm, 'OfficePhoneNo', $event)">
+            <div class="invalid-feedback">Code Is Required.</div>
+          </div>
+
+          <div class="col-md-3">
+             <label class="form-label">Short Code</label>
+            <input class="form-control" type="text" formControlName="OfficeShortCode" maxlength="5" (input)="removeLeadingSpace(officeForm, 'OfficePhoneNo', $event)">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" formControlName="OfficeName" type="text" required="" maxlength="30" (input)="removeLeadingSpace(officeForm, 'OfficePhoneNo', $event)">
+            <div class="invalid-feedback">Office Name Is Required.</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Address</label>
+            <input formControlName="OfficeAddress" class="form-control" type="text" maxlength="250"> 
+            <div class="invalid-feedback">Address Is Required.</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label"> Start Date</label>
+            <input formControlName="OperationStartDate"  id="datepickerValCalender" class="form-control form-control-datepicker" type="date" placeholder="dd/MMM/yyyy" data-options='{"disableMobile":true,"allowInput":true}' />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" formControlName="OfficeEmail" type="email" maxlength="45" (input)="removeLeadingSpace(officeForm, 'OfficeEmail', $event)">
+          </div>
+          
+          <div class="col-md-3">
+            <label class="form-label">Phone</label>
+            <input class="form-control" formControlName="OfficePhoneNo" type="text" maxlength="20" (input)="removeLeadingSpace(officeForm, 'OfficePhoneNo', $event)">
+          </div>
+          
+          <div class="col-md-3">
+            <label class="form-label">Latitude</label>
+            <input class="form-control" formControlName="Latitude" type="text" maxlength="25" (input)="removeLeadingSpace(officeForm, 'Latitude', $event)">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Longitude</label>
+            <input class="form-control" formControlName="Longitude" type="text" maxlength="25" (input)="removeLeadingSpace(officeForm, 'Longitude', $event)">
+          </div>
+             
+          <div class="col-12" style="margin-top:15px;">
+            <button class="btn btn-primary" type="submit" [disabled]="officeForm.invalid || isSubmitting">{{
+                isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+            <!-- <button class="btn btn-primary" type="submit" [disabled]="officeForm.invalid || isSubmitting">{{ isSubmitting ? 'Submitting...' : 'Submit' }}</button> -->
+                     <button 
+    *ngIf="!isEditMode && Button.cleanBtn"
+    type="button"
+    class="btn btn-warning ms-2"
+    (click)="onReset()"
+    [innerHTML]="Button.cleanBtn+' Reset'">
+  </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>

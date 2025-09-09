@@ -1,0 +1,134 @@
+<div class="contentframe">
+  <!-- Create Button -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Employee Register</h4>
+       <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+  </div>
+
+  <div class="card p-4">
+    <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+      <input type="hidden" formControlName="Id">      
+
+      <div class="d-flex justify-content-between">
+        <div class="er-sect">
+          <!-- First Column -->
+          <label class="form-label">Release Employee</label>
+          <select formControlName="ReleaseEmpId" (change)="ReleaseEmployeeOnChange($event)" class="form-select">
+            <option value="">Please select</option>
+            <option *ngFor="let dataObj of dropdownEmployeeOptions" [value]="dataObj.value">
+              {{dataObj.text}}
+            </option>
+          </select>
+          <div class="invalid-feedback">Release Employee is Required</div>
+
+          <label class="form-label">Release Group List</label>
+          <select multiple size="10" formControlName="ReleaseEmployeeGroupList" class="form-control">
+            <option *ngFor="let item of dropdownReleaseEmployeeGroupOptions" [value]="item.value">{{ item.text }}</option>
+          </select>
+
+          <div class="row">
+              <div class="col-md-6">
+                  <label class="form-label">Release Date</label>
+                  <input formControlName="ReleaseDate" type="text" value="{{transactionDate}}" class="form-control" readonly />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Release Note</label>
+                <input formControlName="ReleaseNote" type="text" class="form-control" placeholder="Write a release note"  />
+              </div>
+          </div>
+
+        </div>
+        <div class="col-1 er-sect-center">
+          <!-- Second Column -->
+          <button type="button" class="btn btn-default border btn-hover mb-2" 
+          (click)="addToAssignList()"
+          [disabled]="!isAssignButtonEnabled()">
+
+          <!-- [disabled]="!dataForm.get('AssignEmpId')?.value || !dataForm.get('ReleaseEmpId')?.value" -->
+
+             <i class="fas fa-arrow-right fs-4"></i>
+          </button>
+          <!-- [disabled]="!isAssignButtonEnabled()"  [disabled]="!dataForm.get('AssignEmpId')?.value" -- && !dataForm.get('ReleaseEmployeeGroupList')?.value -->
+          <!-- <button type="button" class="btn btn-default border btn-hover " (click)="removeFromAssignList()">
+            <i class="fas fa-arrow-left  fs-4"></i>
+          </button> -->
+
+        </div>
+
+
+        <div class="er-sect">
+          <!-- Third Column -->
+          <div class="d-flex justify-content-between">
+            <div class="col-5">
+              <div class="">
+              
+              <label class="form-label">Assign Employee</label>
+              <select formControlName="AssignEmpId" (change)="AssignedEmployeeOnChange($event)" class="form-select">
+              <option value="">Please select</option>               
+              <option *ngFor="let dataObj of dropdownAssignEmployeeOptions" [value]="dataObj.value">
+                  {{dataObj.text}}
+                </option>
+              </select>
+
+              <div class="invalid-feedback">Required</div>
+              </div>
+            </div>
+
+
+            <div class="col-5">
+              <div class="px-2">
+              <label class="form-label">Available Group</label>
+              <!-- <div class="d-flex"> (change)="AvailableGroupOnChange($event)" -->
+              <select formControlName="AvailableGroupList"
+                class="form-select me-2">
+                <option value="">Please select</option>
+                <option *ngFor="let item of dropdownAvailableGroupOptions" [value]="item.value">{{ item.text }}</option>
+              </select>
+              </div>
+            </div>
+            <div class="pt-4 col-2">
+              <div class="">
+                <button type="button" class="btn btn-block w-100 btn-outline-primary" (click)="addFromAvailableGroupDropdownToAssignList()" >Add</button>
+              </div>
+            </div>
+          </div>
+
+          <label class="form-label">Assigned Group List</label>
+          <!-- <select multiple size="10" formControlName="AssignedGroupList" class="form-control">
+            <option *ngFor="let item of dropdownAssignEmployeeGroupOptions" [value]="item.value">{{ item.text }}</option>
+          </select> -->
+
+          <select multiple size="10" formControlName="AssignedGroupList" class="form-control">
+            <option *ngFor="let item of dropdownAssignEmployeeGroupOptions" [value]="item.value">
+              {{ item.text }}
+            </option>
+          </select>
+        
+
+          <label class="form-label">Assign Date</label>
+          <input formControlName="AssignedDate" type="text" value="{{transactionDate}}" class="form-control" readonly />
+
+        </div>
+      </div>
+
+
+      <div class="col-md-12">
+        <!-- Date Here -->
+        <div class="col-12" style="margin-top:15px;">
+          <button class="btn btn-outline-success mt-3" type="submit">Submit</button>
+          <!-- <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">
+            {{ isSubmitting ? 'Submitting...' : 'Submit' }}</button> -->
+          <!-- <button type="button" class="btn btn-warning ms-2" (click)="onReset()" [disabled]="isEditMode">Reset</button> -->
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+
+  <!-- Overlay for not permitted -->
+<div *ngIf="!isPermitted" class="overlay">
+  <div class="message-box">You are not permitted</div>
+</div>

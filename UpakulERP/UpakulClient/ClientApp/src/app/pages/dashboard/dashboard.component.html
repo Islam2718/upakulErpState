@@ -1,0 +1,215 @@
+<main class="main" id="top">
+  <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop">
+    <div class="navbar-logo">
+      <button
+        class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarTopCollapse"
+        aria-controls="navbarTopCollapse"
+        aria-expanded="false"
+        aria-label="Toggle Navigation"
+      >
+        <span class="navbar-toggle-icon"
+          ><span class="toggle-line"></span
+        ></span>
+      </button>
+      <a class="navbar-brand me-1 me-sm-3" href="">
+        <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center">
+            <img [src]="'/assets/img/logo.png'" alt="" width="27" />
+          </div>
+        </div>
+      </a>
+    </div>
+    <div
+      class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
+      id="navbarTopCollapse"
+    ></div>
+    <ul class="navbar-nav navbar-nav-icons flex-row">
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link"
+          href="#"
+          style="min-width: 2.25rem"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          data-bs-auto-close="outside"
+          ><span class="d-block" style="height: 20px; width: 20px"
+            ><span
+              data-feather="bell"
+              style="height: 20px; width: 20px"
+            ></span></span
+        ></a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link lh-1 pe-0"
+          id="navbarDropdownUser"
+          href="#!"
+          role="button"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <div class="avatar avatar-l">
+            <img class="rounded-circle" src="{{ userImage }}" alt="" />
+          </div>
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border"
+          aria-labelledby="navbarDropdownUser"
+        >
+          <div class="card position-relative border-0">
+            <div class="card-body p-0">
+              <div class="text-center pt-4 pb-3">
+                <div class="avatar avatar-xl">
+                  <img class="rounded-circle" src="{{ userImage }}" alt="" />
+                </div>
+                <h6 class="mt-2 text-body-emphasis">
+                  {{ username }}
+                </h6>
+              </div>
+            </div>
+            <div class="overflow-auto scrollbar" style="height: 10rem">
+              <ul class="nav d-flex flex-column mb-2 pb-1">
+                <li class="nav-item">
+                  <a class="nav-link px-3 d-block" href="#!">
+                    <span
+                      class="me-2 text-body align-bottom"
+                      data-feather="user"
+                    ></span
+                    ><span>Profile</span></a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-3 d-block" href="#!"
+                    ><span
+                      class="me-2 text-body align-bottom"
+                      data-feather="pie-chart"
+                    ></span
+                    >Dashboard</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-3 d-block" href="#!">
+                    <span
+                      class="me-2 text-body align-bottom"
+                      data-feather="settings"
+                    ></span
+                    >Settings &amp; Privacy
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-footer p-0 border-top border-translucent">
+              <div class="px-3" (click)="onLogout()">
+                <a
+                  class="btn btn-phoenix-secondary d-flex flex-center w-100"
+                  href="#!"
+                >
+                  <span class="me-2" data-feather="log-out"> </span>Sign out</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    <div class="row">
+    <div class="col-sm-12 col-md-3 col-lg-3">
+      <div
+        class="card shadow-none border"
+        data-component-card="data-component-card"
+      >
+        <div class="card-body p-0">
+          <div class="p-4 code-to-copy">
+            <div class="row g-6 text-center">
+              <img src="{{userImage}}" class="img img-responsive w-75 mx-auto mb-0"/>
+              <h5>Name of User</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-9 col-lg-9">
+      <div
+        class="card shadow-none border"
+        data-component-card="data-component-card"
+      >
+        <div class="card-body p-0">
+          <div class="p-4 code-to-copy">
+            <div class="row g-6">
+              <div
+                *ngFor="let module of modules"
+                class="col-sm-6 col-md-3 col-lg-3"
+              >
+                <div
+                  class="rounded text-center text-white shadow-sm"
+                  [ngClass]="module.secend_div_class"
+                >
+                  <div
+                    class="card-body cursorPoint py-5"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    [attr.title]="module.title"
+                    (click)="
+                      handleModuleClick(
+                        module.module_name,
+                        module.role_id,
+                        module.module_id
+                      )
+                    "
+                  >
+                    <i
+                      [class]="module.icon_class"
+                      class="iconFont"
+                      aria-hidden="true"
+                    ></i>
+                    <h4 class="card-title text-white pt-3">
+                      {{ module.module_name }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- ===============================================-->
+    <!--    footer-->
+    <!-- ===============================================-->
+    <footer class="footer position-absolute">
+      <div class="row g-0 justify-content-between align-items-center">
+        <div class="col-9 col-sm-auto text-center">
+          <img [src]="'/assets/img/upkul-erp-logo.png'" style="width: 25%" />
+        </div>
+        <div class="col-4 col-sm-auto text-center">
+          <p
+            class="mb-0 mt-2 mt-sm-0 text-body text-opacity-85"
+            style="font-size: small"
+          >
+            Powered by COAST Foundation &copy; <span id="footerYear"></span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</main>
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+<script ty="text/javascript">
+  var footer_copy_right_year = new Date().getFullYear().toString();
+  document.getElementById("footerYear").innerHTML = footer_copy_right_year;
+</script>

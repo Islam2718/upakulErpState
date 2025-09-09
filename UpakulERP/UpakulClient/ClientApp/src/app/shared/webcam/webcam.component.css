@@ -1,0 +1,22 @@
+.webcam-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 0.1rem auto;         /* auto-center horizontally */
+  /* padding: 0.5rem; */
+  /*max-width: 500px;          /* prevent it from getting too wide */
+  width: 100%;               /* responsive */
+}
+
+.webcam-wrapper video {
+  width: 100%;
+  /*max-height: 300px;         /* control height */
+  object-fit: cover;         /* crop nicely */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* .webcam-wrapper button { */
+  /* margin: 0.25rem 0.25rem;    /* space between buttons */
+/* } */

@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+/* body .offcanvas-backdrop:nth-of-type(n+2) {
+  display: none !important;
+} */
+
+/* First backdrop */
+body .offcanvas-backdrop:nth-of-type(1) {
+  background: red;   /* just an example */
+  background-color: green;
+}
+
+/* Second backdrop */
+body .offcanvas-backdrop:nth-of-type(2) {
+  display: none !important;  /* hide 2nd */
+  background-color: purple;
+}
+
+/* Third backdrop */
+body .offcanvas-backdrop:nth-of-type(3) {
+  display: none !important;  /* hide 3rd */
+  background-color: orange;
+}
+
+body .modal-backdrop{
+    display: none !important;
+}

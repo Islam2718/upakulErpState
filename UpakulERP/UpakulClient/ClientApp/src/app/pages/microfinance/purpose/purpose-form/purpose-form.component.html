@@ -1,0 +1,61 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Purpose </h4>
+  <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+  </div>
+
+  <div class="card shadow-none border my-4" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+        <input class="form-control" formControlName="Id" type="hidden">
+        <div class="col-md-4">
+          <label class="form-label">Category</label>
+          <select class="form-select" formControlName="CategoryId" (change)="onCategoryChange($event)" required>
+            <option *ngFor="let option of mainPurposeDropdown" [value]="option.value">{{ option.text }}</option>
+          </select>
+          <!-- <ng-select *ngIf="filteredMainPurposeDropdown" [items]="filteredMainPurposeDropdown" bindLabel="text"
+            bindValue="value" [typeahead]="typeahead$" [loading]="isLoading" formControlName="ParentId"
+            class="form-control" (search)="onSearch($event.term)" (change)="onSelect($event)">
+          </ng-select> -->
+          <div class="invalid-feedback">Please Select Category.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Subcategory</label>
+          <select class="form-select" formControlName="SubcategoryId" (change)="onSubcategoryChange($event)">
+            <option *ngFor="let option of subcategoryPurposeDropdown" [value]="option.value">{{ option.text }}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">MRA Purpose</label>
+          <select formControlName="MRAPurposeId" class="form-select" required>
+            <option *ngFor="let obj of MRAPurposeDropdown" [value]="obj.value">{{ obj.text }}</option>
+          </select>
+          <div class="invalid-feedback">Please Select MRA Purpose</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Code</label>
+          <input class="form-control" type="text" formControlName="Code" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Name</label>
+          <input class="form-control" type="text" formControlName="Name" required="">
+          <div class="invalid-feedback">Purpose name is required</div>
+        </div>
+
+        <div class="col-12" style="margin-top:15px;">
+          <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">{{ isSubmitting ?
+            'Submitting...' : 'Submit' }}</button>
+                <button 
+    *ngIf="!isEditMode && Button.cleanBtn"
+    type="button"
+    class="btn btn-warning ms-2"
+    (click)="onReset()"
+    [innerHTML]="Button.cleanBtn+' Reset'">
+  </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

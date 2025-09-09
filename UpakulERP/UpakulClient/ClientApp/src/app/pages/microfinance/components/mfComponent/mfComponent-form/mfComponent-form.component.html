@@ -1,0 +1,185 @@
+<div class="" style="margin: 90px 75px 0px 300px">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">
+      {{ isEditMode ? 'Component Setup' : 'Component Setup' }}
+      <a class="anchorjs-link" aria-label="Anchor" data-anchorjs-icon="#"
+        style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+    </h4>
+    <button class="btn btn-success" (click)="navigateToList()" *ngIf="Button.viewBtn"
+      [innerHTML]="Button.viewBtn+' View'">
+    </button>
+
+  </div>
+
+  <div class="card shadow-none border my-4" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation custom-validated" novalidate>
+        <input class="form-control" formControlName="Id" type="hidden" />
+        <div class="card p-3">
+          <div class="row">
+            <div class="col-md-3">
+              <label class="form-label">Master Component</label>
+              <select id="MasterComponentId" (change)="OnChangeMasterComponent($event)" class="form-select"
+                formControlName="MasterComponentId" [ngClass]="{
+                  'is-invalid': dataForm.get('MasterComponentId')?.invalid && (dataForm.get('MasterComponentId')?.touched || dataForm.get('MasterComponentId')?.dirty),
+                  'is-valid': dataForm.get('MasterComponentId')?.valid && (dataForm.get('MasterComponentId')?.touched || dataForm.get('MasterComponentId')?.dirty)
+                }">
+                <option *ngFor="let item of masterComponents" [value]="item.value">{{ item.text }}</option>
+              </select>
+              <div class="invalid-feedback">Master Component is required.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Component Type</label>
+              <select formControlName="ComponentType" (change)="onComponentTypeDropDownChange($event)"
+                class="form-select" id="ComponentTypeValue" [ngClass]="{
+                  'is-invalid': dataForm.get('ComponentType')?.invalid && (dataForm.get('ComponentType')?.touched || dataForm.get('ComponentType')?.dirty),
+                  'is-valid': dataForm.get('ComponentType')?.valid && (dataForm.get('ComponentType')?.touched || dataForm.get('ComponentType')?.dirty)
+                }">
+                <option *ngFor="let type of ComponentTypeValues" [value]="type.value">{{ type.text }}</option>
+              </select>
+              <div class="invalid-feedback">Please Select Type.</div>
+            </div>
+
+            <!-- here..              -->
+            <div *ngIf="isLoanVisible" class="col-md-3">
+              <div class="form-row row align-items-center d-flex justify-content-between">
+                <div class="col-7 pe-0">
+                  <label for="LoanType" class="form-label">Loan Category</label>
+                  <select id="LoanType" formControlName="LoanType" class="form-select"
+                    (change)="onLoanTypeDropDownChange($event)"
+                    [ngClass]="{
+                'is-invalid': dataForm.get('LoanType')?.invalid && (dataForm.get('LoanType')?.dirty || dataForm.get('LoanType')?.touched),
+                'is-valid': dataForm.get('LoanType')?.valid && (dataForm.get('LoanType')?.dirty || dataForm.get('LoanType')?.touched)}">
+                    <option value="G">General</option>
+                    <option value="P">Project</option>
+                  </select>
+                  <div class="invalid-feedback">Loan Type is required.</div>
+                </div>
+                <div class="col-5 pt-4 ps-0" *ngIf="isLoanTypeVisible">
+                  <input class="form-check-input mx-1" type="checkbox" id="autoSizingCheck" formControlName="SavingMap">
+                  <label class="form-check-label" for="autoSizingCheck">
+                    Map Saving
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- here..              -->
+            <div class="col-md-3" *ngIf="isCommonVisible">
+              <label class="form-label">Payment Frequency</label>
+              <select class="form-select" formControlName="PaymentFrequency" [ngClass]="{
+                'is-invalid': dataForm.get('PaymentFrequency')?.invalid && (dataForm.get('PaymentFrequency')?.touched || dataForm.get('PaymentFrequency')?.dirty),
+                'is-valid': dataForm.get('PaymentFrequency')?.valid && (dataForm.get('PaymentFrequency')?.touched || dataForm.get('PaymentFrequency')?.dirty)
+              }">
+                <option *ngFor="let item of PaymentFequencyValues" [value]="item.value">{{ item.text }}</option>
+
+              </select>
+              <div class="invalid-feedback">Payment Frequency is required.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Component Code</label>
+              <input class="form-control" type="text" formControlName="ComponentCode"
+                [ngClass]="{
+                  'is-invalid': dataForm.get('ComponentCode')?.invalid && (dataForm.get('ComponentCode')?.touched || dataForm.get('ComponentCode')?.dirty),
+                  'is-valid': dataForm.get('ComponentCode')?.valid && (dataForm.get('ComponentCode')?.touched || dataForm.get('ComponentCode')?.dirty)}" />
+              <div class="invalid-feedback">Component Code is required.</div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Component Name</label>
+              <input class="form-control" type="text" formControlName="ComponentName"
+                [ngClass]="{
+                  'is-invalid': dataForm.get('ComponentName')?.invalid && (dataForm.get('ComponentName')?.touched || dataForm.get('ComponentName')?.dirty),
+                  'is-valid': dataForm.get('ComponentName')?.valid && (dataForm.get('ComponentName')?.touched || dataForm.get('ComponentName')?.dirty)}" />
+              <div class="invalid-feedback">Component Name is required.</div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label">Interest Rate</label>
+              <input class="form-control" type="number" formControlName="InterestRate"
+                [ngClass]="
+              {'is-invalid': dataForm.get('InterestRate')?.invalid && (dataForm.get('InterestRate')?.touched || dataForm.get('InterestRate')?.dirty),
+              'is-valid': dataForm.get('InterestRate')?.valid && (dataForm.get('InterestRate')?.touched || dataForm.get('InterestRate')?.dirty)}" />
+              <div class="invalid-feedback">Interest Rate is required.</div>
+            </div>
+
+            <div class="col-md-3" *ngIf="isCommonVisible">
+              <label class="form-label">Duration (Month)</label>
+              <input class="form-control" type="number" min="0" formControlName="DurationInMonth"
+                [ngClass]="{'is-invalid'
+              : dataForm.get('DurationInMonth')?.invalid && (dataForm.get('DurationInMonth')?.touched || dataForm.get('DurationInMonth')?.dirty),'is-valid'
+              : dataForm.get('DurationInMonth')?.valid && (dataForm.get('DurationInMonth')?.touched || dataForm.get('DurationInMonth')?.dirty)}" />
+              <div class="invalid-feedback">Duration is required for Loan.</div>
+            </div>
+
+            <div class="col-md-3" *ngIf="isCommonVisible">
+              <label class="form-label">No of Installment</label>
+              <input class="form-control" type="number" formControlName="NoOfInstalment"
+                [ngClass]="{'is-invalid'
+              : dataForm.get('NoOfInstalment')?.invalid && (dataForm.get('NoOfInstalment')?.touched || dataForm.get('NoOfInstalment')?.dirty),'is-valid'
+              : dataForm.get('NoOfInstalment')?.valid && (dataForm.get('NoOfInstalment')?.touched || dataForm.get('NoOfInstalment')?.dirty)}" />
+              <div class="invalid-feedback">No of Installment is required for Loan.</div>
+            </div>
+
+            <div class="col-md-3" *ngIf="isLoanVisible">
+              <label class="form-label">Grace Period (days)</label>
+              <input class="form-control" type="number" formControlName="GracePeriodInDay"
+                [ngClass]="{'is-invalid'
+              : dataForm.get('GracePeriodInDay')?.invalid && (dataForm.get('GracePeriodInDay')?.touched || dataForm.get('GracePeriodInDay')?.dirty),'is-valid'
+              : dataForm.get('GracePeriodInDay')?.valid && (dataForm.get('GracePeriodInDay')?.touched || dataForm.get('GracePeriodInDay')?.dirty)}" />
+              <div class="invalid-feedback">Grace Period is required for Loan.</div>
+            </div>
+            <div class="col-md-3" *ngIf="isLoanVisible">
+              <label class="form-label">Calculation Method</label>
+              <select class="form-select" formControlName="CalculationMethod"
+                [ngClass]="{'
+              is-invalid': dataForm.get('CalculationMethod')?.invalid && (dataForm.get('CalculationMethod')?.touched || dataForm.get('CalculationMethod')?.dirty),
+              'is-valid': dataForm.get('CalculationMethod')?.valid && (dataForm.get('CalculationMethod')?.touched || dataForm.get('CalculationMethod')?.dirty)}">
+                <option value="R">Reduce Method</option>
+                <option value="F">Flat Method</option>
+              </select>
+              <div class="invalid-feedback">Method is required.</div>
+            </div>
+            <!-- Minimum Limit -->
+            <div class="col-md-3" *ngIf="isCommonVisible">
+              <label class="form-label">Minimum Limit</label>
+              <input class="form-control" type="number" formControlName="MinimumLimit"
+                [ngClass]="{'is-invalid'
+              : dataForm.get('MinimumLimit')?.invalid && (dataForm.get('MinimumLimit')?.touched || dataForm.get('MinimumLimit')?.dirty),'is-valid'
+              : dataForm.get('MinimumLimit')?.valid && (dataForm.get('MinimumLimit')?.touched || dataForm.get('MinimumLimit')?.dirty)}" />
+              <div class="invalid-feedback">Minimum Limit is required.</div>
+            </div>
+
+            <div class="col-md-3" *ngIf="isCommonVisible">
+              <label class="form-label">Maximum Limit</label>
+              <input class="form-control" type="number" formControlName="MaximumLimit"
+                [ngClass]="{'is-invalid'
+              : dataForm.get('MaximumLimit')?.invalid && (dataForm.get('MaximumLimit')?.touched || dataForm.get('MaximumLimit')?.dirty),'is-valid'
+              : dataForm.get('MaximumLimit')?.valid && (dataForm.get('MaximumLimit')?.touched || dataForm.get('MaximumLimit')?.dirty)}" />
+              <div class="invalid-feedback">Maximum Limit is required.</div>
+            </div>
+
+            <div class="col-md-3" *ngIf="isTermFDRSavingVisible">
+              <label class="form-label">Late Fee </label>
+              <input class="form-control" type="number" formControlName="Latefeeperchantage"
+                [ngClass]="{
+                'is-invalid': dataForm.get('Latefeeperchantage')?.invalid && (dataForm.get('Latefeeperchantage')?.touched || dataForm.get('Latefeeperchantage')?.dirty),
+                'is-valid': dataForm.get('Latefeeperchantage')?.valid && (dataForm.get('Latefeeperchantage')?.touched || dataForm.get('Latefeeperchantage')?.dirty)}" />
+              <div class="invalid-feedback">Late Fee Percentage is required for Loan or DPS.</div>
+            </div>
+
+            <div class="col-12" style="margin-top:15px;">
+              <button class="btn btn-primary" [disabled]="dataForm.invalid || isSubmitting">
+                <!-- -->
+                Submit
+              </button>
+
+              <button *ngIf="!isEditMode && Button.cleanBtn" type="button" class="btn btn-warning ms-2"
+                (click)="onReset()" [innerHTML]="Button.cleanBtn+' Reset'">
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

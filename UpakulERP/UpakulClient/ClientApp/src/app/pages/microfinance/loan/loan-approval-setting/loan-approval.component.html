@@ -1,0 +1,87 @@
+<div class="contentframe">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">Loan Approvar <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#"
+        style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+    </h4>
+
+  </div>
+  <div class="card shadow-none border my-4" data-component-card="data-component-card">
+    <div class="card-body">
+
+
+      <!-- 🧾 Headers Row -->
+      <div class="row fw-bold border-bottom mb-2 pb-1">
+        <div class="col-1 text-center">Lavel</div>
+        <div class="col text-center">Approver</div>
+        <div class="col text-center">Designation</div>
+        <div class="col text-center">Starting Value</div>
+        <div class="col-auto text-center">
+          <i class="fa fa-plus p-2 pt-0 btn btn-default shadow fw-bold" style="font-size: 27px; font-weight: bold; color: green; "></i>
+          <!-- <svg (click)="addRow()" width="52" height="52" viewBox="0 0 34 34" fill="none"
+            xmlns="http://www.w3.org/2000/svg" class="svg-bordered">
+            
+
+            <path d="M12 5V19" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M5 12H19" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg> -->
+
+        </div>
+      </div>
+
+
+      <form [formGroup]="dataForm" (ngSubmit)="submit()">
+        <div formArrayName="approvals">
+          <div *ngFor="let group of approvals.controls; let i = index" [formGroupName]="i"
+            class="row mb-2 border p-2 rounded bg-light">
+
+            <div class="col-1">
+              <input class="form-control text-center" type="text" formControlName="level"
+                readonly />
+            </div>
+
+            <div class="col">
+              <select class="form-select" formControlName="approvalType">
+                <option *ngFor="let option of approvalTypes" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="text-danger" *ngIf="group.get('approvalType')?.touched && group.get('approvalType')?.invalid">
+                Approval Type is required
+              </div>
+            </div>
+
+            <div class="col">
+              <select formControlName="designationId" class="form-select" required="">
+                <option *ngFor="let option of designations" [value]="option.value">{{ option.text }}</option>
+              </select>
+              <div class="text-danger" *ngIf="group.get('designation')?.touched && group.get('designation')?.invalid">
+                Designation is required
+              </div>
+            </div>
+
+            <div class="col">
+              <input class="form-control text-center" type="text" formControlName="startingValueAmount"  placeholder="Value" />
+              <div class="text-danger" *ngIf="group.get('startingValueAmount')?.touched && group.get('startingValueAmount')?.invalid">
+                Enter a valid number
+              </div>
+            </div>
+
+            <div class="col-auto text-end">
+              <i class="fa fa-trash mt-1 text-danger pt-2"></i>
+              <!-- deleteRow(i) -->
+              <!-- <svg (click)="deleteRow(group.get('level')?.value)" xmlns="http://www.w3.org/2000/svg" width="25"
+                height="25" fill="red" style="cursor: pointer;" class="bi bi-trash" viewBox="0 0 16 16">
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                <path
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+              </svg> -->
+
+            </div>
+
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-2" [disabled]="buttonDisable">Submit</button>
+      </form>
+
+    </div>
+  </div>

@@ -1,0 +1,7 @@
+.table-row-click {
+  cursor: pointer;
+}
+
+.table-row-click:hover {
+  background-color: #f1f1f1; /* Optional: light hover effect */
+}

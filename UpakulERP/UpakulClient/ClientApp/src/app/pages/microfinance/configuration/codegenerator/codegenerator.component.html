@@ -1,0 +1,106 @@
+<div class="" style="margin: 90px 75px 0px 300px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0">{{ isEditMode ? 'Code Generator' : 'Code Generator' }}</h4>
+    <button class="btn btn-success" *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+    </button>
+
+  </div>
+
+  <div class="card shadow-none border my-4">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation">
+        <input class="form-control" formControlName="Id" type="hidden" />
+
+        <div class="row">
+          <!-- LEFT TABLE -->
+          <div class="col-md-10">
+            <table class="table table-bordered table-sm"
+              style="font-size: 12px; margin-bottom: 0; border-collapse: separate; border-spacing: 1px; width: 100%;">
+              <thead class="table-light">
+                <tr>
+                  <th style="padding: 6px 6px; min-width: 12%;">Type Name</th>
+                  <th style="padding: 6px 6px; width: 12%;">Description</th>
+                  <th style="padding: 6px 6px; width: 8%;">Code Length</th>
+                  <th style="padding: 6px 6px; width: 8%;">Start No</th>
+                  <th style="padding: 6px 6px; width: 8%;">End No</th>
+                  <th style="padding: 6px 8px; width: 24%;">Main Join Code</th>
+                  <th style="padding: 6px 8px; min-width: 120px;">Virtual Join Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of rows">
+                  <td style="padding-left: 1px; padding-right: 1px;">
+                    <input type="text" [value]="row.typeName" disabled class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" />
+                  </td>
+                  <td style="padding-left: 4px; padding-right: 4px;">
+                    <input type="text" [value]="row.description" readonly class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" />
+                  </td>
+                  <td style="padding-left: 4px; padding-right: 4px;">
+                    <input type="number" [value]="row.CodeLength" readonly class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" />
+                  </td>
+                  <td style="padding-left: 4px; padding-right: 4px;">
+                    <input type="text" [value]="row.startNo" readonly class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" />
+                  </td>
+                  <td style="padding-left: 4px; padding-right: 4px;">
+                    <input type="text" [value]="row.endNo" readonly class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" />
+                  </td>
+                  <td style="padding-left: 8px; padding-right: 8px;">
+                    <input type="text" [value]="row.mainJoinCode" readonly class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" (dragover)="allowDrop($event)"
+                      (drop)="onDrop($event, row, 'mainJoinCode')" />
+                  </td>
+                  <td style="padding-left: 2px; padding-right: 2px;">
+                    <input type="text" [value]="row.virtualJoinCode" readonly class="form-control form-control-sm"
+                      style="font-size: 11px; padding: 4px;" (dragover)="allowDrop($event)"
+                      (drop)="onDrop($event, row, 'virtualJoinCode')" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- RIGHT BUTTONS -->
+          <div class="col-md-2">
+            <div class="row g-2">
+              <div class="col-12"
+                *ngFor="let item of ['Zone','Area','Region','PKSF','Branch','Group','Member','K6']; let i = index">
+                <button type="button" class="btn w-100" [ngClass]="[
+                          i === 0 ? 'btn-primary' :
+                          i === 1 ? 'btn-success' :
+                          i === 2 ? 'btn-danger' :
+                          i === 3 ? 'btn-warning text-dark' :
+                          i === 4 ? 'btn-info' :
+                          i === 5 ? 'btn-secondary' :
+                          i === 6 ? 'btn-dark' : 'btn-outline-primary'
+                        ]" style="height: 35px; font-size: 11px;" draggable="true"
+                  (dragstart)="onDragStart($event, item)">
+                  {{ item }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT / RESET -->
+          <div class="col-md-2">
+            <div class="d-flex gap-2" style="margin-top: -38px;">
+              <button class="btn btn-primary flex-fill" style="height: 35px; font-size: 11px;" type="submit"
+                [disabled]="dataForm.invalid || isSubmitting">
+                {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+              </button>
+              <button *ngIf="Button.cleanBtn" type="button" class="btn btn-warning ms-2" (click)="onReset()"
+                [innerHTML]="Button.cleanBtn+' Reset'">
+              </button>
+              <!-- <button type="button" class="btn btn-warning ms-2" (click)="onReset()">Reset</button> -->
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

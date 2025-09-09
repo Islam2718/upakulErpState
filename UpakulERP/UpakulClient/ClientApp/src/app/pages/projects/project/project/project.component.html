@@ -1,0 +1,106 @@
+<div class="contentframe">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">{{ isEditMode ? 'Update' : 'Project'
+      }} <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#"
+        style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+    </h4>
+    <button class="btn btn-success" (click)="navigateToList()" *ngIf="Button.viewBtn"
+      [innerHTML]="Button.viewBtn+' View'">
+    </button>
+  </div>
+  <div class="card shadow-none border my-4" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+        <input class="form-control" formControlName="ProjectId" type="hidden">
+
+        <div class="col-md-3">
+          <label class="form-label">Project Type</label>
+          <input class="form-control" type="text" formControlName="ProjectType" required="">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Project Title</label>
+          <input class="form-control" type="text" formControlName="ProjectTitle" required="">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Project (Short Name)</label>
+          <input class="form-control" type="text" formControlName="ProjectShortName" required="">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Objective</label>
+          <input class="form-control" type="text" formControlName="Objective">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Chip Employee</label>
+          <input class="form-control" type="text" formControlName="ChipEmployeeId"
+            (input)="filterToDigits($event, 'ChipEmployeeId')" required />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Total Staff</label>
+          <input class="form-control" type="text" formControlName="TotalStaff"
+            (input)="filterToDigits($event, 'TotalStaff')" required />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Monitoring Period</label>
+          <input class="form-control" type="text" formControlName="MonitoringPeriod"
+            (input)="filterToDigits($event, 'MonitoringPeriod')" required />
+        </div>
+
+
+        <div class="col-md-3">
+          <label class="form-label">Target</label>
+          <input class="form-control" type="text" formControlName="Target">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Total Target</label>
+          <input class="form-control" type="text" formControlName="TotalTarget">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Start Month</label>
+          <input formControlName="StartMonth" id="datepickerValCalender" class="form-control datetimepicker" type="date"
+            placeholder="dd/MMM/yyyy" data-options='{"disableMobile":true,"allowInput":true}' required="" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Expire Date</label>
+          <input formControlName="ExpireDate" id="datepickerValCalender" class="form-control datetimepicker" type="date"
+            placeholder="dd/MMM/yyyy" data-options='{"disableMobile":true,"allowInput":true}' required="" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Target Type</label>
+          <input class="form-control" type="text" formControlName="TargetType" required="">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Monthly/Quarterly</label>
+          <input class="form-control" type="text" formControlName="MonthlyQuarterly" required="">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Financial Target</label>
+          <input class="form-control" type="text" formControlName="FinancialTarget" required="">
+        </div>
+
+
+        <div class="col-12" style="margin-top:15px;">
+          <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">{{ isSubmitting ?
+            'Submitting...' : 'Submit' }}</button>
+          <button *ngIf="!isEditMode && Button.cleanBtn" type="button" class="btn btn-warning ms-2" (click)="onReset()"
+            [innerHTML]="Button.cleanBtn+' Reset'">
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

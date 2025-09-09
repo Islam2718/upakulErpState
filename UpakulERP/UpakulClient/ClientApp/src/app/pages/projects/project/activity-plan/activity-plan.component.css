@@ -1,0 +1,12 @@
+/* All th elements with rowspan */
+table{
+    font-size:12px; 
+}
+th[rowspan] {
+  vertical-align: middle;   /* text at the top */
+  text-align: center;    /* horizontal alignment: left, center, or right */
+  padding: 8px;          /* optional spacing */
+}
+td{
+    padding:0;
+}

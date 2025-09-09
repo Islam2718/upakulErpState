@@ -1,0 +1,273 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Project / Activity Plan</h4>
+    <button
+      class="btn btn-outline-primary rounded-1"
+      [innerHTML]="Button.cleanBtn"
+      (click)="clean()"
+    ></button>
+  </div>
+
+  <div class="row g-3">
+    <!-- LEFT SIDE -->
+    <div class="col-12 col-lg-3 col-md-3 col-sm-12">
+      <div class="py-3 h-100">
+        <form class="d-flex pt-2">
+          <select
+            class="form-select me-2 rounded-1"
+            (change)="getActivityListFunc($event)"
+          >
+            <option>Select Project</option>
+            <option *ngFor="let project of projectList" [value]="project.value">
+              {{ project.text }}
+            </option>
+          </select>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="col-12 col-lg-12">
+      <div class="table-responsive border rounded p-3 bg-white">
+        <div
+          class="d-flex justify-content-between align-items-center mb-3 mx-2"
+        >
+          <h4 class="mb-0">Project / Activity Plan</h4>
+          <button
+            class="btn btn-success"
+            (click)="addRow()"
+            [innerHTML]="Button.createBtn + ' Add'"
+          ></button>
+        </div>
+        <table class="table table-striped100 table-bordered align-middle">
+          <thead class="">
+            <tr>
+              <th rowspan="2" class="text-center" scope="col">Activity Name</th>
+              <th rowspan="2" class="text-center" scope="col">From</th>
+              <th rowspan="2" class="text-center" scope="col">To</th>
+              <th rowspan="2" class="text-center" scope="col">Reporting Date</th>
+              <th rowspan="2" class="text-center" scope="col">Type</th>
+              <th rowspan="2" class="text-center" scope="col">Monthly</th>
+              <th rowspan="2" class="text-center" scope="col">Total</th>
+              <th rowspan="2" class="text-center" scope="col">Beneficiary type</th>
+              <th colspan="12" class="text-center" scope="col">Program participants</th>
+              <th rowspan="2" class="text-center" scope="col">Actions</th>
+            </tr>
+            <tr>              
+              <th class="text-center" scope="col">Target</th>              
+              <th class="text-center" scope="col">U_18_Boys</th>
+              <th class="text-center" scope="col">U_18_Girls</th>
+              <th class="text-center" scope="col">18_59_Male</th>
+              <th class="text-center" scope="col">18_59_Female</th>
+              <th class="text-center" scope="col">Up_59_Male</th>
+              <th class="text-center" scope="col">Up_59_Female</th>
+              <th class="text-center" scope="col">Disable_Male</th>
+              <th class="text-center" scope="col">Disable_Female</th>
+              <th class="text-center" scope="col">Ethnicity & marginalized</th>
+              <th class="text-center" scope="col">women Headed</th>
+              <th class="text-center" scope="col">Transgender</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of activityPlanList; let i = index">
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.activityName"
+                  placeholder="Enter Name !"
+                />
+              </td>
+              <td>
+                <input
+                  type="date"
+                  placeholder="dd-MMM-yyyy"
+                   id="datepickerVal"
+                  class="form-control dtpickr form-control-sm p-0 text-center"
+                  [(ngModel)]="row.activityFrom"
+                  appFlatpickr 
+                />
+              </td>
+              <td>
+                <input
+                  type="date"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.activityTo"
+                />
+              </td>
+              <td>
+                <input
+                  type="date"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.reportingDate"
+                />
+              </td>
+              <td>
+                <select
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.targetType"
+                >
+                  <option value="" disabled selected>Select Type!</option>
+                  <option
+                    *ngFor="let type of targetTypeList"
+                    [value]="type.value"
+                  >
+                    {{ type.text }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.monthlyTarget"
+                  placeholder="Monthly Target !"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.totalTarget"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipantsTarget"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_U_18_Boys"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_U_18_Girls"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_18_59_Male"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_18_59_Female"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_Up_59_Male"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_Up_59_Female"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_Disable_Male"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipants_Disable_Female"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.programParticipantsEthnicityandMarginalized"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.womenHeadedProgramParticipants"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.transgenderProgramParticipants"
+                  placeholder=""
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm p-0 text-center"
+                  [(ngModel)]="row.transgenderProgramParticipants"
+                  placeholder=""
+                />
+              </td>
+              <td class="text-end pe-3">
+                <div class="btn-group btn-group-sm" role="group">
+                  <button
+                    class="btn px-2"
+                    (click)="removeRow(i)"
+                    [innerHTML]="Button.editBtn"
+                  ></button>
+                  <button
+                    class="btn px-2"
+                    (click)="removeRow(i)"
+                    [innerHTML]="Button.deleteBtn"
+                  ></button>
+                  <button
+                    class="btn px-2"
+                    (click)="removeRow(i)"
+                    [innerHTML]="Button.approvedBtn"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="!activityPlanList || activityPlanList.length === 0">
+              <td colspan="21" class="text-center py-5">No Items Found !</td>
+            </tr>
+          </tbody>
+        </table>
+        <button
+          class="btn btn-primary btn-lg"
+          [disabled]="!activityPlanList || activityPlanList.length === 0"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

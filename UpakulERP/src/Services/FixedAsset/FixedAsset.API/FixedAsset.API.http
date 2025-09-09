@@ -1,0 +1,4 @@
+@FixedAsset.API_HostAddress = http://localhost:5007
+
+GET {{FixedAsset.API_HostAddress}}
+Accept: application/json

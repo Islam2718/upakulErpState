@@ -1,0 +1,22 @@
+.section-header {
+     padding: 14px;
+    /* background-color: #eee; */
+     border-bottom: 1px solid #d21d1d;
+}
+
+.section-header-text {
+   font-weight: bold;
+   /* font-size: 15px; */
+}
+
+.module_header {
+    background-color: #fcfafa;
+    border-spacing: 5px;
+}
+
+.menu-body{
+    margin: -12px;
+}
+.menu-body-text{
+    font-size: 14px;
+}

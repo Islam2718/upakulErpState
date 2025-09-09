@@ -1,0 +1,28 @@
+.icon-text {
+    display: none;
+    transition: opacity 0.2s;
+  }
+  
+  .active-icon :hover .icon-text {
+    display: inline;
+    background-color: yellow;
+  }
+
+  a.ex1{
+    font-size: 15px !important;
+    padding-left: 20px;
+    padding-bottom: 15px;
+  }
+  a.ex2{
+    font-size: 15px !important;
+    padding-top: 25px;
+    padding-left: 15px;
+  }
+  .pointer {cursor: pointer;
+  }
+  .ex1 a:hover:not(.active) {
+      background-color: #e6e3e3;
+      border-radius: 5px;
+    }
+    
+  

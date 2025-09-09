@@ -1,0 +1,33 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Country</h4>
+      <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+  </div>  
+  <div class="card shadow-none border my-4" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+        <input class="form-control" formControlName="CountryId" type="hidden">
+        <div class="card p-3">
+          <div class="row">
+             <div class="col-md-3">
+              <label class="form-label">Country Code</label>
+              <input class="form-control" type="text" formControlName="CountryCode" required="">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Country Name</label>
+              <input class="form-control" type="text" formControlName="CountryName" required="">
+            </div>           
+            <div class="col-12" style="margin-top:15px;">
+              <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">{{
+                isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+              <button *ngIf="!isEditMode" 
+              type="button" class="btn btn-warning ms-2" (click)="onReset()">Reset</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

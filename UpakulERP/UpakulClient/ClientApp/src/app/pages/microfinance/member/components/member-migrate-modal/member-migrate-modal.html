@@ -1,0 +1,40 @@
+<!-- Migrate Modal -->
+<div class="modal fade show" tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-xs" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header position-relative">
+        <h5 class="modal-title">Migrate Member: {{ memberName }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body p-3">
+        <div class="mb-3">
+          <label for="migrateNote" class="form-label">Migration Note</label>
+          <textarea
+            id="migrateNote"
+            class="form-control"
+            [(ngModel)]="migratedNote"
+            rows="3"
+            placeholder="Enter migration note">
+          </textarea>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" (click)="close()">Cancel</button>
+        <button
+          class="btn btn-primary"
+          type="button"
+          [disabled]="isMigrating"
+          (click)="migrateMember()">
+          {{ isMigrating ? 'Migrating...' : 'Migrate' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

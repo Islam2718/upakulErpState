@@ -1,0 +1,233 @@
+<div class="contentframe" [class.blurred]="!isPermitted">
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <h4 class="mb-0 px-2">
+      <a href="/microfinance/4" class="text-black text-decoration-none">Dashboard</a>
+      / Member
+    </h4>
+     <button class="btn btn-success" (click)="navigateToCreate()"
+ *ngIf="Button.createBtn" [innerHTML]="Button.createBtn+' Create'">
+</button>
+
+  </div>
+  <!-- <app-member-view-modal
+  *ngIf="showViewModal"
+  [memberId]="selectedMember"
+  (closeModal)="closeViewModal()">
+</app-member-view-modal> -->
+  
+  <app-confirm-modal #confirmModal [title]="'Confirm Deletion'" [message]="'Are you sure to delete?'"
+    (onConfirm)="onDeleteConfirmed()"></app-confirm-modal>
+    <app-confirm-modal 
+  #approveConfirmModal 
+  [title]="'Confirm Approval'" 
+  [message]="'Are you sure you want to approve this member?'" 
+  (onConfirm)="onApproveConfirmed()">
+</app-confirm-modal>
+
+
+  <div id="tableExample3">
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+      <div>
+        <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <h3>Members</h3>
+          </div>
+          <div class="col-12 col-md-auto">
+            <div class="row g-2 gy-3">
+              <div class="col-auto flex-1">
+                <div class="search-box">
+                  <form class="position-relative" [formGroup]="searchForm">
+                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Search"
+                      aria-label="Search" formControlName="searchTerm" />
+                    <svg class="svg-inline--fa fa-magnifying-glass search-box-icon" aria-hidden="true" focusable="false"
+                      data-prefix="fas" data-icon="magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512" data-fa-i2svg="">
+                      <path fill="currentColor"
+                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z">
+                      </path>
+                    </svg>
+                  </form>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive mx-n1 px-1 scrollbar">
+          <table class="table fs-9 mb-0 border-top border-translucent">
+            <thead>
+              <tr>
+                <th>Pic</th>
+                <th class="sort white-space-nowrap align-middle" (click)="sortData('groupCode')" scope="col">
+                  Group
+                  <i *ngIf="sortColumn === 'groupCode'" [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"></i>
+                </th>
+                <th class="sort white-space-nowrap align-middle" scope="col" (click)="sortData('memberCode')">
+                  Member Code
+                  <i *ngIf="sortColumn === 'memberCode'" [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"></i>
+                </th>
+                <th class="sort align-middle" scope="col" (click)="sortData('memberName')">
+                  Member Name
+                  <i *ngIf="sortColumn === 'memberName'" [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"></i>
+                </th>
+                <th class="sort align-middle asc" scope="col" (click)="sortData('gender')">
+                  Gender
+                  <i *ngIf="sortColumn === 'gender'" [ngClass]="{
+                      'bi bi-arrow-up': sortDirection === 'asc',
+                      'bi bi-arrow-down': sortDirection === 'desc'
+                    }"></i>
+                </th>
+              <th class="text-end px-15" scope="col">Actions</th>
+
+              </tr>
+            </thead>
+            <tbody class="list" id="table-latest-review-body">
+              <tr *ngFor="let obj of dataList" class="hover-actions-trigger btn-reveal-trigger position-static">
+                <td class="align-middle ps-3">
+                  <span *ngIf="obj.memberImgUrl; else noImage">
+                    <img [src]="memImgURL + obj.memberImgUrl" alt="" [attr.width]="35" [attr.height]="35" />
+                  </span>
+                  <ng-template #noImage>
+                    <img src="assets/img/no-user.gif" alt="" [attr.width]="35" [attr.height]="35" />
+                  </ng-template>
+                </td>
+                <td class="align-middle px-2">
+                  {{ obj.groupCode }} &mdash; {{ obj.groupName }}
+                </td>
+                <td class="align-middle">{{ obj.memberCode }}</td>
+                <td class="align-middle customer white-space-nowrap">
+                  <h6 class="mb-0 text-body">{{ obj.memberName }}</h6>
+                </td>
+                <td class="align-middle review px-2">{{ obj.gender }}</td>
+                <!-- <td class="align-middle review px-2 text-center">
+                  
+                  <i class="fa fa-user me-1"
+                    [ngClass]="{'text-primary': obj.isApproved, 'text-danger': !obj.isApproved}"></i>
+                  <i class="fa fa-phone me-1"
+                    [ngClass]="{'text-primary': obj.isOtpVerified, 'text-danger': !obj.isOtpVerified}"></i>
+                  <i class="fa fa-arrow-right me-1"
+                    [ngClass]="{'text-primary': obj.isMigrated, 'text-danger': !obj.isMigrated}"></i>
+                </td> -->
+  <td class="align-middle text-end pe-0">
+                  <div class="btn-group btn-group-sm" role="group">
+           <button
+  class="btn m-0 p-0 btn-sm px-0 m-0"
+  *ngIf="Button.editBtn && !obj.isApproved"
+  (click)="editData(obj.memberId)"
+  [innerHTML]="Button.editBtn">
+</button>
+
+<!-- Delete Button -->
+<button
+  class="btn m-0 p-0 btn-sm px-4 m-0"
+  *ngIf="Button.deleteBtn && !obj.isApproved"
+  (click)="delete(obj.memberId)"
+  [innerHTML]="Button.deleteBtn">
+</button>
+<button
+  class="btn m-0 p-0 btn-sm px-4 m-0" 
+  (click)="openViewModal(obj)"
+  [innerHTML]="Button.viewBtn"
+  *ngIf="Button.viewBtn">
+</button>
+
+<!-- Approve Button (List) -->
+<button
+  class="btn btn-sm"
+  *ngIf="Button.approvedBtn && !obj.isApproved"
+  (click)="openViewModal(obj, true)" 
+  [innerHTML]="Button.approvedBtn">
+</button>
+                    <button
+                      class="btn m-0 p-0 btn-sm px-4 m-0" 
+                      (click)="openMigrateModal(obj)"
+                      [innerHTML]="Button.migrateBtn"
+                      *ngIf="Button.migrateBtn">
+                  </button>
+                  <button class="btn m-0 p-0 btn-sm px-4 m-0" [ngClass]="obj.isOtpVerified ?
+                   '' : ''"
+                        [disabled]="obj.isOtpVerified" 
+                        (click)="!obj.isOtpVerified && openOtpModal(obj)"
+                           [innerHTML]="Button.mobilenumberVerifyBtn"
+                      *ngIf="Button.mobilenumberVerifyBtn">
+                        {{ obj.isOtpVerified ? 'Verified' : 'OTP Verify' 
+                      }}
+                      </button>
+
+                  
+                  </div>
+                </td>
+
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination_size d-flex justify-content-between align-items-center my-3 flex-wrap">
+          <div class="d-flex align-items-center mb-2 mb-md-0">
+            <label class="me-2">Page Size:</label>
+            <select class="form-select form-select-sm w-auto" [formControl]="pageSizeControl">
+              <option [value]="10">10</option>
+              <option [value]="20">20</option>
+              <option [value]="40">40</option>
+            </select>
+          </div>
+          <nav>
+            <div class="pagination-container d-flex align-items-center">
+              <p class="pagination-label mb-0 me-2">{{ dataRangeLabel }}</p>
+              <ul class="pagination mb-0">
+                <li class="page-item" [class.disabled]="page === 1">
+                  <button class="page-link" (click)="changePage(page - 1)">«</button>
+                </li>
+                <li *ngFor="let p of totalPagesArray" class="page-item" [class.active]="p === page">
+                  <button class="page-link" (click)="changePage(p)" *ngIf="p !== '...'">{{ p }}</button>
+                  <span class="page-link" *ngIf="p === '...'">...</span>
+                </li>
+                <li class="page-item" [class.disabled]="page === totalPages">
+                  <button class="page-link" (click)="changePage(page + 1)">»</button>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!isPermitted" class="blur-overlay">
+  <span>You are not permitted</span>
+</div>
+
+<app-member-confirm-drawer [memberData]="selectedData"></app-member-confirm-drawer>
+<!-- Member View Modal -->
+<app-member-view-modal
+  *ngIf="showViewModal"
+  [memberId]="selectedMember"
+  [approveMode]="approveMode"
+  [viewMode]="viewMode"
+  (closeModal)="closeViewModal()"
+  (requestApproveConfirm)="approve($event)"> <!-- <-- here -->
+</app-member-view-modal>
+<app-confirm-modal
+  #approveConfirmModal
+  (onConfirm)="onApproveConfirmed()">
+</app-confirm-modal>
+
+<app-member-otp-verify-modal *ngIf="showOtpModal" [memberId]="selectedMember" [contactNumber]="selectedContact"
+  (closed)="closeOtpModal($event)">
+</app-member-otp-verify-modal>
+
+<app-member-migrate-modal *ngIf="showMigrateModal" [memberId]="selectedMemberId" [memberName]="selectedMemberName"
+  (closed)="handleMigrateClosed($event)">
+</app-member-migrate-modal>

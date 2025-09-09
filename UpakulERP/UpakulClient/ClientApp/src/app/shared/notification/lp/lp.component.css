@@ -1,0 +1,254 @@
+.cheque {
+    width: 100%;
+    height: 350px;
+    /* background: white; */
+    background: transparent;
+    /* border: 2px solid #2c5e2c; */
+    padding: 25px;
+    position: relative;
+}
+
+.cheque-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    /* border-bottom: 2px solid #2c5e2c; */
+    border-bottom: 2px solid transparent;
+    padding-bottom: 15px;
+}
+
+.bank-info {
+    text-align: left;
+}
+
+.bank-name {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    /* color: #2c5e2c; */
+    margin-bottom: 5px;
+}
+
+.branch-info {
+    font-size: 18px;
+    color: #444;
+}
+
+.cheque-details {
+    text-align: right;
+}
+
+.sbc {
+    font-size: 18px;
+    font-weight: bold;
+    /* color: #2c5e2c; */
+    color: transparent;
+    margin-bottom: 5px;
+}
+
+.date-label {
+    font-size: 18px;
+    font-weight: bold;
+    /* color: #2c5e2c; */
+    color: transparent;
+}
+
+.date-boxes {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+    justify-content: flex-end;
+}
+
+.date-box {
+    width: 35px;
+    height: 24px;
+    /* border: 1px solid #666; */
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    /* background: #f9f9f9; */
+    background: transparent;
+}
+
+.cheque-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pay-to {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.pay-to-label {
+    /* min-width: 80px; */
+    font-weight: bold;
+    /* color: #2c5e2c; */
+    color: transparent;
+}
+
+.dotted-line {
+    /* background: orange;  */
+    flex-grow: 1;
+    /* border-bottom: 2px dotted #2c5e2c; */
+    border-bottom: 2px dotted transparent;
+    margin-left: 0px;
+    padding-left: 50px; 
+    height: 20px;
+    line-height: 20px; 
+}
+
+.amount-section {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.amount-label {
+    font-weight: bold;
+    /* color: #2c5e2c; */
+    color: transparent;
+}
+
+.amount-box {
+    width: 350px;
+    height: 45px;
+    /* border: 1px solid #666; */
+    border: 1px solid transparent;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-weight: bold;
+    /* background: #f9f9f9; */
+    background: transparent;
+}
+
+.amount-in-words {
+    margin-top: 5px;
+    font-size: 16px;
+    font-style: italic;
+    color: #000;
+    padding-left: 115px;
+}
+
+.or-bearer {
+    position: absolute;
+    bottom: 80px;
+    left: 25px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.tk-label {
+    margin-left: 10px;
+    font-weight: bold;
+    /* color: #2c5e2c; */
+    color: transparent;
+}
+
+.tk-amount {
+    width: 150px;
+    height: 25px;
+    /* border: 1px solid #666; */
+    border: 1px solid transparent;
+    margin-left: 10px;
+    background: #f9f9f9;
+}
+
+.footer {
+    position: absolute;
+    bottom: 30px;
+    left: 0px;
+    font-size: 14px;
+    color: #d64d86;
+    font-weight: bold;
+}
+
+.signature-area {
+    position: absolute;
+    bottom: 35px;
+    right: 25px;
+    text-align: center;
+    width: 450px;
+}
+
+.signature-line {
+    width: 100%;
+    border-top: 1px solid #333;
+    margin-bottom: 5px;
+    /* padding-top: 10px; */
+}
+
+.signature-label {
+    font-size: 8px;
+    font-style: italic;
+    color: #666;
+}
+
+.cheque-border {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid #7ba77b;
+    pointer-events: none;
+}
+
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 80px;
+    color: rgba(46, 139, 87, 0.1);
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.instructions {
+    margin-top: 20px;
+    background: #f8fff8;
+    padding: 15px;
+    border-radius: 0 0 15px 15px;
+    border-top: 2px dashed #2c5e2c;
+    font-size: 14px;
+    color: #555;
+}
+
+.instructions h3 {
+    color: #2c5e2c;
+    margin-bottom: 10px;
+}
+
+.instructions ul {
+    padding-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 5px;
+}
+
+@media print {
+    body {
+        background: none;
+        padding: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+        border-radius: 0;
+    }
+    
+    .instructions {
+        display: none;
+    }
+}

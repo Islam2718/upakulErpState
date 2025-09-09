@@ -1,0 +1,936 @@
+<div class="contentframe" [class.blurred]="!isPermitted">
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <h4 class="mb-0 px-2">
+      <a href="/microfinance/4" class="text-black text-decoration-none">Dashboard</a>
+      / Member
+    </h4>
+    <button class="btn btn-success" (click)="navigateToList()" *ngIf="Button.viewBtn"
+      [innerHTML]="Button.viewBtn+' View'">
+    </button>
+
+  </div>
+
+  <!-- <app-member-form-review-modal #reviewModal [data]="dataForm.value"  [data]="dataForm" ></app-member-form-review-modal>  -->
+  <app-member-form-review-modal #reviewModal [data]="dataForm.value"
+    [resetFn]="onReset.bind(this)"></app-member-form-review-modal>
+
+  <div id="tableExample3">
+    <!-- new...  -->
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+      <div>
+        <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <h3>Member Setup</h3>
+            <!-- <p class="text-body-tertiary lh-sm mb-0">subtitle </p> -->
+          </div>
+        </div>
+        <!-- form section 1  -->
+        <form [formGroup]="dataForm" (ngSubmit)="onSubmitMemberForm()" class="needs-validation was-validated"
+          novalidate>
+          <div class="row">
+            <!-- form section 1  -->
+            <div class="col-md-6 col-sm-12 col-lg-6">
+              <div class="rounded bg-light py-2 px-3 pb-1 mb-3">
+                <h4 class="text-center">General Setup</h4>
+              </div>
+              <div class="container1 px-2">
+                <div class="mb-2 row">
+                  <label for="admissionDate" class="col-sm-4 col-form-label fw-bold">Admission Date</label>
+                  <div class="col-sm-8">
+                    <input formControlName="admissionDate" id="datepickerVal"
+                      class="form-control form-control-sm datetimepicker bg-light" type="text"
+                      value="{{ transactionDate }}" readonly />
+                    <div *ngIf="dataForm.get('admissionDate')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('admissionDate')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="GroupName" class="col-sm-4 col-form-label fw-bold">Group</label>
+                  <div class="col-sm-8">
+                    <ng-select formControlName="groupId" [items]="memberAllDropdown.group" [searchable]="true"
+                      bindLabel="text" bindValue="value" placeholder="Please select"
+                      class="form-control-sm form-control form-select pb-2" [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('groupId')?.invalid &&
+                          dataForm.get('groupId')?.touched
+                      }" [items]="memberAllDropdown.group" [required]="requiredList.includes('groupId')">
+                    </ng-select>
+                    <div *ngIf="dataForm.get('groupId')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('groupId')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="memberName" class="col-sm-4 col-form-label fw-bold">Member Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" formControlName="memberName" id="memberName" name="memberName"
+                      class="form-control form-control-sm ng-untouched ng-pristine ng-invalid" autocomplete="disabled"
+                      placeholder="Enter Member Name !" [required]="requiredList.includes('memberName')" />
+                    <div *ngIf="dataForm.get('memberName')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('memberName')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="Occupation" class="col-sm-4 col-form-label fw-bold">Occupation</label>
+                  <div class="col-sm-8">
+                    <select class="form-select form-select-sm form-control-sm" formControlName="occupationId" [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('occupationId')?.invalid &&
+                          dataForm.get('occupationId')?.touched
+                      }" [required]="requiredList.includes('occupationId')">
+                      <option value="">Please Select</option>
+                      <option *ngFor="let option of memberAllDropdown.occupation" [value]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                    <div *ngIf="dataForm.get('occupationId')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('occupationId')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="fatherName" class="col-sm-4 col-form-label fw-bold">Father Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" formControlName="fatherName" id="fatherName" name="fatherName"
+                      class="form-control form-control-sm" autocomplete="disabled" required
+                      placeholder="Enter Father Name !" [required]="requiredList.includes('fatherName')" />
+                    <div *ngIf="dataForm.get('fatherName')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('fatherName')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="motherName" class="col-sm-4 col-form-label fw-bold">Mother Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" formControlName="motherName" id="motherName" name="motherName"
+                      class="form-control form-control-sm" autocomplete="disabled"
+                      [required]="requiredList.includes('motherName')" placeholder="Enter Mother Name !" />
+                    <div *ngIf="dataForm.get('motherName')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('motherName')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="MaritalStatus" class="col-sm-4 col-form-label fw-bold">Marital Status</label>
+                  <div class="col-sm-3 mx-0 pe-0">
+                    <select class="form-select form-select-sm form-control-sm" formControlName="maritalStatus"
+                      [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('maritalStatus')?.invalid &&
+                          dataForm.get('maritalStatus')?.touched
+                      }" [required]="requiredList.includes('maritalStatus')" (change)="OnChangeMaritalStatus($event)">
+                      <option *ngFor="let option of memberAllDropdown.maritalStatus" [value]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                    <div *ngIf="dataForm.get('maritalStatus')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('maritalStatus')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                  <div class="col-sm-5 mx-0" *ngIf="spouseOption">
+                    <input type="text" class="form-control form-control-sm" formControlName="spouseName" id="spouseName"
+                      autocomplete="disabled" placeholder="Spouse Name !"
+                      [required]="requiredList.includes('spouseName')" />
+                    <div *ngIf="dataForm.get('spouseName')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('spouseName')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                  <ng-template [ngIf]="!spouseOption">
+                    <div class="col-sm-5">
+                      <input type="text" fonmControlName="spouseName" class="form-control form-control-sm bg-light"
+                        placeholder="Enter Spouse Name !" readonly />
+                      <div *ngIf="dataForm.get('spouseName')?.errors?.['serverError']" class="text-danger small">
+                        {{ dataForm.get('spouseName')?.errors?.['serverError'] }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="mb-2 row">
+                  <label for="gender" class="col-sm-4 col-form-label fw-bold">Gender</label>
+                  <div class="col-sm-8">
+                    <select class="form-select form-select-sm form-control-sm" formControlName="gender" [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('gender')?.invalid &&
+                          dataForm.get('gender')?.touched
+                      }" [required]="requiredList.includes('gender')">
+                      <option *ngFor="let option of memberAllDropdown.gender" [value]="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                    <div *ngIf="dataForm.get('Gender')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('Gender')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="DateOfBirth" class="col-sm-4 col-form-label fw-bold">Date of Birth</label>
+                  <div class="col-sm-4">
+                    <input formControlName="dateOfBirth" id="datepickerVal"
+                      class="form-control form-control-sm form-control-datepicker" type="date"
+                      placeholder="ex &mdash; 01-Jan-2000" data-options='{"disableMobile":true,"allowInput":true}'
+                      [required]="requiredList.includes('dateOfBirth')" formatDate="dd-MMM-yyyy" />
+                  </div>
+                  <label for="Age" class="col-sm-1 col-form-label fw-bold text-end">Age</label>
+                  <div class="col-sm-3">
+                    <input type="text" pattern="[0-9]*" min="18" max="55" formControlName="age" id="Age" name="Age"
+                      class="form-control form-control-sm bg-light" [readonly]="true" />
+                    <div *ngIf="
+                        dataForm.get('age')?.invalid &&
+                        dataForm.get('age')?.touched
+                      " class="text-danger mt-1"></div>
+                  </div>
+                  <div *ngIf="isAgeVlid == false" class="text-danger mt-0 text-end" style="font-size: 11px">
+                    Age must be between 18 to 55.
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="nationalId" class="col-sm-4 col-form-label fw-bold">National Id</label>
+                  <div class="col-sm-8">
+                    <input type="text" pattern="[0-9]{17}" maxlength="17" minlength="17" formControlName="nationalId"
+                      id="nationalId" name="nationalId" class="form-control form-control-sm" autocomplete="off"
+                      placeholder="Enter National ID !" title="National ID must be 17 digits"
+                      (input)="removeSpaces($event)" [required]="requiredList.includes('nationalId')" />
+
+                    <div *ngIf="dataForm.get('nationalId')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('nationalId')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-2 row">
+                  <label for="smartCard" class="col-sm-4 col-form-label fw-bold">Smart Card</label>
+                  <div class="col-sm-8">
+                    <input type="text" pattern="[0-9]{10}" maxlength="10" minlength="10" formControlName="smartCard"
+                      id="smartCard" name="smartCard" class="form-control form-control-sm" autocomplete="off"
+                      title="Smart Card must be 10 digits" (input)="removeSpaces($event)"
+                      placeholder="Enter Smart Card No !" [required]="requiredList.includes('smartCard')" />
+                    <div *ngIf="dataForm.get('smartCard')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('smartCard')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-2 row px-5 mx-2">
+                  <label for="nidVerified" class="col-sm-4 col-form-label fw-bold"></label>
+                  <div class="form-check form-switch col-sm-8">
+                    <input formControlName="nidVerified" class="form-check-input" id="is_nid_verified"
+                      type="checkbox" />
+                    <label class="form-check-label" style="color: #525b75; font-weight: 700; font-size: 14px"
+                      for="is_nid_verified">NID is Verified</label>
+                  </div>
+                </div>
+
+                <div class="mb-2 row">
+                  <label for="birthCertificate" class="col-sm-4 col-form-label fw-bold">Birth Certificate No</label>
+                  <div class="col-sm-5">
+                    <input type="text" pattern="[0-9]{17}" maxlength="17" minlength="17"
+                      formControlName="birthCertificate" id="birthCertificate" name="birthCertificate"
+                      class="form-control form-control-sm" autocomplete="off" placeholder="Enter Birth Certificate No !"
+                      title="Birth Certificate No must be 17 digits"
+                      [required]="requiredList.includes('birthCertificate')" />
+
+                    <div *ngIf="dataForm.get('birthCertificate')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('birthCertificate')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                  <div class="form-check form-switch col-sm-2 px-5 mx-2 pt-1">
+                    <input formControlName="birthCertificateVerified" class="form-check-input"
+                      id="b_certificate_verified" type="checkbox" />
+                    <label class="form-check-label" style="color: #525b75; font-weight: 700; font-size: 14px"
+                      for="b_certificate_verified">Verified</label>
+                  </div>
+                </div>
+
+                <div class="mb-2 row">
+                  <label for="tin" class="col-sm-4 col-form-label fw-bold">T.I.N Certificate</label>
+                  <div class="col-sm-8">
+                    <input type="text" formControlName="tin" id="tin" name="tin" class="form-control form-control-sm"
+                      autocomplete="disabled" placeholder="Enter TIN Certificate No !"
+                      [required]="requiredList.includes('tin')" />
+                    <div *ngIf="dataForm.get('tin')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('tin')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-2 row">
+                  <label for="otherIdType" class="col-sm-4 col-form-label fw-bold">Other ID</label>
+                  <div class="col-sm-3">
+                    <select class="form-select form-control-sm form-select-sm" formControlName="otherIdType">
+                      <option value="">Select Status</option>
+                      <option value="P">Passport</option>
+                      <option value="D">Driving License</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-5">
+                    <input type="text" [readonly]="!dataForm.get('otherIdType')?.value" formControlName="otherIdNumber"
+                      class="form-control form-control-sm" placeholder="Enter Number !" [value]="
+                        !dataForm.get('otherIdType')?.value
+                          ? ''
+                          : dataForm.get('otherIdNumber')?.value
+                      " />
+                  </div>
+                </div>
+                <div class="mb-2 row">
+                  <label for="contactNoOwn" class="col-sm-4 col-form-label fw-bold">Contact No (Own)</label>
+                  <div class="col-sm-8">
+                    <!-- <input
+                      type="text"
+                      formControlName="contactNoOwn"
+                      id="contactNoOwn"
+                      name="contactNoOwn"
+                      class="form-control form-control-sm"
+                      autocomplete="disabled"
+                      placeholder="Enter Contact No (Own) !"
+                      [required]="requiredList.includes('contactNoOwn')"
+                    /> -->
+                    <input type="text" pattern="[0-9]{11}" maxlength="11" minlength="11" formControlName="contactNoOwn"
+                      id="contactNoOwn" name="contactNoOwn" class="form-control form-control-sm" autocomplete="off"
+                      placeholder="Enter Contact No (Own) !" title="Contact number must be 11 digits"
+                      [required]="requiredList.includes('contactNoOwn')" />
+                    <div *ngIf="dataForm.get('contactNoOwn')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('contactNoOwn')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-2 row">
+                  <label for="mobileNumber" class="col-sm-4 col-form-label fw-bold">Mobile Number</label>
+                  <div class="col-sm-8">
+                    <input type="text" pattern="[0-9]{11}" maxlength="11" minlength="11" formControlName="mobileNumber"
+                      id="mobileNumber" name="mobileNumber" class="form-control form-control-sm" autocomplete="off"
+                      placeholder="Enter Mobile Number !" title="Mobile number must be 11 digits"
+                      [required]="requiredList.includes('mobileNumber')" />
+                    <div *ngIf="dataForm.get('mobileNumber')?.errors?.['serverError']" class="text-danger small">
+                      {{ dataForm.get('mobileNumber')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-2 row">
+                  <label for="academicQualification" class="col-sm-4 col-form-label fw-bold">Academic
+                    Qualification</label>
+                  <div class="col-sm-8">
+                    <ng-select formControlName="academicQualificationId"
+                      [items]="memberAllDropdown.academicQualification" [searchable]="true" bindLabel="text"
+                      bindValue="value" placeholder="Please select"
+                      class="form-control-sm form-control form-select pb-2" [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('academicQualificationId')?.invalid &&
+                          dataForm.get('academicQualificationId')?.touched
+                      }" [items]="memberAllDropdown.academicQualification" [required]="
+                        requiredList.includes('academicQualificationId')
+                      ">
+                    </ng-select>
+                    <div *ngIf="dataForm.get('academicQualification')?.errors?.['serverError']"
+                      class="text-danger small">
+                      {{ dataForm.get('academicQualification')?.errors?.['serverError'] }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- form section 2 -->
+            <div class="col-md-6 col-sm-12 col-lg-6">
+              <div class="rounded bg-light py-2 px-3 pb-1 mb-3">
+                <h4 class="text-center">Others Information</h4>
+              </div>
+              <div class="d-flex mb-4">
+                <div class="col bg-light rounded">
+                  <!-- PROFILE IMAGE -->
+                  <h5 class="small text-center pt-3 mb-0 pb-0">
+                    Profile Image
+                  </h5>
+                  <div class="hover-section section-profile-image">
+                    <app-webcam #webcamProfile (capture)="handleCaptureProfile($event)"
+                      style="z-index: 100; position: relative"></app-webcam>
+                    <!-- Image Preview (default or captured) -->
+                    <div class="img-frame col-12 my-4" style="position: relative">
+                      <img [src]="capturedImageUrlProfile" alt="" class="img w-100 img-responsive px-2" />
+                    </div>
+                    <!-- Hover Buttons -->
+                    <div class="hover-buttons d-flex justify-content-center">
+                      <div class="col btn-capture text-center" (click)="webcamProfile.startCamera()">
+                        <i class="fa-solid fa-camera-retro mt-3"></i>
+                      </div>
+                      <div class="col btn-upload text-center">
+                        <label class="col btn-upload text-center" style="cursor: pointer">
+                          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                          <input type="file" accept="image/*" (change)="handleUploadProfile($event)" hidden />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col mx-1 bg-light rounded">
+                  <!-- Signature IMAGE -->
+                  <h5 class="small text-center pt-3 mb-0 pb-0">Signature</h5>
+                  <div class="hover-section section-signature">
+                    <app-webcam #webcamSignature (capture)="handleCaptureSignature($event)"
+                      style="z-index: 100; position: relative"></app-webcam>
+                    <!-- Image Preview (default or captured) -->
+                    <div class="img-frame col-12 my-4" style="position: relative">
+                      <img [src]="capturedImageUrlSignature" alt="" class="img w-100 img-responsive px-2" />
+                    </div>
+                    <!-- Hover Buttons -->
+                    <div class="hover-buttons d-flex justify-content-center">
+                      <div class="col btn-capture text-center" (click)="webcamSignature.startCamera()">
+                        <i class="fa-solid fa-camera-retro mt-3"></i>
+                      </div>
+                      <div class="col btn-upload text-center">
+                        <label class="col btn-upload text-center" style="cursor: pointer">
+                          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                          <input type="file" accept="image/*" (change)="handleUploadSignature($event)" hidden />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col mx-1 bg-light rounded">
+                  <!-- nidf IMAGE -->
+                  <h5 class="small text-center pt-3 mb-0 pb-0">NID Front</h5>
+                  <div class="hover-section section-nid-front">
+                    <app-webcam #webcamNidFront (capture)="handleCaptureNidFront($event)"
+                      style="z-index: 100; position: relative"></app-webcam>
+                    <!-- Image Preview (default or captured) -->
+                    <div class="img-frame col-12 my-4" style="position: relative">
+                      <img [src]="capturedImageUrlNidFront" alt="" class="img w-100 img-responsive px-2" />
+                    </div>
+                    <!-- Hover Buttons -->
+                    <div class="hover-buttons d-flex justify-content-center">
+                      <div class="col btn-capture text-center" (click)="webcamNidFront.startCamera()">
+                        <i class="fa-solid fa-camera-retro mt-3"></i>
+                      </div>
+                      <div class="col btn-upload text-center">
+                        <label class="col btn-upload text-center" style="cursor: pointer">
+                          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                          <input type="file" accept="image/*" (change)="handleUploadNidFront($event)" hidden />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col bg-light rounded">
+                  <!-- nid back IMAGE -->
+                  <h5 class="small text-center pt-3 mb-0 pb-0">NID Back</h5>
+                  <div class="hover-section section-nid-back">
+                    <app-webcam #webcamNidBack (capture)="handleCaptureNidBack($event)"
+                      style="z-index: 100; position: relative"></app-webcam>
+
+                    <!-- Image Preview (default or captured) -->
+                    <div class="img-frame col-12 my-4">
+                      <img [src]="capturedImageUrlNidBack" alt="" class="img w-100 img-responsive px-2" />
+                    </div>
+                    <!-- Hover Buttons -->
+                    <div class="hover-buttons d-flex justify-content-center">
+                      <div class="col btn-capture text-center" (click)="webcamNidBack.startCamera()">
+                        <i class="fa-solid fa-camera-retro mt-3"></i>
+                      </div>
+                      <div class="col btn-upload text-center">
+                        <label class="col btn-upload text-center" style="cursor: pointer">
+                          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                          <input type="file" accept="image/*" (change)="handleUploadNidBack($event)" hidden />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="admissionFee" class="col-sm-4 col-form-label fw-bold">Admission Fee</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*" formControlName="admissionFee" id="admissionFee"
+                    name="admissionFee" class="form-control form-control-sm" autocomplete="disabled"
+                    placeholder="Enter Admission Fee !" [required]="requiredList.includes('admissionFee')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="passbookFee" class="col-sm-4 col-form-label fw-bold">Passbook Fee</label>
+                <div class="col-sm-8">
+                  <input type="text" pattern="[0-9]*" formControlName="passbookFee" id="passbookFee" name="passbookFee"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Enter Passbook Fee !"
+                    [required]="requiredList.includes('passbookFee')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="applicationNo" class="col-sm-4 col-form-label fw-bold">Application No</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="applicationNo" id="applicationNo" name="applicationNo"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Enter Application No !"
+                    [required]="requiredList.includes('applicationNo')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="PassbookNo" class="col-sm-4 col-form-label fw-bold">Passbook No</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="passbookNo" id="passbookNo" name="passbookNo"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Enter Passbook No !"
+                    [required]="requiredList.includes('passbookNo')" />
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label for="AuthorizedPerson" class="col-sm-4 col-form-label fw-bold">Authorized Person</label>
+                <div class="col-sm-8">
+                  <ng-select formControlName="authorizedEmployeeId" [items]="memberAllDropdown.authorizedPerson"
+                    [searchable]="true" bindLabel="text" bindValue="value" placeholder="Please select"
+                    class="form-control-sm form-control form-select pb-2" [ngClass]="{
+                      'is-invalid':
+                        dataForm.get('authorizedEmployeeId')?.invalid &&
+                        dataForm.get('authorizedEmployeeId')?.touched
+                    }" [items]="memberAllDropdown.authorizedPerson"
+                    [required]="requiredList.includes('authorizedEmployeeId')">
+                  </ng-select>
+                  <div *ngIf="dataForm.get('authorizedEmployeeId')?.errors?.['serverError']" class="text-danger small">
+                    {{ dataForm.get('authorizedEmployeeId')?.errors?.['serverError'] }}
+                  </div>
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label for="verificationNote" class="col-sm-4 col-form-label fw-bold">Verification Note</label>
+                <div class="col-sm-8">
+                  <textarea class="form-control form-control-sm" rows="1" formControlName="verificationNote" id="name"
+                    name="name" autocomplete="disabled" placeholder="Enter Verification Note !"
+                    [required]="requiredList.includes('verificationNote')"></textarea>
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label for="Remarks" class="col-sm-4 col-form-label fw-bold">Remarks</label>
+                <div class="col-sm-5">
+                  <ng-select formControlName="memberRemarks" [items]="memberAllDropdown.remarks" [searchable]="true"
+                    bindLabel="text" bindValue="value" placeholder="Please select" class="form-control-sm form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        dataForm.get('memberRemarks')?.invalid &&
+                        dataForm.get('memberRemarks')?.touched
+                    }" [items]="memberAllDropdown.remarks" [required]="requiredList.includes('memberRemarks')">
+                  </ng-select>
+                  <div *ngIf="dataForm.get('remarks')?.errors?.['serverError']" class="text-danger small">
+                    {{ dataForm.get('remarks')?.errors?.['serverError'] }}
+                  </div>
+                </div>
+
+                <div class="col-sm-3 ps-0 ms-0">
+                  <input type="text" formControlName="noOfDependents" id="noOfDependents" name="noOfDependents"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="No of Dependents"
+                    [required]="requiredList.includes('noOfDependents')" />
+                </div>
+              </div>
+            </div>
+            <!-- form section 3 -->
+            <div class="col-md-6 col-sm-12 col-lg-6">
+              <div class="rounded bg-light py-2 px-3 pb-1 mb-3">
+                <h4 class="text-center">Address</h4>
+              </div>
+
+              <div class="row">
+                <!-- Present Address Column bg-light border -->
+                <div class="col-md-6">
+                  <div class="d-flex justify-content-between bg-light py-1 rounded px-2 mb-3">
+                    <h6 style="padding-top: 6px">Present Address</h6>
+                  </div>
+                  <!-- Start -->
+
+                  <!-- Present Country Fields -->
+                  <div class="mb-2 row">
+                    <label for="Country" class="col-sm-4 col-form-label fw-bold">Country</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="permanentCountryId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('presentCountryId')?.invalid &&
+                            dataForm.get('presentCountryId')?.touched
+                        }">
+                        <option *ngFor="let option of memberAllDropdown.country" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="presentDivisionId" class="col-sm-4 col-form-label fw-bold">Division</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="presentDivisionId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('presentDivisionId')?.invalid &&
+                            dataForm.get('presentDivisionId')?.touched
+                        }" (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('presentDivisionId')">
+                        <option value="">Please Select</option>
+                        <option *ngFor="let option of memberAllDropdown.division" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="presentDistrictId" class="col-sm-4 col-form-label fw-bold">District</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="presentDistrictId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('presentDistrictId')?.invalid &&
+                            dataForm.get('presentDistrictId')?.touched
+                        }" (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('presentDistrictId')">
+                        <option *ngFor="let option of present_district_DropdownValues" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="presentUpazilaId" class="col-sm-4 col-form-label fw-bold">Upazila</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="presentUpazilaId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('presentUpazilaId')?.invalid &&
+                            dataForm.get('presentUpazilaId')?.touched
+                        }" (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('presentUpazilaId')">
+                        <option *ngFor="let option of present_Upazila_DropdownValues" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="presentUnionId" class="col-sm-4 col-form-label fw-bold">Union</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="presentUnionId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('presentUnionId')?.invalid &&
+                            dataForm.get('presentUnionId')?.touched
+                        }" (change)="onGeoLocationChange($event)" [required]="requiredList.includes('presentUnionId')">
+                        <option *ngFor="let option of present_union_DropdownValues" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="presentVillageId" class="col-sm-4 col-form-label fw-bold">Village</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="presentVillageId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('presentVillageId')?.invalid &&
+                            dataForm.get('presentVillageId')?.touched
+                        }" (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('presentVillageId')">
+                        <option *ngFor="let option of present_village_DropdownValues" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Present Address Fields -->
+                  <div class="mb-2 row">
+                    <label for="padding-top" class="col-sm-4 col-form-label fw-bold">Address</label>
+                    <div class="col-sm-8">
+                      <textarea class="form-control form-control-sm" formControlName="presentAddress"
+                        id="presentAddress" name="presentAddress" autocomplete="disabled" placeholder="Enter Address !"
+                        [required]="requiredList.includes('presentAddress')"></textarea>
+                    </div>
+                  </div>
+                  <!-- End -->
+                </div>
+
+                <!-- Permanent Address Column  bg-light border -->
+                <div class="col-md-6">
+                  <div class="d-flex justify-content-between bg-light py-1 rounded px-2 mb-3">
+                    <h6 style="padding-top: 6px">Parmanent Address</h6>
+                    <div class="form-check form-switch fw-bold bg-light mb-0 pb-0"
+                      (click)="setParmanentAddress($event)">
+                      <input class="form-check-input mx-2" id="presentToParmanent" type="checkbox"
+                        style="height: 12px; margin-top: 6px" />
+                      <label class="form-check-label" style="font-size: 12px" for="presentToParmanent">Same as Present
+                        address !</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="Country" class="col-sm-4 col-form-label fw-bold">Country</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="permanentCountryId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('permanentCountryId')?.invalid &&
+                            dataForm.get('permanentCountryId')?.touched
+                        }" [required]="requiredList.includes('permanentCountryId')">
+                        <option *ngFor="let option of memberAllDropdown.country" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-2 row">
+                    <label for="permanentDivisionId" class="col-sm-4 col-form-label fw-bold">Division</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="permanentDivisionId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('permanentDivisionId')?.invalid &&
+                            dataForm.get('permanentDivisionId')?.touched
+                        }" (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('permanentDivisionId')">
+                        <option value="">Please Select</option>
+                        <option *ngFor="let option of memberAllDropdown.division" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="permanentDistrictId" class="col-sm-4 col-form-label fw-bold">District</label>
+                    <div class="col-sm-8">
+                      <select formControlName="permanentDistrictId" class="form-select form-select-sm form-control-sm"
+                        (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('permanentDistrictId')">
+                        <option *ngFor="
+                            let option of permanent_district_DropdownValues
+                          " [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="permanentUpazilaId" class="col-sm-4 col-form-label fw-bold">Upazila</label>
+                    <div class="col-sm-8">
+                      <select formControlName="permanentUpazilaId" class="form-select form-select-sm form-control-sm"
+                        (change)="onGeoLocationChange($event)" [required]="requiredList.includes('permanentUpazilaId')">
+                        <option *ngFor="
+                            let option of permanent_Upazila_DropdownValues
+                          " [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="permanentUnionId" class="col-sm-4 col-form-label fw-bold">Union</label>
+                    <div class="col-sm-8">
+                      <select formControlName="permanentUnionId" class="form-select form-select-sm form-control-sm"
+                        (change)="onGeoLocationChange($event)" [required]="requiredList.includes('permanentUnionId')">
+                        <option *ngFor="let option of permanent_union_DropdownValues" [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-2 row">
+                    <label for="permanentVillageId" class="col-sm-4 col-form-label fw-bold">Village</label>
+                    <div class="col-sm-8">
+                      <select class="form-select form-select-sm form-control-sm" formControlName="permanentVillageId"
+                        [ngClass]="{
+                          'is-invalid':
+                            dataForm.get('permanentVillageId')?.invalid &&
+                            dataForm.get('permanentVillageId')?.touched
+                        }" (change)="onGeoLocationChange($event)"
+                        [required]="requiredList.includes('permanentVillageId')">
+                        <option *ngFor="
+                            let option of permanent_village_DropdownValues
+                          " [value]="option.value">
+                          {{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Present Address Fields -->
+                  <div class="mb-2 row">
+                    <label for="permanentAddress" class="col-sm-4 col-form-label fw-bold">Address</label>
+                    <div class="col-sm-8">
+                      <textarea class="form-control form-control-sm" formControlName="permanentAddress"
+                        id="permanentAddress" name="permanentAddress" autocomplete="disabled"
+                        placeholder="Enter Address !" [required]="requiredList.includes('permanentAddress')"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- form section 4  -->
+            <div class="col-md-6 col-sm-12 col-lg-6">
+              <div class="rounded bg-light py-2 px-3 pb-1 mb-3">
+                <h4 class="text-center">Identifier</h4>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="identifierName" class="col-sm-4 col-form-label fw-bold">Identifier Name</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="identifierName" id="identifierName" name="identifierName"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Enter Indentifier Name !"
+                    [required]="requiredList.includes('identifierName')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="relationWithIdentifier" class="col-sm-4 col-form-label fw-bold">Relation with
+                  Identifier</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="relationWithIdentifier" id="relationWithIdentifier"
+                    name="relationWithIdentifier" class="form-control form-control-sm" autocomplete="disabled"
+                    placeholder="Enter Relationship !" [required]="requiredList.includes('relationWithIdentifier')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="referenceMemberId" class="col-sm-4 col-form-label fw-bold">Reference Member</label>
+                <div class="col-sm-8">
+                  <select class="form-select form-select-sm form-control-sm" formControlName="referenceMemberId"
+                    [ngClass]="{
+                      'is-invalid':
+                        dataForm.get('referenceMemberId')?.invalid &&
+                        dataForm.get('referenceMemberId')?.touched
+                    }" (change)="onGeoLocationChange($event)" [required]="requiredList.includes('referenceMemberId')">
+                    <option value="">Please Select</option>
+                    <option *ngFor="let option of memberAllDropdown.referenceMember" [value]="option.value">
+                      {{ option.text }}
+                    </option>
+                  </select>
+                  <div *ngIf="dataForm.get('referenceMemberId')?.errors?.['serverError']" class="text-danger small">
+                    {{ dataForm.get('referenceMemberId')?.errors?.['serverError'] }}
+                  </div>
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label for="incomeType" class="col-sm-4 col-form-label fw-bold">Income Type</label>
+                <div class="col-sm-3">
+                  <select class="form-control form-control-sm" formControlName="incomeType"
+                    [required]="requiredList.includes('incomeType')">
+                    <option value="">Select</option>
+                    <option value="Daily">Daily</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Weekly">Weekly</option>
+                  </select>
+                </div>
+                <label for="incomeAmt" class="col-sm-2 col-form-label text-end fw-bold">Income Amt</label>
+                <div class="col-sm-3">
+                  <input type="number" formControlName="incomeAmt" id="incomeAmt" name="incomeAmt"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Amount !"
+                    [required]="requiredList.includes('incomeAmt')" />
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label for="totalFamilyMember" class="col-sm-4 col-form-label fw-bold">Family Member & Children</label>
+                <div class="col-sm-4">
+                  <input type="text" formControlName="totalFamilyMember" id="totalFamilyMember" name="totalFamilyMember"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="No of Family member !"
+                    [required]="requiredList.includes('totalFamilyMember')" />
+                </div>
+
+                <div class="col-sm-4">
+                  <input type="text" formControlName="totalChildren" id="totalChildren" name="totalChildren"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="No of Childrens"
+                    [required]="requiredList.includes('totalChildren')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="totalIncome" class="col-sm-4 col-form-label fw-bold">Total Income</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="totalIncome" id="totalIncome" name="totalIncome"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Enter Total Income !"
+                    [required]="requiredList.includes('totalIncome')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="residentialHouseArea" class="col-sm-4 col-form-label fw-bold">Residential House Area</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="residentialHouseArea" id="residentialHouseArea"
+                    name="residentialHouseArea" class="form-control form-control-sm" autocomplete="disabled"
+                    placeholder="Enter Residential House Area !"
+                    [required]="requiredList.includes('residentialHouseArea')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="latitude" class="col-sm-4 col-form-label fw-bold">Location</label>
+                <div class="col-sm-4">
+                  <input type="text" formControlName="latitude" id="latitude" name="latitude"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Latitude !"
+                    [required]="requiredList.includes('latitude')" />
+                </div>
+                <div class="col-sm-4">
+                  <input type="text" formControlName="longitude" id="longitude" name="longitude"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Longitude !"
+                    [required]="requiredList.includes('longitude')" />
+                </div>
+              </div>
+
+              <div class="mb-2 row">
+                <label for="arableLandArea" class="col-sm-4 col-form-label fw-bold">Arable Land Area</label>
+                <div class="col-sm-8">
+                  <input type="text" formControlName="arableLandArea" id="arableLandArea" name="arableLandArea"
+                    class="form-control form-control-sm" autocomplete="disabled" placeholder="Enter Arable Land Area !"
+                    [required]="requiredList.includes('arableLandArea')" />
+                </div>
+              </div>
+              <div class="mb-2 row px-3 pt-2">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" formControlName="previouslyLoanReceiver" id="previouslyLoanReceiver"
+                    type="checkbox" />
+                  <label class="form-check-label" style="
+                      color: #525b75;
+                      font-weight: 700;
+                      font-size: 16px;
+                      font-family: Nunito Sans;
+                    " for="previouslyLoanReceiver">Previously Loan Receiver</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" formControlName="relatedOtherProgram" id="relatedOtherProgram"
+                    type="checkbox" />
+                  <label class="form-check-label" style="color: #525b75; font-weight: 700; font-size: 16px"
+                    for="relatedOtherProgram">Related to other Program</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" formControlName="memberOfOtherOrganization"
+                    id="memberOfOtherOrganization" type="checkbox" />
+                  <label class="form-check-label" style="color: #525b75; font-weight: 700; font-size: 16px"
+                    for="memberOfOtherOrganization">Member of other Organization</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- button section  -->
+            <div class="col-12 mt-3 py-3">
+              <button class="btn btn-lg w-25 btn-primary" type="submit">
+                {{ isSubmitting ? "Submitting..." : "Submit" }}
+              </button>
+              <button *ngIf="!isEditMode && Button.cleanBtn" type="button" class="btn btn-warning ms-2"
+                (click)="onReset()" [innerHTML]="Button.cleanBtn+' Reset'">
+              </button>
+
+            </div>
+          </div>
+        </form>
+        <!-- form section 1 end  -->
+      </div>
+    </div>
+    <!-- new...  -->
+  </div>
+</div>
+<!-- Overlay for not permitted -->
+<div *ngIf="!isPermitted" class="overlay">
+  <div class="message-box">You are not permitted</div>
+</div>

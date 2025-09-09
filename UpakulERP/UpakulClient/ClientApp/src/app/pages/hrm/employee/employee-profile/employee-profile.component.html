@@ -1,0 +1,759 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">Employee Profile
+      <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#"
+        style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;">
+      </a>
+    </h4>
+        <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+
+  </div>
+  <div class="card-shadow-none" data-component-card="data-component-card">
+    <div class="card theme-wizard" style="margin: 20px 0px 10px 0px;" data-theme-wizard="data-theme-wizard">
+      <div class="card-header bg-body-highlight pt-3 pb-2 border-bottom-0">
+        <ul class="nav justify-content-between nav-wizard nav-wizard-success">
+          <li class="nav-item" role="presentation" *ngFor="let step of steps; let i = index">
+            <a class="nav-link fw-semibold" [class.active]="currentStep === i" [class.done]="i < currentStep"
+              [attr.href]="canNavigateToStep(i) ? '#bootstrap-wizard-validation-tab' + (i + 1) : null"
+              [attr.data-bs-toggle]="canNavigateToStep(i) ? 'tab' : null" [attr.data-wizard-step]="i + 1"
+              (click)="canNavigateToStep(i) && goToStep(i)">
+              <div class="text-center d-inline-block disptablecaption">
+                <span class="nav-item-circle-parent">
+                  <span class="nav-item-circle" [ngSwitch]="i">
+                    <span [class]="getIconClass(i)"></span>
+                  </span>
+                </span>
+                <span class="d-none d-md-block mt-1 fs-9">{{ step.label }}</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content p-4">
+          <!-- Step 1: Employee General Info -->
+          <!--(ngSubmit)="onEmployeeProfileSubmit();$event.preventDefault()"-->
+          <div *ngIf="currentStep === 0">
+            <form [formGroup]="empProfileForm" class="row g-3 needs-validation was-validated">
+              <input class="form-control" formControlName="EmployeeId" type="hidden">
+              <div class="row">
+                <fieldset class="border p-3">
+                  <legend class="float-none w-auto px-2">Official Information</legend>
+                  <div class="row">
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Personal File No</label>
+                      <input type="text"
+                        [ngClass]="{'is-invalid': empProfileForm.get('EmployeeCode')?.invalid && empProfileForm.get('EmployeeCode')?.touched}"
+                        [attr.title]="empProfileForm.get('EmployeeCode')?.invalid && empProfileForm.get('EmployeeCode')?.touched ? 'Employee Code is required' : null"
+                        class="form-control" formControlName="EmployeeCode" required="" autocomplete="disabled">
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('EmployeeCode')?.invalid && empProfileForm.get('EmployeeCode')?.touched">
+                        Employee File No Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Office</label>
+                      <select class="form-select" formControlName="OfficeId"
+                        [ngClass]="{'is-invalid': empProfileForm.get('OfficeId')?.invalid && empProfileForm.get('OfficeId')?.touched}"
+                        required="" (change)="onOfficeChange($event)">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.office" [value]="option.value">{{option.text}}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('OfficeId')?.invalid && empProfileForm.get('OfficeId')?.touched">
+                        Office Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="isProject==true">
+                      <label class="form-label p-0">Project</label>
+                      <select class="form-select" formControlName="ProjectId">
+                        <option *ngFor="let option of projectDropdownValues" [value]="option.value">{{option.text}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Employee First Name</label>
+                      <input type="text" class="form-control" formControlName="FirstName"
+                        [ngClass]="{'is-invalid': empProfileForm.get('FirstName')?.invalid && empProfileForm.get('FirstName')?.touched}"
+                        required="" autocomplete="disabled">
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('FirstName')?.invalid && empProfileForm.get('FirstName')?.touched">
+                        First Name Is Required.
+                      </span>
+                      <!-- <div class="invalid-feedback">Employee Name Is Required.</div> -->
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Employee Last Name</label>
+                      <input type="text" class="form-control" formControlName="LastName" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Employee Full Name</label>
+                      <input type="text" class="form-control" formControlName="EmployeeFullName" [readonly]="true"
+                        autocomplete="disabled" [value]="combinedText">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Employee Name Bangla</label>
+                      <input type="text" class="form-control" formControlName="EmployeeNameBn" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Employee Type</label>
+                      <select class="form-select" formControlName="EmployeeTypeId"
+                        [ngClass]="{'is-invalid': empProfileForm.get('EmployeeTypeId')?.invalid && empProfileForm.get('EmployeeTypeId')?.touched}"
+                        required="">
+                        <option *ngFor="let option of employeeAllDropdown.employeeType" [value]="option.value">
+                          {{option.text}}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('EmployeeTypeId')?.invalid && empProfileForm.get('EmployeeTypeId')?.touched">
+                        Employee Type Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Employee Status</label>
+                      <select class="form-select" formControlName="EmployeeStatusId"
+                        [ngClass]="{'is-invalid': empProfileForm.get('EmployeeStatusId')?.invalid && empProfileForm.get('EmployeeStatusId')?.touched}"
+                        required="">
+                        <option *ngFor="let option of employeeAllDropdown.employeeStatus" [value]="option.value">{{
+                          option.text
+                          }}</option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('EmployeeStatusId')?.invalid && empProfileForm.get('EmployeeStatusId')?.touched">
+                        Employee Status Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Department</label>
+                      <select class="form-select" formControlName="DepartmentId"
+                        [ngClass]="{'is-invalid': empProfileForm.get('DepartmentId')?.invalid && empProfileForm.get('DepartmentId')?.touched}"
+                        required="">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.department" [value]="option.value">{{
+                          option.text }}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('DepartmentId')?.invalid && empProfileForm.get('DepartmentId')?.touched">
+                        Department Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Designations</label>
+                      <select class="form-select" formControlName="DesignationId"
+                        [ngClass]="{'is-invalid': empProfileForm.get('DesignationId')?.invalid && empProfileForm.get('DesignationId')?.touched}"
+                        required="">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.designation" [value]="option.value">{{
+                          option.text}}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('DesignationId')?.invalid && empProfileForm.get('DesignationId')?.touched">
+                        Designation Is Required.
+                      </span>
+                    </div>
+                 
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Joining Date</label>
+                      <input type="date" class="form-control" formControlName="JoiningDate" id="datepickerValCalender" placeholder="dd/MMM/yyyy"
+                        [ngClass]="{'is-invalid': empProfileForm.get('JoiningDate')?.invalid && empProfileForm.get('JoiningDate')?.touched}"
+                        required="">
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('JoiningDate')?.invalid && empProfileForm.get('JoiningDate')?.touched">
+                        Joining Date Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Confirmation Date</label>
+                      <input type="date" class="form-control" formControlName="ConfirmationDate" id="datepickerValCalender" placeholder="dd/MMM/yyyy">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Permanent Date</label>
+                      <input type="date" class="form-control" formControlName="PermanentDate" id="datepickerValCalender" placeholder="dd/MMM/yyyy">
+                    </div>
+
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Personal Contact No</label>
+                      <input type="text" class="form-control" formControlName="PersonalContactNo"
+                        autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Official Mobile No</label>
+                      <input type="text" class="form-control" formControlName="OfficialMobileNo"
+                        autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Personal Email</label>
+                      <input type="text" class="form-control" formControlName="PersonalEmail" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Official Email</label>
+                      <input type="email" class="form-control" formControlName="OfficialEmail"
+                        autocomplete="disabled" />
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Circular No</label>
+                      <select class="form-select" formControlName="CircularId">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.circular" [value]="option.value">
+                          {{option.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset class="border p-3">
+                  <legend class="float-none w-auto px-2">General Information</legend>
+                  <div class="row">
+                    <div class="col-md-3 mb-2 block">
+                      <div class="row">
+                        <div class="col-md-8">
+                          <label class="form-label p-0">Date Of Birth</label>
+                          <input type="date" class="form-control" formControlName="DOB" id="datepickerValCalender" placeholder="dd/MMM/yyyy"
+                            [ngClass]="{'is-invalid': empProfileForm.get('DOB')?.invalid && empProfileForm.get('DOB')?.touched}"
+                            required="">
+                          <span class="validation-tooltip"
+                            *ngIf="empProfileForm.get('DOB')?.invalid && empProfileForm.get('DOB')?.touched">
+                            Date Of Birth Is Required.
+                          </span>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="form-label p-0">Age</label>
+                          <input type="text" class="form-control" formControlName="Age" [readonly]="true"
+                            [value]="ageCalculation">
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Nationality</label>
+                      <select class="form-select" formControlName="CountryId"
+                        [ngClass]="{'is-invalid': empProfileForm.get('Nationality')?.invalid && empProfileForm.get('CountryId')?.touched}"
+                        required="">
+
+                        <option *ngFor="let option of employeeAllDropdown.country" [value]="option.value"
+                          [selected]="option.selected===true">{{ option.text }}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('CountryId')?.invalid && empProfileForm.get('CountryId')?.touched">
+                        Nationality Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Place Of Birth</label>
+                      <input type="text" class="form-control" formControlName="PlaceOfBirth">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Gender</label>
+                      <select class="form-select" formControlName="Gender"
+                        [ngClass]="{'is-invalid': empProfileForm.get('Gender')?.invalid && empProfileForm.get('Gender')?.touched}"
+                        required="">
+                        <option *ngFor="let option of employeeAllDropdown.gender" [value]="option.value">{{ option.text
+                          }}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('Gender')?.invalid && empProfileForm.get('Gender')?.touched">
+                        Gender Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Religion</label>
+                      <select class="form-select" formControlName="Religion"
+                        [ngClass]="{'is-invalid': empProfileForm.get('Religion')?.invalid && empProfileForm.get('Religion')?.touched}"
+                        required="">
+                        <option *ngFor="let option of employeeAllDropdown.religion" [value]="option.value">{{
+                          option.text }}
+                        </option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('Religion')?.invalid && empProfileForm.get('Religion')?.touched">
+                        Religion Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Blood Group</label>
+                      <select class="form-select" formControlName="BloodGroup">
+                        <option *ngFor="let option of employeeAllDropdown.bloodGroup" [value]="option.value">
+                          {{option.text }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Bank</label>
+                      <select class="form-select" formControlName="BankId" (change)="onBankChange($event)">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.bank" [value]="option.value">{{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Branch Name</label>
+                      <select class="form-select" formControlName="branchName">
+                        <option *ngFor="let option of bankBranchDropdownValues" [value]="option.value">{{ option.text }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Account No</label>
+                      <input type="text" class="form-control" formControlName="BankAccountNo" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">NID No</label>
+                      <input type="text" class="form-control" formControlName="NID" autocomplete="disabled" required>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('NID')?.invalid && empProfileForm.get('NID')?.touched">
+                        National id no Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">TIN No</label>
+                      <input type="text" class="form-control" formControlName="TIN" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Passport No</label>
+                      <input type="text" class="form-control" formControlName="PassportNo" autocomplete="disabled">
+                    </div>
+                 
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Driving License No</label>
+                      <input type="text" class="form-control" formControlName="DrivingLicense" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">License Expire Date</label>
+                      <input type="date" class="form-control" formControlName="DrivingLicenseExpDate" placeholder="dd/MMM/yyyy"  id="datepickerValCalender">
+                    </div>
+
+
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Height</label>
+                      <input type="number" class="form-control" formControlName="Height">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Weight</label>
+                      <input type="number" class="form-control" formControlName="Weight">
+                    </div>
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Identification Marks</label>
+                      <input type="text" class="form-control" formControlName="IdentificationMarks"
+                        autocomplete="disabled">
+                    </div>
+                  </div>
+                  <!-- Image Preview Area -->
+                  <div class="row">
+                    <div class="col-md-4 mb-1 block">
+                      <div class="row">
+                        <div class="col-md-8 mb-1">
+                          <label class="form-label p-0">Employee Photo</label>
+                          <input type="file" class="form-control" formControlName="EmployeePic"
+                            (change)="onEmpImageSelected($event)"
+                            [ngClass]="{'is-invalid': empProfileForm.get('EmployeePic')?.invalid && empProfileForm.get('EmployeePic')?.touched}"
+                            required="">
+                          <span class="validation-tooltip"
+                            *ngIf="empProfileForm.get('EmployeePic')?.invalid && empProfileForm.get('EmployeePic')?.touched">
+                            Employee Photo Is Required.
+                          </span>
+                        </div>
+                        <div class="col-md-4 mb-1">
+                          <img [src]="employeePreviewPicURL" class="img-thumbnail img-tag-position">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-1 block">
+                      <div class="row">
+                        <div class="col-md-8 mb-1">
+                          <label class="form-label p-0">Employee Signature</label>
+                          <input type="file" class="form-control" formControlName="EmpSignature"
+                            (change)="onEmpSignatureSelected($event)">
+                        </div>
+                        <div class="col-md-4 mb-1">
+                          <img [src]="previewSignatureUrl" class="img-thumbnail img-tag-position">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mb-1 block">
+                      <div class="row">
+                        <div class="col-md-8 mb-1">
+                          <label class="form-label p-0">NID Photo</label>
+                          <input type="file" class="form-control" formControlName="NIDPic"
+                            (change)="onNidFileSelected($event)">
+                        </div>
+                        <div class="col-md-4 mb-1"> <img [src]="nidPreviewUrl" class="img-thumbnail img-tag-position"
+                            alt="NID Preview" /></div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="border p-3">
+                  <legend class="float-none w-auto px-2">Personal Information</legend>
+                  <div class="row">
+                    <div class="col-md-4 mb-2 block">
+                      <label class="form-label p-0">Father Name</label>
+                      <input type="text" class="form-control" formControlName="FatherName"
+                        [ngClass]="{'is-invalid': empProfileForm.get('FatherName')?.invalid && empProfileForm.get('FatherName')?.touched}"
+                        required="" autocomplete="disabled">
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('FatherName')?.invalid && empProfileForm.get('FatherName')?.touched">
+                        Father Name Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-4 mb-2 block">
+                      <label class="form-label p-0">Father Name (Bng)</label>
+                      <input type="text" class="form-control" formControlName="FatherNameBn" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-4 mb-2 block">
+                      <label class="form-label p-0">Father Occupation</label>
+                      <select class="form-control" formControlName="FatherOccupation">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.occupation" [value]="option.value">
+                          {{option.text}}</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4 mb-2 block">
+                      <label class="form-label p-0">Mother Name</label>
+                      <input type="text" class="form-control" formControlName="MotherName" autocomplete="disabled">
+                    </div>
+
+                    <div class="col-md-4 mb-2 block">
+                      <label class="form-label p-0">Mother Name (Bng)</label>
+                      <input type="text" class="form-control" formControlName="MotherNameBn" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-4 mb-2 block">
+                      <label class="form-label p-0">Mother Occupation</label>
+                      <select class="form-control" formControlName="MotherOccupation">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.occupation" [value]="option.value">
+                          {{option.text}}</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-3 mb-2 block">
+                      <label class="form-label p-0">Marital Status</label>
+                      <select class="form-select" formControlName="MaritalStatus"
+                        (change)="onMaritalStatusEvent($event)"
+                        [ngClass]="{'is-invalid': empProfileForm.get('MaritalStatus')?.invalid && empProfileForm.get('MaritalStatus')?.touched}"
+                        required="">
+                        <option *ngFor="let option of employeeAllDropdown.maritalStatus" [value]="option.value">
+                          {{option.text}}</option>
+                      </select>
+                      <span class="validation-tooltip"
+                        *ngIf="empProfileForm.get('MaritalStatus')?.invalid && empProfileForm.get('MaritalStatus')?.touched">
+                        Marital Status Is Required.
+                      </span>
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <label class="form-label p-0">Spouse Name</label>
+                      <input type="text" class="form-control" formControlName="SpouseName" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <label class="form-label p-0">Spouse Name (Bng)</label>
+                      <input type="text" class="form-control" formControlName="SpouseNameBn" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <label class="form-label p-0">Spouse NID.</label>
+                      <input type="number" class="form-control" formControlName="SpouseNID" autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <label class="form-label p-0">Spouse Contact No.</label>
+                      <input type="number" class="form-control" formControlName="SpouseContactNo"
+                        autocomplete="disabled">
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <label class="form-label p-0">Spouse Occupation</label>
+                      <select class="form-control" formControlName="SpouseOccupation">
+                        <option value="">Please select</option>
+                        <option *ngFor="let option of employeeAllDropdown.occupation" [value]="option.value">
+                          {{option.text}}</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <label class="form-label p-0">No. of Child</label>
+                      <input type="number" class="form-control" formControlName="NoOfChild">
+                    </div>
+                    <div class="col-md-3 mb-2 block" *ngIf="maritalStatusvalue=='M'">
+                      <div class="row">
+                        <div class="col-md-6 mb-2">
+                          <label class="form-label p-0">Spouse Pic</label>
+                          <input type="file" class="form-control" formControlName="SpousePic"
+                            (change)="onSpouseFileSelected($event)">
+                        </div>
+                        <div class="col-md-6 mb-1">
+                          <img [src]="spousePreviewPicURL" class="img-thumbnail img-tag-position">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 mb-1 block" *ngIf="maritalStatusvalue=='D'">
+                      <label class="form-label p-0">Divorced Date</label>
+                      <input type="date" class="form-control" formControlName="DivorcedDate" id="datepickerValCalender" placeholder="dd/MMM/yyyy">
+                    </div>
+                    <div class="col-md-3 mb-1 block" *ngIf="maritalStatusvalue=='W'">
+                      <label class="form-label p-0">Widower Date</label>
+                      <input type="date" class="form-control" formControlName="WidowerDate" id="datepickerValCalender" placeholder="dd/MMM/yyyy">
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="col-md-6">
+                  <fieldset class="border p-3">
+                    <legend class="float-none w-auto px-2">Present Address</legend>
+                    <div class="row">
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Division</label>
+                        <select class="form-select" formControlName="PresentDivisionId"
+                          [ngClass]="{'is-invalid': empProfileForm.get('PresentDivisionId')?.invalid && empProfileForm.get('PresentDivisionId')?.touched}"
+                          required="" (change)="onGeoLocationChange($event)">
+                          <option value="">Please select</option>
+                          <option *ngFor="let option of employeeAllDropdown.division" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                        <span class="validation-tooltip"
+                          *ngIf="empProfileForm.get('PresentDivisionId')?.invalid && empProfileForm.get('PresentDivisionId')?.touched">
+                          Division Is Required.
+                        </span>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">District</label>
+                        <select class="form-select" formControlName="PresentDistrictId"
+                          (change)="onGeoLocationChange($event)">
+                          <option *ngFor="let option of present_district_DropdownValues" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Thana/Upazilla</label>
+                        <select class="form-select" formControlName="PresentThanaId"
+                          (change)="onGeoLocationChange($event)">
+                          <option *ngFor="let option of present_thana_DropdownValues" [value]="option.value">
+                            {{option.text }}
+                          </option>
+                        </select>
+                        <span class="validation-tooltip"
+                          *ngIf="empProfileForm.get('PresentThanaId')?.invalid && empProfileForm.get('PresentThanaId')?.touched">
+                          Thana/Upazilla Is Required.
+                        </span>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Union</label>
+                        <select class="form-select" formControlName="PresentUnionId"
+                          (change)="onGeoLocationChange($event)">
+                          <option *ngFor="let option of present_union_DropdownValues" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Village</label>
+                        <select class="form-select" formControlName="PresentVillageId">
+                          <option *ngFor="let option of present_village_DropdownValues" [value]="option.value">
+                            {{option.text}}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Address</label>
+                        <input type="text" class="form-control" formControlName="PresentAddress"
+                          autocomplete="disabled">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md-6">
+                  <fieldset class="border p-3">
+                    <legend class="float-none w-auto px-2">Permanent Address</legend>
+                    <div class="row">
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Division</label>
+                        <select class="form-select" formControlName="PermanentDivisionId"
+                          (change)="onGeoLocationChange($event)">
+                          <option value="">Please select</option>
+                          <option *ngFor="let option of employeeAllDropdown.division" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">District</label>
+                        <select class="form-select" formControlName="PermanentDistrictId"
+                          (change)="onGeoLocationChange($event)">
+                          <option *ngFor="let option of permanent_district_DropdownValues" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Thana/Upazilla</label>
+                        <select class="form-select" formControlName="PermanentThanaId"
+                          (change)="onGeoLocationChange($event)">
+                          <option *ngFor="let option of permanent_thana_DropdownValues" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Union</label>
+                        <select class="form-select" formControlName="PermanentUnionId"
+                          (change)="onGeoLocationChange($event)">
+                          <option *ngFor="let option of permanent_union_DropdownValues" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Village</label>
+                        <select class="form-select" formControlName="PermanentVillageId">
+                          <option *ngFor="let option of permanent_village_DropdownValues" [value]="option.value">
+                            {{option.text}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-2 block">
+                        <label class="form-label p-0">Address</label>
+                        <input type="text" class="form-control" formControlName="PermanentAddress"
+                          autocomplete="disabled">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="col-12" style="margin-top:15px;">
+                <button class="btn btn-primary" type="submit" [disabled]="empProfileForm.invalid || isSubmitting"
+                  (click)="onEmployeeProfileSubmit();$event.preventDefault()">
+                  {{ isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+                              <button 
+    *ngIf="Button.cleanBtn"
+    type="button"
+    class="btn btn-warning ms-2"
+    (click)="onEmployeeProfileReset()"
+    [innerHTML]="Button.cleanBtn+' Reset'">
+  </button>
+              </div>   
+            </form>
+          </div>
+
+          <!-- Step 2: Education Info -->
+          <div *ngIf="currentStep === 1">
+            <fieldset class="border p-3">
+              <legend class="float-none w-auto px-2">Education Information</legend>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Degree Information</label>
+                  <select class="form-select" formControlName="Degree"
+                    [ngClass]="{'is-invalid': empProfileForm.get('Degree')?.invalid && empProfileForm.get('Degree')?.touched}"
+                    required="">
+                    <option value="">Select</option>
+                    <!-- <option *ngFor="let degree of degrees" [value]="degree">{{ degree }}</option> -->
+                  </select>
+                  <span class="validation-tooltip"
+                    *ngIf="empProfileForm.get('Degree')?.invalid && empProfileForm.get('Degree')?.touched">
+                    Degree Is Required.
+                  </span>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Pass Date</label>
+                  <select class="form-select" formControlName="PassDate" required="" id="datepickerValCalender" placeholder="dd/MMM/yyyy">
+                    <option value="">Select</option>
+                    <!-- <option *ngFor="let passDate of passDates" [value]="passDate">{{ passDate }}</option> -->
+                  </select>
+                  <div class="invalid-feedback">Pass Date Is Required.</div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Held Date</label>
+                  <select class="form-select" formControlName="HeldDate" id="datepickerValCalender" placeholder="dd/MMM/yyyy">
+                    <option value="">Select</option>
+                    <!-- <option *ngFor="let heldDate of heldDates" [value]="heldDate">{{ heldDate }}</option> -->
+                  </select>
+
+                </div>
+              </div>
+            </fieldset>
+            <button type="button" class="backbtn btn btn-secondary me-2" (click)="prevStep()">Back</button>
+            <button type="button" class="saveNcontinueBtn btn btn-primary" (click)="nextStep()">Save &
+              Continue</button>
+          </div>
+
+          <!-- Step 3: Nominee Info -->
+          <div *ngIf="currentStep === 2">
+            <fieldset class="border p-3">
+              <legend class="float-none w-auto px-2">Step 3: Nominee Info</legend>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Nominee Information</label>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Name</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Name Bangla</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Gender</label>
+                </div>
+              </div>
+            </fieldset>
+            <button type="button" class="backbtn btn btn-secondary me-2" (click)="prevStep()">Back</button>
+            <button type="button" class="saveNcontinueBtn btn btn-primary" (click)="nextStep()">Save &
+              Continue</button>
+          </div>
+
+          <!-- Step 4: Guarantor Info -->
+          <div *ngIf="currentStep === 3">
+            <fieldset class="border p-3">
+              <legend class="float-none w-auto px-2">Step 4: Guarantor Info</legend>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Guarantor Information</label>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Guarantor Name</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Guarantor Address</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Guarantor NID</label>
+                </div>
+              </div>
+            </fieldset>
+            <button type="button" class="backbtn btn btn-secondary me-2" (click)="prevStep()">Back</button>
+            <button type="button" class="saveNcontinueBtn btn btn-primary" (click)="nextStep()">Save &
+              Continue</button>
+          </div>
+
+          <!-- Step 5: Reference Info -->
+          <div *ngIf="currentStep === 4">
+            <fieldset class="border p-3">
+              <legend class="float-none w-auto px-2">Step 5: Reference Info </legend>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Reference Information</label>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Reference Name</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Reference Address</label>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label p-0">Mobile No.</label>
+                </div>
+              </div>
+            </fieldset>
+            <button type="button" class="backbtn btn btn-secondary me-2" (click)="prevStep()">Back</button>
+            <button type="submit" class="finishbtn btn btn-success" [disabled]="!empProfileForm.valid">Finish</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

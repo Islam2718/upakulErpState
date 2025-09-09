@@ -1,0 +1,159 @@
+.blurred {
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.message-box {
+  background-color: white;
+  padding: 30px 50px;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  color: red;
+}
+
+
+.form-control.is-invalid, .was-validated .form-control:invalid{
+  background:none; 
+}
+
+
+/* dropdown hover  */
+/* .section-profile-image, .section-signature, .section-nid{
+  font-size: 300px; 
+} */
+
+.section-profile-image{
+  height: 170px; 
+  /* padding: 65px 0px;  */
+
+  background-image: url('/assets/img/thumb/prof.png');
+  background-position: center;
+  background-size: 50% auto;
+  background-repeat: no-repeat;
+}
+.section-signature{
+  height: 170px; 
+  padding-top: 65px 0px; 
+
+  background-image: url('/assets/img/thumb/signature.png');
+  background-position: center;
+  background-size: 50% auto;
+  background-repeat: no-repeat;  
+}
+.section-nid{
+  height: 170px; 
+  padding-top: 65px 0px; 
+
+  background-image: url('/assets/img/thumb/nid.png');
+  background-position: center;
+  background-size: 50% auto;
+  background-repeat: no-repeat;  
+}
+.section-nid-front{
+  height: 170px; 
+  padding-top: 65px 0px; 
+
+  background-image: url('/assets/img/thumb/nid-front.png');
+  background-position: center;
+  background-size: 50% auto;
+  background-repeat: no-repeat;  
+}
+.section-nid-back{
+  height: 170px; 
+  padding-top: 65px 0px; 
+
+  background-image: url('/assets/img/thumb/nid-back.png');
+  background-position: center;
+  background-size: 50% auto;
+  background-repeat: no-repeat;
+}
+
+/* hover  */
+.hover-section {
+  position: relative;
+  background-color: #f8f9fa;
+  text-align: center;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+  width:100%;
+}
+
+/* .hover-section:hover {
+  background-color: #e9ecef;
+  background: orange; 
+} */
+
+/* Initially hidden buttons */
+.hover-section .hover-buttons {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* Show buttons when hovering */
+.hover-section:hover .hover-buttons {
+  opacity: 1;
+  visibility: visible;  
+  width:100%;
+  /* padding:41% 0px;  */
+}
+.btn-capture, .btn-upload{
+  /* background-color: purple; */
+  display:block;
+  position:relative;
+  padding: 40% 0px;
+}
+.btn-capture i{
+  margin-top: 50px;
+}
+.btn-capture{ color: #444;  font-size: 20px; }
+.btn-capture:hover {
+  color: rgb(2, 101, 100); cursor: pointer;
+  /* background: #ffffff; */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 1));
+  transition: 0.2s ease-in-out;
+}
+.btn-upload{ color:#444;  font-size: 20px; }
+.btn-upload:hover{
+  color: rgb(2, 101, 100); cursor: pointer;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 1));
+  transition: 0.2s ease-in-out;
+}
+
+
+
+.hover-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Initially hidden */
+.hover-buttons {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
+
+/* Show on hover */
+/* .hover-section:hover .hover-buttons {
+  opacity: 1;
+} */

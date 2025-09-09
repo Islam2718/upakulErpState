@@ -1,0 +1,354 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Bank Account Mapping</h4>
+  </div>
+
+  <div class="shadow-none card my-4 p-4" data-component-card="data-component-card">
+    <div class="card-body">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+        <input class="form-control" formControlName="BankAccountMappingId" type="hidden">
+        <input class="form-control" formControlName="OfficeId" type="hidden">
+        <div class="row">
+
+          <div class="col-md-3">
+            <label class="form-label">Bank </label>
+            <select formControlName="BankId" class="form-select" id="BankId" required="">
+              <option value="">Please select</option>
+              <option *ngFor="let data of bankList" [value]="data.value">{{ data.text }}</option>
+            </select>
+            <div class="invalid-feedback">Please Select Bank .</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Branch Name</label>
+            <input class="form-control" formControlName="BranchName" type="text" required>
+            <div class="invalid-feedback">Branch Is Required.</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Account Name</label>
+            <input class="form-control" formControlName="BankAccountName" type="text" required>
+            <div class="invalid-feedback">Account Name Is Required.</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Account Number</label>
+            <input class="form-control" formControlName="BankAccountNumber" pattern="[0-9]*" inputmode="numeric" required>
+            <div class="invalid-feedback">Account Number Is Required.</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label"> Routing No</label>
+            <input class="form-control" formControlName="RoutingNo" pattern="[0-9]*" inputmode="numeric" required>
+            <div class="invalid-feedback">Routing Is Required.</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Account Head </label>
+            <select formControlName="AccountId" class="form-select" id="AccountId">
+              <option value="">Please select</option>
+              <option *ngFor="let data of accountHeadList" [value]="data.value">{{ data.text }}</option>
+            </select>
+            <div class="invalid-feedback">Please Select Account Head .</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Branch Address</label>
+            <input class="form-control" formControlName="BranchAddress" type="text">
+            <div class="invalid-feedback">Address Is Required.</div>
+          </div>
+
+          <div class="col-md-3 pt-4">
+            <button class="btn btn-primary" type="submit" [disabled]="dataForm.invalid || isSubmitting">{{
+              isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+            <button *ngIf="isEditMode" type="button" class="btn btn-warning ms-2" (click)="onReset()">Reset</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- tables  -->
+      <!-- list -->
+      <div class="table-responsive my-4 p-4">
+        <!-- Table -->
+        <table class="table mb-0">
+          <thead>
+            <tr>
+
+              <th (click)="sortData('Bank')" class="sort border-top border-translucent ps-3">Bank
+              </th>
+
+              <th (click)="sortData('BranchName')" class="sort border-top border-translucent ps-3">Branch
+              </th>
+
+              <th (click)="sortData('BankAccountName')" class="sort border-top border-translucent ps-3">Account Name
+              </th>
+
+              <th (click)="sortData('BankAccountNumber')" class="sort border-top border-translucent ps-3">Account Number
+              </th>
+
+               <th (click)="sortData('RoutingNo')" class="sort border-top border-translucent ps-3">Routing No
+              </th>
+
+              <th class="sort text-end align-middle pe-0 border-top" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dataObj of listData">
+              <td class="align-middle ps-3">{{ dataObj.bankName }}</td>
+              <td class="align-middle ps-3">{{ dataObj.branchName }}</td>
+              <td class="align-middle ps-3">{{ dataObj.bankAccountName }}</td>
+              <td class="align-middle ps-3">{{ dataObj.bankAccountNumber }}</td>
+              <td class="align-middle ps-3">{{ dataObj.routingNo }}</td>
+              <td class="align-middle white-space-nowrap text-end pe-0">
+                <!-- <button (click)="setBookModalFunc(dataObj)"  type="button" class="btn btn-default shadow" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <i class="fa-solid fa-money-check"></i>
+                </button>
+                <button (click)="setGridModalFunc(dataObj)"  type="button" class="btn btn-default shadow" data-bs-toggle="modal" data-bs-target="#exampleModa2">
+                  <i class="fa-solid fa-list"></i>
+                </button> -->
+
+                <a title="Create" (click)="setGridModalFunc(dataObj)" data-bs-toggle="modal"
+                  data-bs-target="#chequeModal">
+                  <i class="fa-solid fa-money-check"></i>
+                </a>
+                &nbsp;
+                <a title="List" (click)="setGridModalFunc(dataObj)" type="button" data-bs-toggle="modal"
+                  data-bs-target="#chequeModal2">
+                  <i class="fa-solid fa-list"></i>
+                </a>
+                &nbsp;
+                <!-- Update -->
+                <a title="Update" *ngIf="!dataObj.isRefData" (click)="editData(dataObj.bankAccountMappingId)">
+                  <i class="fa-solid fa-pencil"></i>
+                </a>
+                &nbsp;
+                <!-- Delete  -->
+                <a title="Delete" *ngIf="!dataObj.isRefData" (click)="deleteData(dataObj.bankAccountMappingId)">
+                  <i class="fa-solid fa-trash-can"></i>
+                </a>
+
+
+
+
+
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- end list -->
+
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+  <div #exampleModal class="modal fade" id="chequeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" style="background:rgba(0,0,0,0.4)" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+      <form [formGroup]="chequeForm" (ngSubmit)="onSubmitCheque()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title1" id="exampleModalLabel">Add Cheque Book</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="closeModal()"></button>
+          </div>
+          <input class="form-control" formControlName="BankAccountMappingId" type="hidden">
+
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 mt-2 pb-2">
+                <label class="form-label">Account Number</label>
+                <input class="form-control bg-light disabled" formControlName="AccountNumber1" type="text" readonly />
+              </div>
+              <div class="col-md-12 mt-2 pb-2">
+                <label class="form-label">Prefix</label>
+                <input class="form-control" formControlName="ChequeNumberPrefix" type="text"
+                  placeholder="Enter Prefix !" maxlength="6" required />
+                <div class="invalid-feedback">
+                  Prefix is required.
+                </div>
+              </div>
+              <div class="col-md-12 mt-2 pb-2">
+                <label class="form-label">From</label>
+                <input class="form-control" formControlName="ChequeNumberFrom" type="text" pattern="^[0-9]+$"
+                  maxlength="17" required />
+                <div class="invalid-feedback">
+                  From account number is required.
+                </div>
+              </div>
+
+              <div class="col-md-12 mt-2 pb-2">
+                <label class="form-label">To</label>
+                <input class="form-control" formControlName="ChequeNumberTo" type="text" pattern="^[0-9]+$"
+                  maxlength="17" required />
+                <!-- <input class="form-control" formControlName="ChequeNumberTo" type="number" required /> -->
+                <div class="invalid-feedback">
+                  To account number is required and must be greater than from account number.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              (click)="closeModal()">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- end Modal -->
+
+
+
+
+  <!-- cheque Details Modal -->
+  <div class="modal fade" id="chequeModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+       style="background:rgba(0,0,0,0.4)" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title1" id="exampleModalLabel">Cheque Page(s)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Search Input -->
+          <div class="search-box mb-3 mx-2 position-relative">
+            <form class="col-12" [formGroup]="searchForm">
+              <input formControlName="searchTerm" class="form-control form-control-sm ps-5" type="search"
+                placeholder="Search" />
+              <i class="fas fa-search position-absolute" style="
+          left: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #6c757d;
+        "></i>
+
+              <!-- <input class="form-control" formControlName="BankAccountMappingId" type="hidden"> -->
+            </form>
+          </div>
+          <div class="card p-3 mx-2 mb-4">
+            <div class="table-responsive">
+              <!-- Table -->
+              <table class="table table-sm fs-9 mb-0">
+                <thead>
+                  <tr>
+                    <th>
+                      Bank
+                      <!-- <i
+                *ngIf="sortColumn === 'BankName'"
+                [ngClass]="{
+                  'bi bi-arrow-up': sortDirection === 'asc',
+                  'bi bi-arrow-down': sortDirection === 'desc'
+                }"
+              >
+              </i> -->
+                    </th>
+                    <th>
+                      Account No.
+                      <!-- <i
+                *ngIf="sortColumn === 'AccountNumber'"
+                [ngClass]="{
+                  'bi bi-arrow-up': sortDirection === 'asc',
+                  'bi bi-arrow-down': sortDirection === 'desc'
+                }"
+              >
+              </i> -->
+                    </th>
+                    <th>
+                      Cheque No.
+                      <!-- <i
+                *ngIf="sortColumn === 'ChequeNumber'"
+                [ngClass]="{
+                  'bi bi-arrow-up': sortDirection === 'asc',
+                  'bi bi-arrow-down': sortDirection === 'desc'
+                }"
+              >
+              </i> -->
+                    </th>
+                    <th>
+                      Status
+                      <!-- <i
+                *ngIf="sortColumn === 'Status'"
+                [ngClass]="{
+                  'bi bi-arrow-up': sortDirection === 'asc',
+                  'bi bi-arrow-down': sortDirection === 'desc'
+                }"
+              >
+              </i> -->
+                    </th>
+
+                    <th>
+                      Remarks
+                    </th>
+                    <!-- <th class="sort text-end align-middle px-3 col-1" scope="col">
+              <i class="fa-solid fa-screwdriver"></i>
+            </th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let chequeObj of listChequeData">
+                    <td class="align-middle ps-3"> {{ chequeObj.bankName }} </td>
+                    <td class="align-middle ps-3"> {{ chequeObj.accountNumber }} </td>
+                    <td class="align-middle ps-3"> {{ chequeObj.chequeNumber }} </td>
+                    <td class="align-middle ps-3"> {{ chequeObj.status }} </td>
+                    <td class="align-middle ps-3"> {{ chequeObj.remarks }} </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Page Size + Pagination Side by Side -->
+              <div
+                class="coast-pagination pt-2 pagination_size d-flex justify-content-between align-items-center mb-3 flex-wrap">
+
+                <!-- Pagination -->
+                <nav>
+                  <div class="pagination-container d-flex align-items-center">
+                    <p class="pagination-label mb-0 me-2">{{ dataRangeLabel }}</p>
+                    <ul class="pagination mb-0">
+                      <li class="page-item" [class.disabled]="page === 1">
+                        <button class="page-link" (click)="changePage(page - 1)">
+                          «
+                        </button>
+                      </li>
+                      <li *ngFor="let p of totalPagesArray" class="page-item" [class.active]="p === page">
+                        <button class="page-link" (click)="changePage(p)" *ngIf="p !== '...'">
+                          {{ p }}
+                        </button>
+                        <span class="page-link" *ngIf="p === '...'">...</span>
+                      </li>
+                      <li class="page-item" [class.disabled]="page === totalPages">
+                        <button class="page-link" (click)="changePage(page + 1)">
+                          »
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="submit" class="btn btn-primary">Submit</button>  -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- End cheque Details Modal -->
+
+
+
+  <!-- Message overlay shown only if not permitted -->
+<div *ngIf="!isPermitted" class="blur-overlay">
+  <span>You are not permitted</span>
+</div>

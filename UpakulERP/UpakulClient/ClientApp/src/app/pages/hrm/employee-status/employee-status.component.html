@@ -1,0 +1,47 @@
+<div class="contentframe">
+    <div class="card shadow-none border my-4" data-component-card="data-component-card">
+      <div class="card-header p-4 border-bottom bg-body">
+        <div class="row g-3 justify-content-between align-items-center">
+          <div class="col-12 col-md">
+            <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">Employee Status <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="card-body"> 
+        <form [formGroup]="buForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation was-validated">
+          
+          <div class="col-md-3">
+            <label class="form-label">Status Value</label>
+            <select formControlName="EmployeeStatusValue" [(ngModel)]="selectedOption" (change)="onDropDownStatusChange($event)" class="form-select" id="EmployeeStatusValue" required="">
+              <option *ngFor="let type of EmployeeStatusValues" [value]="type.value">{{ type.text }}</option>
+            </select>
+            <div class="invalid-feedback">Please Select Employee Status.</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Display Status</label>
+            <input class="form-control" type="text" [(ngModel)]="selectedDisplayName" formControlName="EmployeeStatusName" required="">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Display Name Is Required.</div>
+          </div>
+          
+          <div class="col-12">
+            <button class="btn btn-primary" type="submit" [disabled]="buForm.invalid || isSubmitting">{{ isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+          </div>
+  
+          <div class="col-12">
+            <p *ngIf="successMessage" style="color: green; margin-top: 10px;">
+                {{ successMessage }}
+            </p>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  

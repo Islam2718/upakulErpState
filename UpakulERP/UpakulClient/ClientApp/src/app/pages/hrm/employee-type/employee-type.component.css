@@ -1,0 +1,17 @@
+
+::ng-deep .mat-mdc-card-content {
+    background: none !important;
+    
+  }
+    
+  ::ng-deep .mat-mdc-card {
+    background: none !important;
+  }
+  .horizontal-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .bottom-panel{margin-top: 20px;}
+

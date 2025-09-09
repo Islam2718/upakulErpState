@@ -1,0 +1,98 @@
+
+<div class="contentframe">
+   <div class="d-flex justify-content-between align-items-center mb-3 mx-2">
+    <h4 class="mb-0">Microfinance / Collection</h4>
+    <!-- <button class="btn btn-success" (click)="navigateToCreate()">
+      <i class="fas fa-plus"></i> Create
+    </button> -->
+  </div>
+
+  <div id="tableExample3">
+    <!-- new...  -->
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+      
+      <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <h3>Collection</h3>
+            <!-- <a href="#" (click)="addRow($event)">Irregular Collection</a> -->
+             <button type="button" class="btn btn-primary btn-sm" (click)="addRow($event)"> Irregular Collection </button>
+        </div>
+        <div class="table-responsive mx-n1 px-1 scrollbar">
+          <table class="table fs-9 mb-0 border-top border-translucent">
+            <thead>
+              <tr>
+                <th class="sort align-middle asc" scope="col">Group</th>
+                <th class="sort align-middle asc" scope="col">Field Officer</th>
+                <th class="sort align-middle asc" scope="col">Meeting Day</th>
+                <th class="sort align-middle asc" scope="col">Total Member</th>
+                <th class="sort align-middle asc" scope="col">Total Loan</th>
+                <th class="sort align-middle asc" scope="col">Total Savings</th>
+                <th class="sort align-middle asc" scope="col">Total LTS</th>
+                <th class="sort align-middle asc" scope="col">Process</th>
+                <th class="sort align-middle asc" scope="col">Mobile Apps</th>
+                <th class="sort align-middle asc" scope="col">Auto Process</th>
+                <th class="sort align-middle asc" scope="col">Delete</th>
+                <th class="sort align-middle asc" scope="col">Status</th>
+                <th class="sort align-middle asc" scope="col"></th>
+                <!-- <th class="sort text-end pe-0 align-middle" scope="col"></th> -->
+              </tr>
+            </thead>
+            <tbody class="list" id="table-latest-review-body">
+                
+              <tr  *ngFor="let obj of employeeGroupData" class="hover-actions-trigger btn-reveal-trigger position-static table-row-click"
+                  (click)="groupXMemberData(obj.groupId)">
+                    <td class="align-middle review px-2"> {{ obj.groupName }} </td>
+                    <td class="align-middle review px-2"> {{ obj.employee }} </td>
+                    <td class="align-middle review px-2"> {{ obj.dayName }} </td>
+                    <td class="align-middle review px-2"> 0 </td>
+                    <td class="align-middle review px-2"> 0 </td>
+                    <td class="align-middle review px-2"> 3 (0) </td>
+                    <td class="align-middle review px-2"> 0(0) </td>
+                    <td class="align-middle review px-2"> >> </td>
+                    <td class="align-middle review px-2"> </td>
+                    <td class="align-middle review px-2"> Refresh </td>
+                    <td class="align-middle review px-2"> </td>
+                    <td class="align-middle review px-2"> Pending </td>
+                      <td class="align-middle white-space-nowrap text-end pe-0">
+                        <div class="btn-reveal-trigger position-static">                   
+                            <a class="dropdown-item" title="Posting"><i class="fa-solid fa-play fw-bold d-block"></i></a>                     
+                        </div>
+                      </td>
+              </tr>              
+
+
+              <!-- ////Add Iregular collection -->
+              <tr *ngIf="rows.length > 0" class="text-center"><td colspan="13">IRegular Collection</td></tr>
+              <tr *ngFor="let row of rows" class="hover-actions-trigger btn-reveal-trigger position-static table-row-click"
+                (click)="navigateToCreate()">
+              <td class="align-middle review px-2">{{ row.col1 }}</td>
+              <td class="align-middle review px-2">{{ row.col2 }}</td>
+              <td class="align-middle review px-2">{{ row.col3 }}</td>
+              <td class="align-middle review px-2">{{ row.col4 }}</td>
+              <td class="align-middle review px-2">{{ row.col5 }}</td>
+              <td class="align-middle review px-2">{{ row.col6 }}</td>
+              <td class="align-middle review px-2">{{ row.col7 }}</td>
+              <td class="align-middle review px-2">{{ row.col8 }}</td>
+              <td class="align-middle review px-2">{{ row.col9 }}</td>
+              <td class="align-middle review px-2">{{ row.col10 }}</td>
+              <td class="align-middle review px-2">{{ row.col11 }}</td>
+              <td class="align-middle review px-2">{{ row.col12 }}</td>
+              <td class="align-middle white-space-nowrap text-end pe-0">
+                <div class="btn-reveal-trigger position-static">                   
+                  <a class="dropdown-item" title="Posting" (click)="$event.stopPropagation()">
+                    <i class="fa-solid fa-play fw-bold d-block"></i>
+                  </a>                     
+                </div>
+              </td>
+            </tr>
+              <!-- ////End Iregular collection -->
+            </tbody>
+          </table>
+        </div>
+        
+    
+    </div>
+    <!-- new...  -->
+  </div>  
+</div>
+

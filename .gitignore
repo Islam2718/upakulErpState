@@ -1,0 +1,101 @@
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+
+# Rider
+.idea/
+
+# Visual Studio
+.vs/
+
+# Fleet
+.fleet/
+
+# Code Rush
+.cr/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+/UpakulERP/UpakulERP.sln
+
+# Ignore user-specific files
+# Ignore  files
+/UpakulERP/src/Services/Auth/Auth.API/appsettings.json
+/UpakulERP/src/Services/Auth/Auth.API/appsettings.*.json
+/UpakulERP/src/Services/Auth/Auth.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/Auth/Auth.API/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/Global/Global.API/appsettings.json
+/UpakulERP/src/Services/Global/Global.API/appsettings.*.json
+/UpakulERP/src/Services/Global/Global.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/Global/Global.API/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/Accounts/Accounts.API/appsettings.json
+/UpakulERP/src/Services/Accounts/Accounts.API/appsettings.*.json
+/UpakulERP/src/Services/Accounts/Accounts.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/Accounts/Accounts.API/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/FixedAsset/FixedAsset.API/appsettings.json
+/UpakulERP/src/Services/FixedAsset/FixedAsset.API/appsettings.*.json
+/UpakulERP/src/Services/FixedAsset/FixedAsset.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/FixedAsset/FixedAsset.API/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/HRM/HRM.Api/appsettings.json
+/UpakulERP/src/Services/HRM/HRM.Api/appsettings.*.json
+/UpakulERP/src/Services/HRM/HRM.Api/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/HRM/HRM.Api/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/MF/MF.API/appsettings.json
+/UpakulERP/src/Services/MF/MF.API/appsettings.*.json
+/UpakulERP/src/Services/MF/MF.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/MF/MF.API/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/Projects/Project.API/appsettings.json
+/UpakulERP/src/Services/Projects/Project.API/appsettings.*.json
+/UpakulERP/src/Services/Projects/Project.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/Projects/Project.API/Properties/PublishProfiles/*.pubxml.*
+
+/UpakulERP/src/Services/SMS/SMS.API/appsettings.json
+/UpakulERP/src/Services/SMS/SMS.API/appsettings.*.json
+/UpakulERP/src/Services/SMS/SMS.API/Properties/PublishProfiles/*.pubxml
+/UpakulERP/src/Services/SMS/SMS.API/Properties/PublishProfiles/*.pubxml.*
+appsettings.json
+appsettings.*.json
+# Ignore local Published
+/UpakulERP/UpakulClient/ClientApp/src/assets/environment_local.json
+/UpakulERP/UpakulClient/ClientApp/src/assets/environment.json
+
+*.json
+# packages 
+/UpakulERP/UpakulClient/ClientApp/node_modules
+# Ignore local development settings
+appsettings.Development.json
+
+

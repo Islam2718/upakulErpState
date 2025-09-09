@@ -1,0 +1,241 @@
+<div class="" style="margin: 90px 75px 0px 300px">
+  
+  <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-body mb-0" data-anchor="data-anchor" id="custom-styles-example">{{ isEditMode ? 'Update' : 'Budget Entry' }} <a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" style="margin-left: 0.1875em; padding-right: 0.1875em; padding-left: 0.1875em;"></a>
+          </h4>
+          <!-- 
+                <button class="btn btn-success" (click)="navigateToList()">
+                  <i class="fas fa-search"></i> View
+                </button> 
+          -->
+        </div>
+        <div class="card shadow-none border my-4 fs-9" data-component-card="data-component-card">
+          <div class="card-body">
+            <!-- (ngSubmit)="onSubmit()" -->
+            <form [formGroup]="dataForm" class="row g-3 needs-validation was-validated">
+             <input class="form-control" formControlName="Id" type="hidden">
+                      
+                <div class="row align-items-end">
+                
+                      <!-- Fiscal Year Dropdown -->
+                    <div class="col-md-3">
+                      <label for="fiscalYear" class="form-label">Select Fiscal Year:</label> 
+                        <select id="fiscalYear" class="form-control"  (change)="onDropDownFiscalYearChange($event)">
+                          <option value="">Select fiscal year</option>
+                          <option *ngFor="let year of fiscalYears" [value]="year">{{ year }}</option>
+                      </select>
+                    </div>
+                 
+                      <!-- Office Dropdown [(ngModel)]="selectedOffice" formControlName="OfficeDropdown" -->
+                    <div class="col-md-3">
+                        <label for="office" class="form-label">Office</label> 
+                        <select id="officeId" class="form-control" (change)="onDropDownOfficeChange($event)">
+                          <option *ngFor="let office of offices" [value]="office.value">{{ office.text }}</option>
+                        </select>
+                    </div>
+
+                      <!-- Component Dropdown [(ngModel)]="selectedComponent" formControlName="ComponnetDropdown" -->
+                    <div class="col-md-3">
+                        <label for="component" class="form-label">Component</label>
+                        <select id="componentId"  class="form-control" (change)="onDropDownComponentChange($event)">
+                          <option *ngFor="let comp of components" [value]="comp.value">{{ comp.text }}</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-md-3 d-flex align-items-end">
+                      <div class="d-flex">
+                       <!-- <button (click)="onSearch()" class="btn btn-primary">Search</button>  -->
+                       <button (click)="onSearch()" class="btn btn-primary">Search</button>                     
+                       <button type="button" class="btn btn-warning ms-2" (click)="onReset()">Reset</button>
+                      </div>
+                    </div>
+
+                </div>
+                <!-- Data Table -->
+                <div class="overflow-x-auto">
+                  <table class="min-w-full border text-sm fs-9">
+                    
+                    <thead *ngIf="tableHeader == 1" class="bg-gray-200">
+                     <!-- <thead  [ngSwitch]="tableHeader" class="bg-gray-200">
+                     <ng-container *ngSwitchCase="2"> -->
+                        <tr>
+                        <th class="border px-3 py-2">Name</th>
+                        <th class="border px-3 py-2">Number Of Staff</th>
+                        <th colspan="4" class="border px-3 py-2 text-center">Present Salary (July-Dec {{fiscal_startYear}})</th>
+                        <th colspan="3" class="border px-3 py-2 text-center">Present Salary (Jan-June {{fiscal_endYear}})</th>
+                        <th class="border px-3 py-2">Bonus</th>
+                        <th class="border px-3 py-2">PF</th>
+                        <th class="border px-3 py-2">Gratuity</th>
+                        <th class="border px-3 py-2">Total</th>
+                        <th class="border px-3 py-2">Medical Allowance</th>
+                        </tr>
+                        <tr class="bg-gray-100">
+                        <th colspan="2"></th>
+                        <th class="border px-3 py-2">GS</th>
+                        <th class="border px-3 py-2">Basic</th>
+                        <th class="border px-3 py-2">Others</th>
+                        <th class="border px-3 py-2">Total</th>
+                        <th class="border px-3 py-2">Basic</th>
+                        <th class="border px-3 py-2">Others</th>
+                        <th class="border px-3 py-2">Total</th>
+                        <th colspan="5"></th>
+                        </tr>
+                        <!-- </ng-container> -->
+                    </thead>
+                  
+                   
+
+
+                    <tbody>
+                       
+                      <tr *ngFor="let row of tableData; let i = index">
+                      <input type="hidden" [value]="row.id" />
+                      <input type="hidden" [value]="row.parentId" />
+
+                      <td class="border">{{ row.name }}</td>
+                      <!-- TD 1 -->
+                      <td class="border" [attr.colspan]="row.labelShow ? 3 : null">
+                        <ng-container *ngIf="row.isDesignation">
+                          <input type="number" [value]="row.noOfStaff" name="noOfStaff{{i}}" class="form-control text-end customStyle" />
+                        </ng-container>
+
+                        <div class="container">
+                            <div class="row">
+                                
+                                  <ng-container *ngIf="row.labelShow?.includes('p')">
+                                    <div class="col">
+                                    <label class="form-label">Person</label>
+                                    <input type="number" class="form-control text-end customStyle" placeholder="Person" />
+                                    </div>
+                                  </ng-container>                               
+                                
+                                  <ng-container *ngIf="row.labelShow?.includes('m')">
+                                    <div class="col">
+                                    <label class="form-label">Month</label>
+                                    <input type="number" class="form-control text-end customStyle" placeholder="Month" />
+                                    </div>
+                                  </ng-container>
+                               
+                                
+                                  <ng-container *ngIf="row.labelShow?.includes('d')">
+                                    <div class="col">
+                                    <label class="form-label">Day</label>
+                                    <input type="number" class="form-control text-end customStyle" placeholder="Day" />
+                                    </div>
+                                  </ng-container>
+                                
+                            </div>
+                        </div>
+
+
+
+                      </td>
+
+                      <td class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+
+                      <td class="border">
+                          <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                          </ng-container>
+                      </td>
+
+                      <!-- TD 2 -->
+                      <td class="border" [attr.colspan]="row.labelShow ? 3 : null">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                        
+                        <ng-container *ngIf="row.labelShow?.includes('a')">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-control text-end customStyle" placeholder="Amount"/>
+                        </ng-container>
+
+
+                      </td>
+                      <td class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+                      <td class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+                      
+                      <!-- TD 3 -->
+                      <td class="border" [attr.colspan]="row.labelShow ? 3 : null">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+
+                        <ng-container *ngIf="row.labelShow?.includes('t')">
+                            <label class="form-label">Total</label>
+                            <input type="number" class="form-control text-end customStyle" placeholder="Total" />
+                        </ng-container>
+                      </td>
+
+                      <td *ngIf="row.isDesignation" class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+                      
+                      <td *ngIf="row.isDesignation" class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+                      
+                      <!-- TD 1 -->
+                      <td *ngIf="row.isDesignation" class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+                      
+                      <!-- TD2 -->
+                      <td *ngIf="row.isDesignation" class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                        </ng-container>
+                      </td>
+                      
+                      <!-- TD3 -->
+                      <td *ngIf="row.isDesignation" class="border">
+                          <ng-container *ngIf="row.isDesignation">
+                            <input type="text" class="form-control text-end customStyle" />
+                          </ng-container>
+                      </td> 
+                      
+                      <!-- TD4 -->
+                      <td *ngIf="row.isDesignation" class="border">
+                        <ng-container *ngIf="row.isDesignation">
+                           <input type="number" class="form-control text-end customStyle" />
+                        </ng-container>
+                         <!-- <input type="number" [(ngModel)]="row.medical" name="medical{{i}}" class="form-control text-end" /> -->
+                      </td> 
+                    
+                    
+                    </tr>
+                      
+                    </tbody>
+                  </table>
+
+                <button class="btn btn-primary mt-3" (click)="saveData()">Save</button>
+                </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+    

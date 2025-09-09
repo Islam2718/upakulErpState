@@ -1,0 +1,79 @@
+export interface Employee {
+    message: string;
+    employeeId: number;
+    officeId: number;
+    officeCode: string;
+    officeName: string;
+    projectId: number;
+    employeeCode: string;
+    firstName: string;
+    lastName: string;
+    employeeNameBn: string;
+    employeePicURL: string;
+    empSignatureUrl: string;
+    fatherName: string;
+    fatherNameBn: string;
+    fatherOccupation: number;
+    motherName: string;
+    motherNameBn: string;
+    motherOccupation: number;
+
+    maritalStatus: string;
+    spouseName: string;
+    spouseNameBn: string;
+    spouseNID: string;
+    spouseContactNo: string;
+    spousePicURL: string;
+    spouseOccupation: number;
+    noOfChild: number;
+    divorcedDate: Date;
+    widowerDate: Date;
+    height: number;
+    weight: number;
+    identificationMarks: string;
+
+    departmentId: number;
+    departmentName: string;
+    designationId: number;
+    designationName: string;
+    employeeTypeId: number;
+    employeeStatusId: number;
+    joiningDate: Date;
+    confirmationDate: Date;
+    permanentDate: Date;
+    circularId: number;
+    gender: string;
+    religion: string;
+
+    dob: Date;
+    countryId: number;
+    placeOfBirth: string;
+    bloodGroup: string;
+    tin: string;
+    nid: string;
+    nIDPicUrl: string;
+    passportNo: string;
+    drivingLicense: string;
+    drivingLicenseExpDate: string;
+    bankId: number;
+    bankBranchId: number;
+    bankAccountNo: string;
+    personalEmail: string;
+    officialEmail: string;
+    personalContactNo: string;
+    officialMobileNo: string;
+
+    presentDivisionId: number;
+    presentDistrictId: number;
+    presentThanaId: number;
+    presentUnionId: number;
+    presentVillageId: number;
+    presentAddress: string;
+
+    permanentDivisionId: number;
+    permanentDistrictId: number;
+    permanentThanaId: number;
+    permanentUnionId: number;
+    permanentVillageId: number;
+    permanentAddress: string;
+}

@@ -1,0 +1,13 @@
+<div class="webcam-wrapper">
+  <div *ngIf="isCameraOn" class="bg-light p-1 rounded shadow-sm w-100">
+    <video #videoElement autoplay style="margin:0px; margin-bottom:0px; "></video>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-sm btn-xs btn-success w-90" (click)="captureImage()">
+        <i class="fa fa-camera"></i>
+      </button>
+      <button type="button" class="btn btn-sm btn-xs btn-secondary" (click)="stopCamera()">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+  </div>
+</div>

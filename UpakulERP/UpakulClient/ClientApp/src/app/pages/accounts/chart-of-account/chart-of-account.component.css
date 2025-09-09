@@ -1,0 +1,82 @@
+:host ::ng-deep .treeview-list-item{
+    font-size: 13px; line-height: 16px;
+}
+
+:host ::ng-deep .treeview-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+:host ::ng-deep .treeview-list-item {
+  margin: 4px 0;
+  cursor: pointer;
+}
+
+:host ::ng-deep .treeview-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  
+}
+
+:host ::ng-deep .treeview-text-item span {
+    display: 'none';
+}
+
+/* Hide buttons by default */
+:host ::ng-deep .treeview-text .actions {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+/* Show buttons when hovering the label */
+:host ::ng-deep .treeview-text:hover .actions {
+  /* opacity: 0.9; */
+  visibility: visible;
+}
+
+/* Button style and hover color */
+:host ::ng-deep .treeview-text .actions .btn {
+  background: transparent;
+  border: none;
+  padding: 0 4px;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+:host ::ng-deep .coast-list-element .btn{
+    display:none; 
+}
+:host ::ng-deep .coast-list-element:hover .btn{
+    display:inline-block;
+}
+
+/* btns  */
+:host ::ng-deep  .btn .fa-pencil, 
+:host ::ng-deep  .btn .fa-plus,
+:host ::ng-deep  .btn .fa-eye,
+:host ::ng-deep  .btn .fa-link{
+    opacity: 0.3;
+}
+:host ::ng-deep  .btn .fa-trash-can{
+    opacity: 0.3; 
+}
+/* hover  */
+:host ::ng-deep  .btn:hover .fa-pencil, 
+:host ::ng-deep  .btn:hover .fa-plus,
+:host ::ng-deep  .btn:hover .fa-eye,
+:host ::ng-deep  .btn:hover .fa-link{
+    color:#006CB7;
+    opacity: 1;
+}
+
+:host ::ng-deep .coast-list-element .btn:hover .fa-trash-can{
+    color:red;
+    opacity: 1;
+}
+
+.treeview-list-item{
+  border-left: 0.1px dotted rgba(0, 0, 0, 0.1);
+}

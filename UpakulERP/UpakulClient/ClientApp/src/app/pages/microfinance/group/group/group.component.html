@@ -1,0 +1,339 @@
+<div class="contentframe" [class.blurred]="!isPermitted">  
+  <!-- Create Button -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Group</h4>
+       <button class="btn btn-success" (click)="navigateToList()"
+ *ngIf="Button.viewBtn" [innerHTML]="Button.viewBtn+' View'">
+</button>
+
+  </div>
+  <div id="tableExample3">
+    <!-- new...  -->
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+      <!-- form start..  -->
+      <div class="pb-4">
+        <form
+          [formGroup]="dataForm"
+          (ngSubmit)="onSubmit()"
+          class="row g-3 needs-validation was-validated"
+        >
+          <input
+            class="form-control"
+            formControlName="GroupId"
+            type="hidden" />
+          <input
+            class="form-control"
+            formControlName="ParentId"
+            type="hidden" />
+
+
+          <div class="p-3">
+            <div class="row">
+              <div class="col-md-3">
+                <label class="form-label">Office</label>
+                <select
+                  formControlName="OfficeId"
+                  class="form-select"
+                  required="" >
+                  <option
+                    *ngFor="let option of dropdownOfficeValues"
+                    [value]="option.value"
+                  >
+                    {{ option.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Office Is Required.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Name</label>
+                <input
+                (input)="removeLeadingSpace($event)"
+                  class="form-control"
+                  type="text"
+                  formControlName="GroupName"
+                  required=""
+                />
+                <div class="invalid-feedback">
+                  Group Member Name Is Required.
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Type</label>
+                <select
+                  formControlName="GroupType"
+                  class="form-select"
+                  required="" >
+                  <option *ngFor="let option of dropdownGroupTypeValues" [value]="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Type Is Required.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Schedule Type</label>
+                <select formControlName="ScheduleType" class="form-select" (change)="ScheduleTypeOnChange($event)" required>
+                  <option *ngFor="let dataObj of ScheduleTypeDropdown" [value]="dataObj.value">
+                    {{ dataObj.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Type Is Required.</div>
+              </div>
+
+
+              <!-- id="datepickerValCalender" -->
+              <div class="col-md-3">
+                <label class="form-label">Opening Date</label>
+                <input  
+                  id="datepickerValCalender"                
+                  formControlName="OpeninigDate"
+                  type="date"
+                  autocomplete="off"
+                  class="form-control"
+                  [class.is-invalid]="
+                    dataForm.get('OpeninigDate')?.invalid &&
+                    dataForm.get('OpeninigDate')?.touched
+                  "
+                  required
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    dataForm.get('OpeninigDate')?.invalid &&
+                    dataForm.get('OpeninigDate')?.touched
+                  ">
+                  Opening Date is required.
+                </div>
+              </div>
+
+              <!-- id="datepickerValCalender" -->
+              <div class="col-md-3">
+                <label class="form-label">Start Date</label>
+                <input
+                  id="datepickerValCalender"                  
+                  formControlName="StartDate"
+                  type="date"
+                  autocomplete="off"
+                  class="form-control"
+                  [class.is-invalid]="
+                    dataForm.get('StartDate')?.invalid &&
+                    dataForm.get('StartDate')?.touched
+                  "
+                  (change)="onDateChangeByStartDate($event)"
+                  required
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    dataForm.get('StartDate')?.invalid &&
+                    dataForm.get('StartDate')?.touched
+                  ">
+                  Start Date is required.
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Meeting Day</label>
+                <select
+                  formControlName="MeetingDay"
+                  class="form-select">
+                  <option *ngFor="let option of dropdownDaysValues" [value]="option.value"> {{ option.text }} </option>
+                </select>
+                <div class="invalid-feedback">Please Select Meeting Day.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Meeting Place</label>
+                <input
+                  (input)="removeLeadingSpace($event)"
+                  class="form-control"
+                  type="text"
+                  formControlName="MeetingPlace"
+                />
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Division</label>
+                <select
+                  formControlName="DivisionId"
+                  (change)="DivisionOnChange($event)"
+                  class="form-select"
+                  required="">
+                  <option
+                    *ngFor="let option of dropdownDivisionOptions"
+                    [value]="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Please Select Division.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">District</label>
+                <select
+                  formControlName="DistrictId"
+                  (change)="DistrictOnChange($event)"
+                  class="form-select"
+                  required="">
+                  <option
+                    *ngFor="let option of dropdownDistrictOptions"
+                    [value]="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Please Select District.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Thana/Upazila</label>
+                <select
+                  formControlName="UpazilaId"
+                  (change)="UpazillaOnChange($event)"
+                  class="form-select"
+                  required="">
+                  <option
+                    *ngFor="let option of dropdownUpazillaOptions"
+                    [value]="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Please Select Upazila.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Union</label>
+                <select
+                  formControlName="UnionId"
+                  (change)="UnionOnChange($event)"
+                  class="form-select"
+                  required=""
+                >
+                  <option
+                    *ngFor="let option of dropdownUnionOptions"
+                    [value]="option.value" >
+                    {{ option.text }}
+                  </option>
+                </select>
+                <div class="invalid-feedback">Please Select Union.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Village</label>
+                <div class="d-flex align-items-center">
+                  <select
+                    formControlName="VillageId"
+                    class="form-select"
+                    required=""
+                  >
+                    <option
+                      *ngFor="let option of dropdownVillageOptions"
+                      [value]="option.value">
+                      {{ option.text }}
+                    </option>
+                  </select>
+                  <button
+                    type="button"
+                    class="btn btn-default shadow1border bg-light ms-0 text-center"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addVillageModal"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+                <div class="invalid-feedback">Please Select Village.</div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Address</label>
+                <input
+                  (input)="removeLeadingSpace($event)"
+                  class="form-control"
+                  type="text"
+                  formControlName="Address"
+                />
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Latitude</label>
+                <input
+                  (input)="removeLeadingSpace($event)"
+                  class="form-control"
+                  type="text"
+                  formControlName="Latitude"
+                />
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Longitude</label>
+                <input
+                  (input)="removeLeadingSpace($event)"
+                  class="form-control"
+                  type="text"
+                  formControlName="Longitude"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-12" style="margin-top: 15px">
+            <button
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="dataForm.invalid || isSubmitting"
+            >
+              {{ isSubmitting ? "Submitting..." : "Submit" }}
+            </button>
+                <button 
+    *ngIf="!isEditMode && Button.cleanBtn"
+    type="button"
+    class="btn btn-warning ms-2"
+    (click)="onReset()"
+    [innerHTML]="Button.cleanBtn+' Reset'">
+  </button>
+          </div>
+        </form>
+      </div>
+      <!-- form end  -->
+    </div>
+    <!-- new...  -->
+  </div>
+<!-- Message overlay shown only if not permitted -->
+<!-- Overlay for not permitted -->
+<div *ngIf="!isPermitted" class="overlay">
+  <div class="message-box">You are not permitted</div>
+</div>
+  <!-- modal to add village -->
+  <div
+    class="modal fade"
+    id="addVillageModal"
+    tabindex="-1"
+    aria-labelledby="tooltipModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tooltipModalLabel">Add New Village</h5>
+          <button
+            class="btn btn-close p-1"
+            type="button"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">// village add form...</div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button">Okay</button
+          ><button
+            class="btn btn-outline-primary"
+            type="button"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

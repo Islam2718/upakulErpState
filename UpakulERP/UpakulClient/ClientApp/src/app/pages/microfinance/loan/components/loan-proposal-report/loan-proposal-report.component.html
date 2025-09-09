@@ -1,0 +1,635 @@
+<!-- Modal -->
+<div class="modal fade show " tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header position-relative text-white">
+        <h5 class="modal-title">Loan Proposal Report</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body p-3" style="max-height: 80vh; overflow-y: auto;">
+        <div class="printablearea coast-a4">
+
+          <!-- A4 Page Wrapper -->
+          <div class="a4-page p-3 border">
+
+            <!-- HEADER -->
+            <div class="hdr-row mb-4 d-flex justify-content-between align-items-center">
+              <div class="hdr-left">
+                <img src="/assets/img/coast_logo.webp" class="logo" />
+              </div>
+              <div class="hdr-center text-center">
+                <div class="title-line-1 fs-4 fw-bold">COAST Foundation</div>
+                <div class="title-line-2 fs-5">Loan Proposal Report</div>
+              </div>
+              <div class="hdr-right">
+                <div class="photo-box">
+                  <img src="/assets/img/member-photo.webp" class="logo" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Applicant Information -->
+            <legend class="fw-bold" style="font-size: 1.2rem;">Applicant Information</legend>
+            <div class="row g-3">
+              
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Application Date:</span> {{loanProposalReportData.applicationDate | date:'dd-MMM-yyyy'}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Disbursement Date:</span> {{loanProposalReportData.disburseDate | date:'dd-MMM-yyyy'}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Member Name:</span> {{loanProposalReportData.memberName}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Member ID:</span> {{loanProposalReportData.memberCode}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Spouse Name:</span> {{loanProposalReportData.spouseName}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Spouse ID:</span> {{loanProposalReportData.nationalId}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Father Name:</span> {{loanProposalReportData.fatherName}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Mother Name:</span> {{loanProposalReportData.motherName}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Member Mobile:</span> {{loanProposalReportData.mobileNumber}}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Spouse Mobile:</span> {{loanProposalReportData.mobileNumber}}
+              </div>
+            </div>
+
+            <!-- Address Information -->
+            <legend class="fw-bold" style="font-size: 1.2rem;">Address Information</legend>
+            <div class="row g-3">
+              <div class="col-md-5 mb-2">
+                <h5 class="fw-bold mb-2">IGA Information</h5>
+                <div class="mb-2"><span class="lbl">Member's Occupation:</span> {{loanProposalReportData.memberOccoupation}}</div>
+                <div class="mb-2"><span class="lbl">Head Of Household:</span> {{loanProposalReportData.headofhouseholdoccupation}}</div>
+                <div class="mb-2"><span class="lbl">Son/Daughter Occupation:</span> {{loanProposalReportData.childoccupation}}</div>
+                <div class="mb-2"><span class="lbl">Monthly Family Income:</span> {{loanProposalReportData.monthlyincome}}</div>
+                <div class="mb-2"><span class="lbl">Monthly Family Expense:</span> {{loanProposalReportData.yearlyexpense}}</div>
+              </div>
+
+              <div class="col-md-4 mb-2">
+                <h5 class="fw-bold mb-2">Permanent Address</h5>
+                <div class="mb-2"><span class="lbl">House:</span> {{loanProposalReportData.permanentAddress}}</div>
+                <div class="mb-2"><span class="lbl">Village:</span> {{loanProposalReportData.permanentVillage}}</div>
+                <div class="mb-2"><span class="lbl">Union:</span> {{loanProposalReportData.permanentUnion}}</div>
+                <div class="mb-2"><span class="lbl">Upazilla:</span> {{loanProposalReportData.permanentUpazila}}</div>
+                <div class="mb-2"><span class="lbl">District:</span> {{loanProposalReportData.permanentDistrict}}</div>
+              </div>
+
+              <div class="col-md-3 mb-2">
+                <h5 class="fw-bold mb-2">Present Address</h5>
+                <div class="mb-2"><span class="lbl">House:</span> {{loanProposalReportData.presentAddress}}</div>
+                <div class="mb-2"><span class="lbl">Village:</span> {{loanProposalReportData.presentVillage}}</div>
+                <div class="mb-2"><span class="lbl">Union:</span> {{loanProposalReportData.presentUnion}}</div>
+                <div class="mb-2"><span class="lbl">Upazilla:</span> {{loanProposalReportData.presentUpazila}}</div>
+                <div class="mb-2"><span class="lbl">District:</span> {{loanProposalReportData.presentDistrict}}</div>
+              </div>
+            </div>
+
+            <!-- Member Information -->
+            <div class="row g-3">
+              <h5 class="fw-bold mb-2">Member Information</h5>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Date of Admission:</span> {{ loanProposalReportData.admissionDate | date:'dd-MMM-yyyy' }}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Member type (component):</span> {{ loanProposalReportData.memberType }}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Total accumulated savings:</span> {{ loanProposalReportData.totalAccumulatedSavings }}
+              </div>
+              <div class="col-md-6 mb-2">
+                <span class="lbl">Latest Loan Amount:</span> {{ loanProposalReportData.latestLoanAmount }}
+              </div>
+            </div>
+
+            <!-- Savings Section -->
+            <div class="row g-3 mt-2">
+              <div class="col-md-6 mb-2">
+                <div class="row g-2">
+                  <div class="col-6"><span class="lbl">Security Savings:</span> {{loanProposalReportData.securityWeeklyDeposit}}</div>
+                  <div class="col-6"><span class="lbl">Weekly deposit amount:</span> {{loanProposalReportData.securityWeeklyDeposit}}</div>
+                  <div class="col-6"><span class="lbl">Open Storage:</span> {{loanProposalReportData.openStorage}}</div>
+                  <div class="col-6"><span class="lbl">Weekly deposit amount:</span> {{loanProposalReportData.securityWeeklyDeposit}}</div>
+                  <div class="col-6"><span class="lbl">Term Savings:</span> {{loanProposalReportData.termSavings}}</div>
+                  <div class="col-6"><span class="lbl">Monthly deposit amount:</span> {{loanProposalReportData.termMonthlyDeposit}}</div>
+                </div>
+              </div>
+              <div class="col-md-6 mb-2">
+                <div class="row g-2">
+                  <div class="col-6"><span class="lbl">Date of Acceptance:</span> {{loanProposalReportData.dateOfAcceptance | date:'dd-MMM-yyyy'}}</div>
+                  <div class="col-6"><span class="lbl">Clause No.:</span> {{loanProposalReportData.clauseNo}}</div>
+                  <div class="col-6"><span class="lbl">Payment date:</span> {{loanProposalReportData.paymentDate | date:'dd-MMM-yyyy'}}</div>
+                  <div class="col-6"><span class="lbl">Number of one-time installments paid:</span> {{loanProposalReportData.oneTimeInstallmentsPaid}}</div>
+                  <div class="col-6"><span class="lbl">Quantity:</span> {{loanProposalReportData.quantity}}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Employment Section -->
+            <legend class="fw-bold mt-4">Employment</legend>
+            <div class="row g-3">
+              <div class="col-md-6 mb-2">
+                <h5 class="fw-bold text-center">Self-employment</h5>
+                <div class="row g-2">
+                  <div class="col-6"><span class="lbl">Full Time Male:</span> {{loanProposalReportData.emp_SelfFullTimeMale}}</div>
+                  <div class="col-6"><span class="lbl">Full Time Female:</span> {{loanProposalReportData.emp_SelfFullTimeFemale}}</div>
+                  <div class="col-6"><span class="lbl">Part Time Male:</span> {{loanProposalReportData.emp_SelfPartTimeMale}}</div>
+                  <div class="col-6"><span class="lbl">Part Time Female:</span> {{loanProposalReportData.emp_SelfPartTimeFemale}}</div>
+                </div>
+              </div>
+              <div class="col-md-6 mb-2">
+                <h5 class="fw-bold text-center">Wage-based employment</h5>
+                <div class="row g-2">
+                  <div class="col-6"><span class="lbl">Full Time Male:</span> {{loanProposalReportData.emp_WageFullTimeMale}}</div>
+                  <div class="col-6"><span class="lbl">Full Time Female:</span> {{loanProposalReportData.emp_WageFullTimeFemale}}</div>
+                  <div class="col-6"><span class="lbl">Part Time Male:</span> {{loanProposalReportData.emp_WagePartTimeMale}}</div>
+                  <div class="col-6"><span class="lbl">Part Time Female:</span> {{loanProposalReportData.emp_WagePartTimeFemale}}</div>
+                </div>
+              </div>
+            </div>
+
+           <div class="printablearea">
+
+  <!-- Loan Information Section -->
+  <div class="a4-page">
+    <legend class="fw-bold">Information about the loan applied for</legend>
+
+    <div class="row mb-3 gap-90">
+      <div class="col-auto">
+        <span>Loan amount applied for (actual):</span>
+        <div>{{loanProposalReportData.proposedAmount}}</div>
+      </div>
+      <div class="col-auto">
+        <span>Clause no:</span>
+        <div>{{loanProposalReportData.clauseNo}}</div>
+      </div>
+      <div class="col-auto">
+        <span>Sector:</span>
+        <div>{{loanProposalReportData.sector}}</div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-auto">
+        <span>Possible distribution date:</span>
+        <div>{{loanProposalReportData.disburseDate | date:'dd-MMM-yyyy'}}</div>
+      </div>
+    </div>
+
+    <!-- Signatures -->
+    <div class="row mt-4">
+      <div class="col-md-6 text-center">
+        <div class="signature-line mb-2"></div>
+        <span class="fw-bold">Loan applicant's signature (as per NID card)</span>
+      </div>
+      <div class="col-md-6 text-center">
+        <div class="thumb-box mb-2"></div>
+        <span class="fw-bold">Thumb Impression</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation Section -->
+  <div class="a4-page">
+    <legend class="fw-bold">Recommendation by the management of the association:</legend>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <span>Date of Presented Meeting:</span> {{loanProposalReportData.meetingDate | date:'dd-MMM-yyyy'}}<br>
+        <span>Amount of Outstanding Loan:</span> {{loanProposalReportData.outstandingLoan}}
+      </div>
+      <div class="col-md-6">
+        <span>Number of Members Present:</span> {{loanProposalReportData.membersPresent}}<br>
+        <span>Sector:</span> {{loanProposalReportData.sector}}
+      </div>
+    </div>
+
+    <p>We, the President and Secretary, have signed below as guarantors...</p>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-md-4">
+        <span>Signature of President:</span> {{loanProposalReportData.presidentSign}}
+      </div>
+      <div class="col-md-2">
+        <span>Name:</span> {{loanProposalReportData.presidentname}}
+      </div>
+      <div class="col-md-3">
+        <span>Membership Code:</span> {{loanProposalReportData.membershipCode}}
+      </div>
+      <div class="col-md-3">
+        <span>Mobile No:</span> {{loanProposalReportData.mobileNumber}}
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-md-4">
+        <span>Editor's signature:</span> {{loanProposalReportData.editorSign}}
+      </div>
+      <div class="col-md-2">
+        <span>Name:</span> {{loanProposalReportData.editorName}}
+      </div>
+      <div class="col-md-3">
+        <span>Membership Code:</span> {{loanProposalReportData.membershipCode}}
+      </div>
+      <div class="col-md-3">
+        <span>Mobile No:</span> {{loanProposalReportData.editormobile}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Observations Section -->
+  <div class="a4-page">
+    <legend class="fw-bold">Observations and recommendations of the Loan Development Officer (Yes/No)</legend>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <span>Permanent residents of member area:</span> {{loanProposalReportData.permanentAddress || ''}}
+      </div>
+      <div class="col-md-6">
+        <span>Pays installments on time:</span> {{loanProposalReportData.paysOnTime || ''}}
+      </div>
+
+      <div class="col-md-6">
+        <span>Home inspected:</span> {{loanProposalReportData.homeInspected || ''}}
+      </div>
+      <div class="col-md-6">
+        <span>Have not defaulted on more than 4 installments in the past:</span> {{loanProposalReportData.notDefaulted || ''}}
+      </div>
+
+      <div class="col-md-6">
+        <span>Regularly attends the association:</span> {{loanProposalReportData.attendsRegularly || ''}}
+      </div>
+      <div class="col-md-6">
+        <span>Save regularly:</span> {{loanProposalReportData.savesRegularly || ''}}
+      </div>
+
+      <div class="col-md-6">
+        <span>Number of unemployed people in the family:</span> {{loanProposalReportData.unemployedCount || ''}}
+      </div>
+      <div class="col-md-6">
+        <span>Monthly income amount:</span> {{loanProposalReportData.monthlyIncome || ''}}
+      </div>
+    </div>
+
+    <div class="row g-3 mt-3 gap-90">
+      <div class="col-md-6">
+        <span>Recommended loan amount:</span> {{loanProposalReportData.recommendedLoanAmount}}
+      </div>
+      <div class="col-md-6">
+        <span>In words (Taka):</span> {{loanProposalReportData.amountWord}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation Table Section -->
+  <div class="a4-page row ">
+    <legend class="fw-bold">Recommendation by the management of the association:</legend>
+
+    <table class="table table-bordered border-dark align-middle">
+      <thead class="table-light text-center">
+        <tr>
+          <th style="width:5%;">Serial No</th>
+          <th style="width:40%;">Loan proposal screening issues</th>
+          <th style="width:25%;">Monitoring and ensuring accurate information</th>
+          <th style="width:30%;">Additional observations and comments</th>
+        </tr>
+      </thead>
+    <tbody>
+                  <tr>
+                    <td class="text-center">1.0</td>
+                    <td>Member's full name (as per NID)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">1.1</td>
+                    <td>Member's NID number</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">1.2</td>
+                    <td>Member ID no</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">1.3</td>
+                    <td>Name of Samity</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">1.4</td>
+                    <td>Spouse full name (as per NID)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">1.5</td>
+                    <td>Spouse NID Number</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">2.0</td>
+                    <td>Whether the member is permanent (as per NID) Yes/No</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">2.1</td>
+                    <td>Whether the NID signature matches the loan application signature</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">2.2</td>
+                    <td>Mobile number used by the member (must be registered in his/her own name)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">2.3</td>
+                    <td>Mobile number used by the member (must be registered in his/her own name) / IMO number (if
+                      expatriate)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center py-4"> </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">2.4</td>
+                    <td>Mobile number used for loan processing (Any one of the above two must be confirmed)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">3.0</td>
+                    <td>Last date for loan repayment (Must be checked before passing)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">3.1</td>
+                    <td>How many installments and how much money did you pay in the week of loan repayment?</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">3.2</td>
+                    <td>Whether you have defaulted on any installment before regular repayment or loan repayment
+                      (Yes/No). If yes, please provide the reason/detail</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">4.0</td>
+                    <td>How much loan have you applied for or want to take?</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">4.1</td>
+                    <td>Please clearly state what alternative sources of income are available to repay the loan</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">4.2</td>
+                    <td>Where will the loan money be invested? In which sector will the investment be made (write in
+                      details)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">4.3</td>
+                    <td>Enter the details of the family's monthly income, expenses, and withdrawals/deposits</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">4.4</td>
+                    <td>How to pay loan installments (weekly/monthly)</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">4.5</td>
+                    <td>How much is the monthly or weekly installment of any other company to pay?</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">5.0</td>
+                    <td>The member also has the names of the 1st and 2nd guarantors related to the loan (signatures must
+                      be confirmed on the spot during the inspection).</td>
+                    <td>Name of the first guarantor.</td>
+                    <td>Signature</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">5.1</td>
+                    <td>Guarantor's mobile number (must be registered in your name).</td>
+                    <td>Name of the second guarantor.</td>
+                    <td>Signature</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center align-middle">5.2</td>
+                    <td class="align-middle">
+                      Please provide details of the relationship of the first guarantor to the borrower
+                      (husband, son, daughter, father, father-in-law, brother or other relative).
+                    </td>
+                    <td class="p-0">
+                      <div class="text-center py-2 border-bottom border-dark">1st Guarantor</div>
+                      <div class="text-center py-2">2nd Guarantor</div>
+                    </td>
+                    <td class="p-0">
+                      <div class="text-center py-2 border-bottom border-dark"></div>
+                      <div class="text-center py-2"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">5.3</td>
+                    <td>
+                      Please specify the relationship of the second guarantor to the borrower in detail. Must be outside
+                      the family household.
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">6.0</td>
+                    <td>BM wants to approve the loan (Write a few observations/points.)</td>
+                    <td></td>
+                    <td>Signature Date and Seal</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">6.1</td>
+                    <td>AM/RPC wants to approve the loan (Write some observations/points.)</td>
+                    <td></td>
+                    <td>Signature Date and Seal</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">6.2</td>
+                    <td>If a senior official verifies the loan in the field, his/her observations and comments</td>
+                    <td></td>
+                    <td>Signature Date and Seal</td>
+                  </tr>
+                </tbody>
+    </table>
+  </div>
+
+  <!-- Undertaking Section -->
+  <div class="a4-page">
+     <h2 class="text-center fw-bold underline mb-4">Undertaking</h2>
+
+  <p><strong>Undertaking</strong></p>
+
+  <p>
+    a. I, ____________________________________ son/daughter/wife of
+    ____________________________________, member of _____________________________
+    Samity under __________________________ Branch, have received an amount of Tk.
+    ____________________________ (in words: ____________________________________).
+    On _____________ date, the said amount has been disbursed, of which savings
+    deposit Tk. ____________ and loan Tk. ____________.
+  </p>
+
+  <p>
+    b. I shall not use the loan amount outside the family or Samity purposes.
+    The loan money shall not be misused for luxury, illegal activities, or any
+    harmful purpose.
+  </p>
+
+  <p>
+    c. I agree: <br />
+    1. I shall repay the loan installments properly on time. <br />
+    2. In case of failure to repay, I shall remain bound to pay the outstanding
+    loan and the Samity has full right to realize the dues by sale of my
+    movable/immovable properties or mortgage or by any other lawful means. <br />
+    3. My family members shall also remain bound to pay the due amount in case of
+    my death/serious illness/accident. <br />
+    4. I shall not take loan from any other Samity or institution during this
+    period without prior approval of this Samity. <br />
+    5. I shall utilize the loan properly in productive activities. <br />
+    6. I shall not use the loan for illegal, anti-social, or harmful activities.
+  </p>
+
+  <p>
+    d. I hereby undertake that I shall properly utilize and repay the loan in due
+    time without default.
+  </p>
+
+  <p>
+    Date: ____________________________ <br />
+    Signature of Borrower: ____________________________
+  </p>
+
+  <hr class="my-4 border-black" />
+
+  <p><strong>22. 1st Guarantor:</strong></p>
+  <p>
+    (Name/Father’s name/Address/Relation)
+    ____________________________________________
+  </p>
+  <p>
+    Being a member of ____________________________ Samity under
+    ______________________ Branch, I undertake responsibility as guarantor for Tk.
+    ____________________________ loan received by the above borrower. In case of
+    non-repayment by the borrower, I shall remain liable to repay the outstanding
+    loan.
+  </p>
+  <p>
+    Signature: ____________________________ <br />
+    Name of Guarantor: ____________________________ <br />
+    Relation: ____________________________ <br />
+    Date: ____________________________
+  </p>
+
+  <hr class="my-4 border-black" />
+
+  <p><strong>23. 2nd Guarantor:</strong></p>
+  <p>
+    (Name/Father’s name/Address/Relation)
+    ____________________________________________
+  </p>
+  <p>
+    Being a member of ____________________________ Samity under
+    ______________________ Branch, I undertake responsibility as guarantor for Tk.
+    ____________________________ loan received by the above borrower. In case of
+    non-repayment by the borrower, I shall remain liable to repay the outstanding
+    loan.
+  </p>
+  <p>
+    Signature: ____________________________ <br />
+    Name of Guarantor: ____________________________ <br />
+    Relation: ____________________________ <br />
+    Date: ____________________________
+  </p>
+
+  <hr class="my-4 border-black" />
+
+  <p><strong>24. Disbursement:</strong></p>
+  <p>
+    a. Loan amount Tk. ____________________________ given to borrower on
+    __________ date in presence of ____________________________ Samity member,
+    Cheque no. __________________ / Account transfer ____________________________.
+  </p>
+  <p>
+    b. I have received Tk. ____________________________ in cash/cheque from the
+    Samity. <br />
+    Signature of Borrower: ____________________________ Date:
+    __________________
+  </p>
+  <p>
+    c. Signature of Branch Manager: ____________________________ Date:
+    ____________
+  </p>
+  <p>
+    d. Signature of Field Worker: ____________________________ Date:
+    ______________
+  </p>
+  <p>
+    e. Signature & Seal of Samity Officer-in-charge (with designation):
+    ____________________
+  </p>
+
+  <hr class="my-4 border-black" />
+
+  <p><strong>25. Counter-signature of Officer/Inspector:</strong></p>
+  <p>
+    Signature: ____________________________ Date: ______________ Seal:
+    ______________
+  </p>
+</div>
+
+</div>
+
+        </div> <!-- printablearea -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="printDiv()">Print</button>
+      </div>
+
+    </div>
+  </div>
+</div>

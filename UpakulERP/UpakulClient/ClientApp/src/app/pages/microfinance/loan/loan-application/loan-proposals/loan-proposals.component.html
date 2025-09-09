@@ -1,0 +1,452 @@
+<div class="contentframe">
+  <div class="d-flex justify-content-between align-items-center my-3">
+    <h4 class="mb-0 px-2">
+      <a href="/microfinance/4" class="text-black text-decoration-none">Dashboard</a>
+      / Loan Proposal
+    </h4>
+    <button class="btn btn-success" (click)="navigateToList()" *ngIf="Button.viewBtn"
+      [innerHTML]="Button.viewBtn+' View'">
+    </button>
+  </div>
+
+  <div id="tableExample3">
+    <!-- new...  -->
+    <div class="mx-n4 px-4 mx-lg-n4 px-lg-6 bg-body-emphasis pt-4 border-y">
+      <div>
+        <div class="row align-items-end justify-content-between pb-4 g-3">
+          <div class="col-auto">
+            <h3>Loan Application</h3>
+            <!-- <p class="text-body-tertiary lh-sm mb-0">subtitle </p> -->
+          </div>
+          <div class="col-12 col-md-auto">
+            <div class="row g-2 gy-3">
+              <div class="col-auto">
+                <button class="btn shadow border btn-sm btn-phoenix-secondary bg-body-emphasis bg-body-hover ml-2"
+                  type="button">
+                  <i class="fa-solid fa-eraser"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- form section 1  -->
+        <form [formGroup]="dataForm" (ngSubmit)="onSubmitForm()" class="needs-validation was-validated" novalidate>
+          <div class="d-flex bg-light rounded-1 mb-2 p-2">
+            <div class="mb-3 col px-2">
+              <label class="form-label" for="proposedBy">Proposed By</label>
+              <ng-select [items]="dropdownProposedBy" class="form-control-sm pb-1 form-select" bindLabel="text"
+                bindValue="value" formControlName="proposedBy" id="proposedBy" [searchable]="true"
+                placeholder="Select or type..." (change)="selectGroupListFunc($event)">
+              </ng-select>
+            </div>
+            <div class="mb-3 col px-2">
+              <label class="form-label" for="exampleFormControlInput">Group</label>
+              <ng-select [items]="groupDropDownList" class="form-control-sm form-select" bindLabel="text"
+                bindValue="value" formControlName="groupId" [searchable]="true" placeholder="Select Group"
+                style="padding-bottom: 4px" (change)="selectMemberListFunc($event)"
+                [attr.readonly]="!groupDropDownList.length ? true : null"
+                [ngClass]="{ 'bg-light': !groupDropDownList.length }">
+              </ng-select>
+            </div>
+            <div class="mb-3 col px-2">
+              <label class="form-label" for="exampleFormControlInput">Member</label>
+              <ng-select class="form-control-sm form-select" [items]="dropdownMemberList" bindLabel="text"
+                bindValue="value" formControlName="memberId" [searchable]="true" placeholder="Select member"
+                style="padding-bottom: 4px" [attr.readonly]="!dropdownMemberList.length ? true : null"
+                [ngClass]="{ 'bg-light': !dropdownMemberList.length }" (change)="getMemberDetailsByIdFunc($event)">
+              </ng-select>
+            </div>
+
+            <div class="mb-3 col px-2">
+              <label class="form-label" for="exampleFormControlInput">Application Date</label>
+              <input class="form-control form-control-sm bg-light" formControlName="applicationDate"
+                id="exampleFormControlInput" type="text" placeholder="C-AP-L0001" readonly />
+            </div>
+          </div>
+          <div class="row">
+            <!-- form section 1  -->
+            <div class="col-md-9 col-sm-12 col-lg-9">
+              <div class="rounded-1 bg-light py-2 px-3 pb-1 mb-3">
+                <h4 class="text-left">Member Info</h4>
+              </div>
+              <div class="px-1">
+                <div class="d-flex">
+                  <div class="mb-3 col mx-2">
+                    <table>
+                      <tr>
+                        <td>Member Name</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.memberName }}</td>
+                      </tr>
+                      <tr>
+                        <td>Phone :</td>
+                        <td>:</td>
+                        <td>
+                          {{ memberDetails?.mobileNumber }}
+                          <strong> {{ memberDetails?.contactNoOwn }} </strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>NID Number</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.nationalId }}</td>
+                      </tr>
+                      <tr class="fw-bold">
+                        <td>Group</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.groupName }}</td>
+                      </tr>
+                      <tr>
+                        <td>Date of Birth</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.dateOfBirth|date:'dd-MMM-yyyy' }}</td>
+                      </tr>
+                      <tr>
+                        <td>Admission Date</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.admissionDate|date:'dd-MMM-yyyy' }}</td>
+                      </tr>
+                      <tr>
+                        <td>Father's Name</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.fatherName }}</td>
+                      </tr>
+                      <tr>
+                        <td>Mother's Name</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.motherName }}</td>
+                      </tr>
+                      <tr>
+                        <td>Relationship</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.maritalStatus }}</td>
+                      </tr>
+                      <tr>
+                        <td>Address (Pre)</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.presentAddress }}</td>
+                      </tr>
+                      <tr>
+                        <td>Address (Per)</td>
+                        <td>:</td>
+                        <td>{{ memberDetails?.permanentAddress }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="mb-3 col-3 mx-2 bg-light shadow p-3 rounded">
+                    <table>
+                      <tr>
+                        <th colspan="3">Savings:</th>
+                      </tr>
+                      <tr>
+                        <td>Security savings</td>
+                        <td>:</td>
+                        <td>
+                          0.00 <small class="fw-bold">(WDA: 0.00 )</small>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Open savings</td>
+                        <td>:</td>
+                        <td>0.00 <small class="fw-bold">(WDA: 0.00)</small></td>
+                      </tr>
+                      <tr class="fw-bold">
+                        <td>Total savings</td>
+                        <td>:</td>
+                        <td>0.00</td>
+                      </tr>
+                      <tr>
+                        <td>Term savings</td>
+                        <td>:</td>
+                        <td>0.00 <small class="fw-bold">(MDA: 0.00)</small></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="mb-3 col-3 ms-2 bg-light p-3 rounded">
+                    <table>
+                      <tr>
+                        <th colspan="3">Loans:</th>
+                      </tr>
+                      <tr>
+                        <td>Security savings</td>
+                        <td>:</td>
+                        <td>
+                          0.00 <small class="fw-bold">(WDA: 0.00 )</small>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Open savings</td>
+                        <td>:</td>
+                        <td>0.00 <small class="fw-bold">(WDA: 0.00)</small></td>
+                      </tr>
+                      <tr class="fw-bold">
+                        <td>Total savings</td>
+                        <td>:</td>
+                        <td>0.00</td>
+                      </tr>
+                      <tr>
+                        <td>Term savings</td>
+                        <td>:</td>
+                        <td>0.00 <small class="fw-bold">(MDA: 0.00)</small></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-12 col-lg-3">
+              <div class="rounded-1 bg-light py-2 px-3 pb-1 mb-3">
+                <h4 class="text-left">Profile Image</h4>
+              </div>
+              <div class="px-5 mb-0 mt-2">
+                <div class="bg-light text-center rounded">
+                  <img src="../../../../assets/img/thumb/prof.png" alt=""
+                    class="img w-50 img-responsive rounded-1 my-5 py-1" />
+                </div>
+              </div>
+            </div>
+
+            <!-- form section 4  -->
+            <div class="col-md-9 col-sm-12 col-lg-9">
+              <!-- <div class="rounded-1  bg-light py-2 px-3">
+                <h4 class="text-start pt-2">Loan Application - Form</h4>
+              </div> -->
+              <div class="d-flex bg-light rounded-1 p-3 mb-3">
+                <div class="mb-3 col px-2">
+                  <label class="form-label" for="exampleFormControlInput">Components</label>
+                  <ng-select [items]="dropdownComponent" [class]="'form-select form-control-sm'" bindLabel="text"
+                    bindValue="value" formControlName="componentId" [searchable]="false"
+                    placeholder="Select Compoenent !" style="padding-bottom: 4px">
+                  </ng-select>
+                </div>
+                <div class="mb-3 col px-2">
+                  <label class="form-label" for="exampleFormControlInput">Purpose</label>
+                  <ng-select [items]="dropdownPurpose" [ngClass]="'form-select form-control-sm form-control'"
+                    bindLabel="text" bindValue="value" formControlName="purposeId" [searchable]="false"
+                    placeholder="Select Purpose !" style="padding-bottom: 4px">
+                  </ng-select>
+                </div>
+                <div class="mb-3 col px-2">
+                  <label class="form-label" for="proposedAmount">Proposed Amount</label>
+                  <input class="form-control form-control-sm" formControlName="proposedAmount" id="proposedAmount"
+                    type="number" bindValue="value" required autocomplete="off" placeholder="Enter Amount !"/>
+                </div>
+              </div>
+
+              <!-- <div class="py-3 px-1">
+                <h4>Employment</h4>
+              </div> -->
+
+              <div class="d-flex">
+                <div class="col pe-2">
+                  <div class="bg-light rounded-1 mb-1 p-2 pb-1 fw-bold">
+                    Self employment <small>(Full Time)</small>
+                  </div>
+                  <div class="d-flex">
+                    <div class="col mx-0 px-3">
+                      <div class="d-flex">
+                        <div class="mb-3 pe-1">
+                          <label class="form-label">Male</label>
+                          <input class="form-control form-control-sm" type="text" formControlName="emp_SelfFullTimeMale"
+                            placeholder="--" min="0" />
+                        </div>
+                        <div class="mb-3 ps-1">
+                          <label class="form-label">Female</label>
+                          <input class="form-control form-control-sm" type="text"
+                            formControlName="emp_SelfFullTimeFemale" placeholder="--" min="0" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col px-2">
+                  <div class="bg-light rounded-1 mb-1 p-2 pb-1 fw-bold">
+                    Self employment <small>(Part Time)</small>
+                  </div>
+                  <div class="d-flex">
+                    <div class="col mx-0 px-3">
+                      <div class="d-flex">
+                        <div class="mb-3 pe-1">
+                          <label class="form-label">Male</label>
+                          <input class="form-control form-control-sm" type="text" formControlName="emp_SelfPartTimeMale"
+                            placeholder="--" />
+                        </div>
+                        <div class="mb-3 ps-1">
+                          <label class="form-label">Female</label>
+                          <input class="form-control form-control-sm" type="text"
+                            formControlName="emp_SelfPartTimeFemale" min="0" placeholder="--" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col px-2">
+                  <div class="bg-light rounded-1 mb-1 p-2 pb-1 fw-bold">
+                    Wage-based employment <small>(Full Time)</small>
+                  </div>
+                  <div class="d-flex">
+                    <div class="col px-0 mx-0 shadow rounded">
+                      <div class="d-flex">
+                        <div class="mb-3 pe-1">
+                          <label class="form-label">Male</label>
+                          <input class="form-control form-control-sm" type="text" formControlName="emp_WageFullTimeMale"
+                            placeholder="--" />
+                        </div>
+                        <div class="mb-3 ps-1">
+                          <label class="form-label">Female</label>
+                          <input class="form-control form-control-sm" type="text"
+                            formControlName="emp_WageFullTimeFemale" min="0" placeholder="--" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col ps-2">
+                  <div class="bg-light rounded-1 mb-1 p-2 pb-1 fw-bold">
+                    Wage-based employment <small>(Part Time)</small>
+                  </div>
+                  <div class="d-flex">
+                    <div class="col mx-0 px-3">
+                      <div class="d-flex">
+                        <div class="mb-3 pe-1">
+                          <label class="form-label">Male</label>
+                          <input class="form-control form-control-sm" type="text" formControlName="emp_WagePartTimeMale"
+                            placeholder="--" />
+                        </div>
+                        <div class="mb-3 ps-1">
+                          <label class="form-label">Female</label>
+                          <input class="form-control form-control-sm" type="text"
+                            formControlName="emp_WagePartTimeFemale" min="0" placeholder="--" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="py-3 px-1">
+                <h4 class="bg-light p-2 rounded-1">Guarantors</h4>
+              </div>
+              <div class="d-flex">
+                <div class="col px-2">
+                  <div class="mb-3">
+                    <label class="form-label">Guarantor</label>
+                    <ng-select formControlName="firstGuarantorMemberId" [searchable]="false" bindLabel="text"
+                      bindValue="value" placeholder="Please select"
+                      class="form-control-sm form-control form-select pb-1" [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('firstGuarantorMemberId')?.invalid &&
+                          dataForm.get('firstGuarantorMemberId')?.touched
+                      }" [items]="dropdownMemberList" (change)="Guarantor1OnChange($event)">
+                    </ng-select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input class="form-control form-control-sm" type="text" formControlName="firstGuarantorName"
+                      placeholder="Enter Name !" required />
+                  </div>
+                  <div class="d-flex">
+                    <div class="mb-3 col pe-1">
+                      <label class="form-label">Contact No</label>
+                      <input class="form-control form-control-sm" type="text" formControlName="firstGuarantorContactNo"
+                        placeholder="Enter Contact no !" required />
+                    </div>
+                    <div class="mb-3 col ps-1">
+                      <label class="form-label">Relation</label>
+                      <input class="form-control form-control-sm" type="text" formControlName="firstGuarantorRelation"
+                        placeholder="Enter Relation !" />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control form-control-sm" rows="1" formControlName="firstGuarantorRemark"
+                      placeholder="Enter Notes (if any) !"></textarea>
+                  </div>
+                </div>
+                <!-- {{dataForm.secondGuarantorMemberId}} -->
+                <div class="col px-2">
+                  <div class="mb-3">
+                    <label class="form-label">Guarantor10</label>
+                    <ng-select formControlName="secondGuarantorMemberId" [searchable]="false" bindLabel="text"
+                      bindValue="value" placeholder="Please select"
+                      class="form-control-sm form-control form-select pb-1" [ngClass]="{
+                        'is-invalid':
+                          dataForm.get('secondGuarantorMemberId')?.invalid &&
+                          dataForm.get('secondGuarantorMemberId')?.touched
+                      }" [items]="dropdownMemberList" (change)="Guarantor2OnChange($event)">
+                    </ng-select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input class="form-control form-control-sm" type="text" formControlName="secondGuarantorName"
+                      required placeholder="Enter Name !" />
+                  </div>
+                  <div class="d-flex">
+                    <div class="mb-3 col pe-1">
+                      <label class="form-label">Contact No</label>
+                      <input class="form-control form-control-sm" type="text" formControlName="secondGuarantorContactNo"
+                        required placeholder="Enter Contact no !" />
+                    </div>
+                    <div class="mb-3 col ps-1">
+                      <label class="form-label">Relation</label>
+                      <input class="form-control form-control-sm" type="text" formControlName="secondGuarantorRelation"
+                        placeholder="Enter Relation !" />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control form-control-sm" rows="1" formControlName="secondGuarantorRemark"
+                      placeholder="Enter Notes (if any) !"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-12 col-lg-3">
+              <div class="rounded-1 bg-light py-2 px-3 pb-1 mb-2">
+                <h4 class="">Loan Application - Image</h4>
+              </div>
+              <div class="p-2 pt-0 shadow">
+                <div class="px-4 mb-0 mt-2 p-3">
+                  <div class="rounded-1 hover-section section-profile-image col-6">
+                    <app-webcam #webcamProfile (capture)="handleCaptureLoneeMemberImage($event)"
+                      style="z-index: 100; position: relative"></app-webcam>
+                    <!-- Image Preview (default or captured) -->
+                    <div class="img-frame col-12 my-4" style="position: relative">
+                      <!-- {{imageURL}} -->
+                      <img [src]="this.memImgURL +dataForm.get('loneeGroupImgUrl')?.value" alt="Group Image" class="img img-responsive w-100 h-100">
+                      <!-- <img [src]="capturedImageUrlLoneeMemberImage" alt="" class="img w-100 img-responsive px-2" style="width: 100% !important; display: block" /> -->
+                    </div>
+                    <!-- Hover Buttons -->
+                    <div class="hover-buttons d-flex justify-content-center">
+                      <div class="col btn-capture text-center" (click)="webcamProfile.startCamera()">
+                        <i class="fa-solid fa-camera-retro"></i>
+                      </div>
+                      <div class="col btn-upload text-center">
+                        <label class="col btn-upload text-center" style="cursor: pointer">
+                          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                          <input type="file" accept="image/*" (change)="handleUploadLoneeMemberImage($event)" hidden />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- button section  -->
+            <div class="col-12 mt-3 py-3">
+              <button class="btn btn-lg w-25 btn-primary" type="submit">
+                {{ isSubmitting ? "Submitting..." : "Submit" }}
+              </button>
+              <button *ngIf="!isEditMode && Button.cleanBtn" type="button" class="btn btn-warning ms-2"
+                (click)="onReset()" [innerHTML]="Button.cleanBtn+' Reset'">
+              </button>
+
+            </div>
+          </div>
+        </form>
+        <!-- form section 1 end  -->
+      </div>
+    </div>
+    <!-- new...  -->
+  </div>
+</div>
